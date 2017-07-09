@@ -1,41 +1,46 @@
 # Material Squares Loading Animation
 
-A cool squares loading animation ready to be imported in your project
+A cool Android Dots Indicator ready to be imported in your project.
 
-![ezgif com-crop 1](https://cloud.githubusercontent.com/assets/15737675/24829547/2d1675dc-1c74-11e7-91f9-91614468b751.gif)
-![ezgif com-crop](https://cloud.githubusercontent.com/assets/15737675/24829479/aece5dc6-1c72-11e7-87a0-bf34e95f2146.gif)![ezgif com-crop 2](https://cloud.githubusercontent.com/assets/15737675/24878125/27dfaed4-1e32-11e7-8c79-fdd9b6ab537a.gif)
+![ezgif com-crop](https://user-images.githubusercontent.com/15737675/27997565-f6f18efe-64fa-11e7-9aef-396339c01bd2.gif)
+![ezgif com-crop 1](https://user-images.githubusercontent.com/15737675/27997576-4cceb6b2-64fb-11e7-8cc2-d91f28ec2aa4.gif)
+![ezgif com-crop 2](https://user-images.githubusercontent.com/15737675/27997585-93e78b96-64fb-11e7-99cb-94e28760ceaf.gif)
 
 ## How to
 #### Gradle
 ```Gradle
 dependencies {
-    compile 'com.tbuonomo.andrui:materialsquareloading:1.0.0'
+    compile 'com.tbuonomo.viewpagerdotsindicator:dotsindicator:1.0.0'
 }
 ```
 #### In your XML layout
 ```Xml
-    <com.tbuonomo.materialsquareloading.MaterialSquareLoading
-        android:id="@+id/material_square_loading_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:innerColor="#69F0AE"
-        app:outerColor="#3F51B5"
-        app:rotationOuterDuration="9850"
-        app:rotationInnerDuration="6423"
-        app:innerRadius="8dp"
-        app:outerRadius="8dp"
-        />
+  <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+      android:id="@+id/dots_indicator"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
+      app:dotsColor="@color/colorPrimary"
+      app:dotsSize="16dp"
+      app:dotsWidthFactor="3"
+      />
+```
+
+#### In your Java code
+```Java
+    dotsIndicator = (DotsIndicator) findViewById(R.id.dots_indicator);
+    viewPager = (ViewPager) findViewById(R.id.view_pager);
+    adapter = new ViewPagerAdapter();
+    viewPager.setAdapter(adapter);
+    dotsIndicator.setViewPager(viewPager);
 ```
 
 #### Attributes
 | Attribute | Description |
 | --- | --- |
-| `innerColor` | Color of the inner square |
-| `outerColor` | Color of the outer square |
-| `rotationOuterDuration` | Step duration of the outer rotation animation in ms |
-| `rotationInnerDuration` | Step duration of the inner rotation animation in ms |
-| `innerRadius` | Radius in dp of the inner square |
-| `innerRadius` | Radius in dp of the outer square |
+| `dotsColor` | Color of the dots |
+| `dotsSize` | Size in dp of the dots (by default 8dp) |
+| `dotsWidthFactor` | The dots scale factor for page indication (by default 2.5) |
 
 ## License
     Copyright 2016 Tommy Buonomo
