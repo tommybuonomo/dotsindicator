@@ -1,6 +1,6 @@
-# Material Dots Indicator
+# Material View Pager Dots Indicator
 
-A cool Android Dots Indicator ready to be imported in your project.
+This is a cool Android View Pager Dots Indicator ready to be imported in your project.
 
 ![ezgif com-crop](https://user-images.githubusercontent.com/15737675/27997565-f6f18efe-64fa-11e7-9aef-396339c01bd2.gif)
 ![ezgif com-crop 1](https://user-images.githubusercontent.com/15737675/27997576-4cceb6b2-64fb-11e7-8cc2-d91f28ec2aa4.gif)
