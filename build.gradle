@@ -35,7 +35,8 @@ buildscript {
   }
 }
 
-version = '1.0.0'
+group = 'com.tbuonomo.andrui'
+version = '1.0.1'
 
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
@@ -66,8 +67,8 @@ bintray {
     }
 
     licenses = ['Apache-2.0']
-    vcsUrl = 'https://github.com/tommybuonomo/materialsquareloading'
-    websiteUrl = 'https://github.com/tommybuonomo/materialsquareloading'
+    vcsUrl = 'https://github.com/tommybuonomo/dotsindicator'
+    websiteUrl = 'https://github.com/tommybuonomo/dotsindicator'
   }
   configurations = ['archives']
 }
