@@ -1,4 +1,4 @@
-# Material Squares Loading Animation
+# Material Dots Indicator
 
 A cool Android Dots Indicator ready to be imported in your project.
 
@@ -10,7 +10,7 @@ A cool Android Dots Indicator ready to be imported in your project.
 #### Gradle
 ```Gradle
 dependencies {
-    compile 'com.tbuonomo.viewpagerdotsindicator:dotsindicator:1.0.0'
+    compile 'com.tbuonomo.andrui:viewpagerdotsindicator:1.0.1'
 }
 ```
 #### In your XML layout
