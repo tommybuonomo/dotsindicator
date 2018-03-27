@@ -17,15 +17,14 @@ import com.tbuonomo.materialsquareloading.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by tommy on 02/07/16.
- */
 public class DotsIndicator extends LinearLayout {
   private static final int DEFAULT_POINT_COLOR = Color.WHITE;
+  public static final float DEFAULT_WIDTH_FACTOR = 2.5f;
 
   private List<ImageView> dots;
   private ViewPager viewPager;
   private float dotSize;
+  private float dotSpacing;
   private int currentPage;
   private float dotsWidthFactor;
   private int dotsColor;
@@ -52,7 +51,8 @@ public class DotsIndicator extends LinearLayout {
     setOrientation(HORIZONTAL);
 
     dotSize = context.getResources().getDisplayMetrics().density * 8; // 8dp
-    dotsWidthFactor = 2.5f;
+    dotSpacing = context.getResources().getDisplayMetrics().density * 4; // 4dp
+    dotsWidthFactor = DEFAULT_WIDTH_FACTOR;
     dotsColor = DEFAULT_POINT_COLOR;
     dotsClickable = true;
 
@@ -68,6 +68,7 @@ public class DotsIndicator extends LinearLayout {
       }
 
       dotSize = a.getDimension(R.styleable.DotsIndicator_dotsSize, dotSize);
+      dotSpacing = a.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotSpacing);
 
       a.recycle();
     } else {
@@ -86,16 +87,21 @@ public class DotsIndicator extends LinearLayout {
 
       for (int i = 0; i < viewPager.getAdapter().getCount(); i++) {
         View dot = LayoutInflater.from(getContext()).inflate(R.layout.dot_layout, this, false);
-        ImageView imageView = (ImageView) dot.findViewById(R.id.dot);
-        ViewGroup.LayoutParams params = imageView.getLayoutParams();
+        ImageView imageView = dot.findViewById(R.id.dot);
+        RelativeLayout.LayoutParams params =
+            (RelativeLayout.LayoutParams) imageView.getLayoutParams();
         params.width = params.height = (int) dotSize;
+        params.setMargins((int) dotSpacing, 0, (int) dotSpacing, 0);
         ((GradientDrawable) imageView.getBackground()).setCornerRadius(dotSize / 2);
         ((GradientDrawable) imageView.getBackground()).setColor(dotsColor);
 
         final int finalI = i;
         dot.setOnClickListener(new OnClickListener() {
           @Override public void onClick(View v) {
-            if (dotsClickable && viewPager != null && viewPager.getAdapter() != null && finalI < viewPager.getAdapter().getCount()) {
+            if (dotsClickable
+                && viewPager != null
+                && viewPager.getAdapter() != null
+                && finalI < viewPager.getAdapter().getCount()) {
               viewPager.setCurrentItem(finalI, true);
             }
           }
@@ -108,7 +114,9 @@ public class DotsIndicator extends LinearLayout {
   }
 
   private void setUpDotsAnimators() {
-    if (viewPager != null && viewPager.getAdapter() != null && viewPager.getAdapter().getCount() > 0) {
+    if (viewPager != null
+        && viewPager.getAdapter() != null
+        && viewPager.getAdapter().getCount() > 0) {
       currentPage = viewPager.getCurrentItem();
       View dot = dots.get(currentPage);
 
@@ -121,7 +129,8 @@ public class DotsIndicator extends LinearLayout {
       viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
         private int lastPage;
 
-        @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
           if (position != currentPage && positionOffset == 0 || currentPage < position) {
             setDotWidth(dots.get(currentPage), (int) dotSize);
             currentPage = position;
@@ -146,7 +155,8 @@ public class DotsIndicator extends LinearLayout {
           setDotWidth(dot, dotWidth);
 
           if (nextDot != null) {
-            int nextDotWidth = (int) (dotSize + (dotSize * (dotsWidthFactor - 1) * (positionOffset)));
+            int nextDotWidth =
+                (int) (dotSize + (dotSize * (dotsWidthFactor - 1) * (positionOffset)));
             setDotWidth(nextDot, nextDotWidth);
           }
 

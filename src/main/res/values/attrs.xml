@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="DotsIndicator">
-        <attr name="dotsColor" format="color" />
-        <attr name="dotsSize" format="dimension" />
-        <attr name="dotsWidthFactor" format="float" />
-    </declare-styleable>
+  <declare-styleable name="DotsIndicator">
+    <attr format="color" name="dotsColor"/>
+    <attr format="dimension" name="dotsSize"/>
+    <attr format="float" name="dotsWidthFactor"/>
+    <attr format="dimension" name="dotsSpacing"/>
+  </declare-styleable>
 </resources>
