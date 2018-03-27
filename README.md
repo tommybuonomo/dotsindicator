@@ -10,7 +10,7 @@ This is a cool Android View Pager Dots Indicator ready to be imported in your pr
 #### Gradle
 ```Gradle
 dependencies {
-    compile 'com.tbuonomo.andrui:viewpagerdotsindicator:1.0.1'
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:1.1.0'
 }
 ```
 #### In your XML layout
@@ -40,6 +40,7 @@ dependencies {
 | --- | --- |
 | `dotsColor` | Color of the dots |
 | `dotsSize` | Size in dp of the dots (by default 8dp) |
+| `dotsSpacing` | Size in dp of the space between the dots (by default 4dp) |
 | `dotsWidthFactor` | The dots scale factor for page indication (by default 2.5) |
 
 ## License
