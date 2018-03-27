@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class DotsIndicator extends LinearLayout {
   private int dotsColor;
 
   private boolean dotsClickable;
+  private ViewPager.OnPageChangeListener pageChangedListener;
 
   public DotsIndicator(Context context) {
     super(context);
@@ -47,7 +49,7 @@ public class DotsIndicator extends LinearLayout {
   }
 
   private void init(Context context, AttributeSet attrs) {
-    removeViewsIfNeeded();
+    dots = new ArrayList<>();
     setOrientation(HORIZONTAL);
 
     dotSize = context.getResources().getDisplayMetrics().density * 8; // 8dp
@@ -80,36 +82,58 @@ public class DotsIndicator extends LinearLayout {
     super.onSizeChanged(w, h, oldw, oldh);
   }
 
-  private void setUpDots() {
-    removeViewsIfNeeded();
+  @Override protected void onAttachedToWindow() {
+    super.onAttachedToWindow();
+    refreshDots();
+  }
+
+  private void refreshDots() {
     if (viewPager != null && viewPager.getAdapter() != null) {
-      dots = new ArrayList<>();
-
-      for (int i = 0; i < viewPager.getAdapter().getCount(); i++) {
-        View dot = LayoutInflater.from(getContext()).inflate(R.layout.dot_layout, this, false);
-        ImageView imageView = dot.findViewById(R.id.dot);
-        RelativeLayout.LayoutParams params =
-            (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-        params.width = params.height = (int) dotSize;
-        params.setMargins((int) dotSpacing, 0, (int) dotSpacing, 0);
-        ((GradientDrawable) imageView.getBackground()).setCornerRadius(dotSize / 2);
-        ((GradientDrawable) imageView.getBackground()).setColor(dotsColor);
-
-        final int finalI = i;
-        dot.setOnClickListener(new OnClickListener() {
-          @Override public void onClick(View v) {
-            if (dotsClickable
-                && viewPager != null
-                && viewPager.getAdapter() != null
-                && finalI < viewPager.getAdapter().getCount()) {
-              viewPager.setCurrentItem(finalI, true);
-            }
-          }
-        });
-
-        dots.add(imageView);
-        addView(dot);
+      // Check if we need to refresh the dots count
+      if (dots.size() < viewPager.getAdapter().getCount()) {
+        addDots(viewPager.getAdapter().getCount() - dots.size());
+      } else if (dots.size() > viewPager.getAdapter().getCount()) {
+        removeDots(dots.size() - viewPager.getAdapter().getCount());
       }
+      setUpDotsAnimators();
+    } else {
+      Log.e(DotsIndicator.class.getSimpleName(),
+          "You have to set an adapter to the view pager before !");
+    }
+  }
+
+  private void addDots(int count) {
+    for (int i = 0; i < count; i++) {
+      View dot = LayoutInflater.from(getContext()).inflate(R.layout.dot_layout, this, false);
+      ImageView imageView = dot.findViewById(R.id.dot);
+      RelativeLayout.LayoutParams params =
+          (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+      params.width = params.height = (int) dotSize;
+      params.setMargins((int) dotSpacing, 0, (int) dotSpacing, 0);
+      ((GradientDrawable) imageView.getBackground()).setCornerRadius(dotSize / 2);
+      ((GradientDrawable) imageView.getBackground()).setColor(dotsColor);
+
+      final int finalI = i;
+      dot.setOnClickListener(new OnClickListener() {
+        @Override public void onClick(View v) {
+          if (dotsClickable
+              && viewPager != null
+              && viewPager.getAdapter() != null
+              && finalI < viewPager.getAdapter().getCount()) {
+            viewPager.setCurrentItem(finalI, true);
+          }
+        }
+      });
+
+      dots.add(imageView);
+      addView(dot);
+    }
+  }
+
+  private void removeDots(int count) {
+    for (int i = 0; i < count; i++) {
+      removeViewAt(getChildCount() - 1);
+      dots.remove(dots.size() - 1);
     }
   }
 
@@ -117,7 +141,21 @@ public class DotsIndicator extends LinearLayout {
     if (viewPager != null
         && viewPager.getAdapter() != null
         && viewPager.getAdapter().getCount() > 0) {
+      if (currentPage < dots.size()) {
+        View dot = dots.get(currentPage);
+
+        if (dot != null) {
+          RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dot.getLayoutParams();
+          params.width = (int) dotSize;
+          dot.setLayoutParams(params);
+        }
+      }
+
       currentPage = viewPager.getCurrentItem();
+      if (currentPage >= dots.size()) {
+        currentPage = dots.size() - 1;
+        viewPager.setCurrentItem(currentPage, false);
+      }
       View dot = dots.get(currentPage);
 
       if (dot != null) {
@@ -125,57 +163,63 @@ public class DotsIndicator extends LinearLayout {
         params.width = (int) (dotSize * dotsWidthFactor);
         dot.setLayoutParams(params);
       }
-
-      viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-        private int lastPage;
-
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-          if (position != currentPage && positionOffset == 0 || currentPage < position) {
-            setDotWidth(dots.get(currentPage), (int) dotSize);
-            currentPage = position;
-          }
-
-          if (Math.abs(currentPage - position) > 1) {
-            setDotWidth(dots.get(currentPage), (int) dotSize);
-            currentPage = lastPage;
-          }
-
-          ImageView dot = dots.get(currentPage);
-
-          ImageView nextDot = null;
-          if (currentPage == position && currentPage + 1 < dots.size()) {
-            nextDot = dots.get(currentPage + 1);
-          } else if (currentPage > position) {
-            nextDot = dot;
-            dot = dots.get(currentPage - 1);
-          }
-
-          int dotWidth = (int) (dotSize + (dotSize * (dotsWidthFactor - 1) * (1 - positionOffset)));
-          setDotWidth(dot, dotWidth);
-
-          if (nextDot != null) {
-            int nextDotWidth =
-                (int) (dotSize + (dotSize * (dotsWidthFactor - 1) * (positionOffset)));
-            setDotWidth(nextDot, nextDotWidth);
-          }
-
-          lastPage = position;
-        }
-
-        private void setDotWidth(ImageView dot, int dotWidth) {
-          ViewGroup.LayoutParams dotParams = dot.getLayoutParams();
-          dotParams.width = dotWidth;
-          dot.setLayoutParams(dotParams);
-        }
-
-        @Override public void onPageSelected(int position) {
-        }
-
-        @Override public void onPageScrollStateChanged(int state) {
-        }
-      });
+      if (pageChangedListener != null) {
+        viewPager.removeOnPageChangeListener(pageChangedListener);
+      }
+      setUpOnPageChangedListener();
+      viewPager.addOnPageChangeListener(pageChangedListener);
     }
+  }
+
+  private void setUpOnPageChangedListener() {
+    pageChangedListener = new ViewPager.OnPageChangeListener() {
+      private int lastPage;
+
+      @Override
+      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if (position != currentPage && positionOffset == 0 || currentPage < position) {
+          setDotWidth(dots.get(currentPage), (int) dotSize);
+          currentPage = position;
+        }
+
+        if (Math.abs(currentPage - position) > 1) {
+          setDotWidth(dots.get(currentPage), (int) dotSize);
+          currentPage = lastPage;
+        }
+
+        ImageView dot = dots.get(currentPage);
+
+        ImageView nextDot = null;
+        if (currentPage == position && currentPage + 1 < dots.size()) {
+          nextDot = dots.get(currentPage + 1);
+        } else if (currentPage > position) {
+          nextDot = dot;
+          dot = dots.get(currentPage - 1);
+        }
+
+        int dotWidth = (int) (dotSize + (dotSize * (dotsWidthFactor - 1) * (1 - positionOffset)));
+        setDotWidth(dot, dotWidth);
+
+        if (nextDot != null) {
+          int nextDotWidth = (int) (dotSize + (dotSize * (dotsWidthFactor - 1) * (positionOffset)));
+          setDotWidth(nextDot, nextDotWidth);
+        }
+
+        lastPage = position;
+      }
+
+      private void setDotWidth(ImageView dot, int dotWidth) {
+        ViewGroup.LayoutParams dotParams = dot.getLayoutParams();
+        dotParams.width = dotWidth;
+        dot.setLayoutParams(dotParams);
+      }
+
+      @Override public void onPageSelected(int position) {
+      }
+
+      @Override public void onPageScrollStateChanged(int state) {
+      }
+    };
   }
 
   private void setUpCircleColors(int color) {
@@ -191,19 +235,12 @@ public class DotsIndicator extends LinearLayout {
       viewPager.getAdapter().registerDataSetObserver(new DataSetObserver() {
         @Override public void onChanged() {
           super.onChanged();
-          setUpDots();
-          setUpDotsAnimators();
-          setUpViewPager();
+          refreshDots();
         }
       });
     }
   }
 
-  private void removeViewsIfNeeded() {
-    if (getChildCount() > 0) {
-      removeAllViews();
-    }
-  }
   //*********************************************************
   // Users Methods
   //*********************************************************
@@ -218,8 +255,7 @@ public class DotsIndicator extends LinearLayout {
 
   public void setViewPager(ViewPager viewPager) {
     this.viewPager = viewPager;
-    setUpDots();
-    setUpDotsAnimators();
     setUpViewPager();
+    refreshDots();
   }
 }
