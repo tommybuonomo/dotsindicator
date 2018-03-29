@@ -97,8 +97,7 @@ public class DotsIndicator extends LinearLayout {
       }
       setUpDotsAnimators();
     } else {
-      Log.e(DotsIndicator.class.getSimpleName(),
-          "You have to set an adapter to the view pager before !");
+      Log.e(DotsIndicator.class.getSimpleName(), "You have to set an adapter to the view pager before !");
     }
   }
 
@@ -106,8 +105,7 @@ public class DotsIndicator extends LinearLayout {
     for (int i = 0; i < count; i++) {
       View dot = LayoutInflater.from(getContext()).inflate(R.layout.dot_layout, this, false);
       ImageView imageView = dot.findViewById(R.id.dot);
-      RelativeLayout.LayoutParams params =
-          (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+      RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
       params.width = params.height = (int) dotSize;
       params.setMargins((int) dotSpacing, 0, (int) dotSpacing, 0);
       ((GradientDrawable) imageView.getBackground()).setCornerRadius(dotSize / 2);
@@ -116,10 +114,7 @@ public class DotsIndicator extends LinearLayout {
       final int finalI = i;
       dot.setOnClickListener(new OnClickListener() {
         @Override public void onClick(View v) {
-          if (dotsClickable
-              && viewPager != null
-              && viewPager.getAdapter() != null
-              && finalI < viewPager.getAdapter().getCount()) {
+          if (dotsClickable && viewPager != null && viewPager.getAdapter() != null && finalI < viewPager.getAdapter().getCount()) {
             viewPager.setCurrentItem(finalI, true);
           }
         }
@@ -138,9 +133,7 @@ public class DotsIndicator extends LinearLayout {
   }
 
   private void setUpDotsAnimators() {
-    if (viewPager != null
-        && viewPager.getAdapter() != null
-        && viewPager.getAdapter().getCount() > 0) {
+    if (viewPager != null && viewPager.getAdapter() != null && viewPager.getAdapter().getCount() > 0) {
       if (currentPage < dots.size()) {
         View dot = dots.get(currentPage);
 
@@ -175,8 +168,7 @@ public class DotsIndicator extends LinearLayout {
     pageChangedListener = new ViewPager.OnPageChangeListener() {
       private int lastPage;
 
-      @Override
-      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+      @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (position != currentPage && positionOffset == 0 || currentPage < position) {
           setDotWidth(dots.get(currentPage), (int) dotSize);
           currentPage = position;
