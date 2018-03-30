@@ -1,5 +1,6 @@
 package com.tbuonomo.viewpagerdotsindicator;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
@@ -43,6 +44,7 @@ public class SpringDotsIndicator extends FrameLayout {
   private int dotIndicatorSize;
   private int dotIndicatorAdditionalSize;
   private int dotsColor;
+  private int indicatorDotColor;
   private int horizontalMargin;
   private SpringAnimation dotIndicatorSpring;
   private LinearLayout strokeDotsLinearLayout;
@@ -68,33 +70,35 @@ public class SpringDotsIndicator extends FrameLayout {
   private void init(Context context, AttributeSet attrs) {
     strokeDots = new ArrayList<>();
     strokeDotsLinearLayout = new LinearLayout(context);
-    LayoutParams linearParams =
-        new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    LayoutParams linearParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     horizontalMargin = dpToPx(24);
     linearParams.setMargins(horizontalMargin, 0, horizontalMargin, 0);
     strokeDotsLinearLayout.setLayoutParams(linearParams);
     strokeDotsLinearLayout.setOrientation(HORIZONTAL);
     addView(strokeDotsLinearLayout);
 
-    dotStrokeSize = dpToPx(8); // 8dp
-    dotSpacing = dpToPx(8); // 8dp
+    dotStrokeSize = dpToPx(16); // 16dp
+    dotSpacing = dpToPx(4); // 4dp
     dotStrokeWidth = dpToPx(2); // 2dp
     dotIndicatorAdditionalSize = dpToPx(1); // 1dp additional to fill the stroke dots
     dotsColor = DEFAULT_POINT_COLOR;
+    indicatorDotColor = dotsColor;
     dotsClickable = true;
 
     if (attrs != null) {
-      TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.DotsIndicator);
+      @SuppressLint("CustomViewStyleable") TypedArray dotsAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.DotsIndicator);
+      TypedArray springDotsAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.SpringDotsIndicator);
 
-      dotsColor = a.getColor(R.styleable.DotsIndicator_dotsColor, DEFAULT_POINT_COLOR);
+      dotsColor = dotsAttributes.getColor(R.styleable.DotsIndicator_dotsColor, DEFAULT_POINT_COLOR);
+      indicatorDotColor = springDotsAttributes.getColor(R.styleable.SpringDotsIndicator_indicatorDotColor, dotsColor);
       setUpCircleColors(dotsColor);
 
-      dotStrokeSize = (int) a.getDimension(R.styleable.DotsIndicator_dotsSize, dotStrokeSize);
-      dotSpacing = (int) a.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotSpacing);
-      dotStrokeWidth =
-          (int) a.getDimension(R.styleable.DotsIndicator_dotsStrokeWidth, dotStrokeWidth);
+      dotStrokeSize = (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsSize, dotStrokeSize);
+      dotSpacing = (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotSpacing);
+      dotStrokeWidth = (int) springDotsAttributes.getDimension(R.styleable.SpringDotsIndicator_dotsStrokeWidth, dotStrokeWidth);
 
-      a.recycle();
+      dotsAttributes.recycle();
+      springDotsAttributes.recycle();
     } else {
       setUpCircleColors(DEFAULT_POINT_COLOR);
     }
@@ -128,8 +132,7 @@ public class SpringDotsIndicator extends FrameLayout {
       }
       setUpDotsAnimators();
     } else {
-      Log.e(SpringDotsIndicator.class.getSimpleName(),
-          "You have to set an adapter to the view pager before !");
+      Log.e(SpringDotsIndicator.class.getSimpleName(), "You have to set an adapter to the view pager before !");
     }
   }
 
@@ -138,7 +141,7 @@ public class SpringDotsIndicator extends FrameLayout {
     addView(dotIndicator);
     dotIndicatorSpring = new SpringAnimation(dotIndicator, SpringAnimation.TRANSLATION_X);
     SpringForce springForce = new SpringForce(0);
-    springForce.setDampingRatio(0.3f);
+    springForce.setDampingRatio(0.25f);
     springForce.setStiffness(300);
     dotIndicatorSpring.setSpring(springForce);
   }
@@ -149,10 +152,7 @@ public class SpringDotsIndicator extends FrameLayout {
       final int finalI = i;
       dot.setOnClickListener(new OnClickListener() {
         @Override public void onClick(View v) {
-          if (dotsClickable
-              && viewPager != null
-              && viewPager.getAdapter() != null
-              && finalI < viewPager.getAdapter().getCount()) {
+          if (dotsClickable && viewPager != null && viewPager.getAdapter() != null && finalI < viewPager.getAdapter().getCount()) {
             viewPager.setCurrentItem(finalI, true);
           }
         }
@@ -164,22 +164,20 @@ public class SpringDotsIndicator extends FrameLayout {
   }
 
   private ViewGroup buildDot(boolean stroke) {
-    ViewGroup dot =
-        (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.dot_layout, this, false);
+    ViewGroup dot = (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.dot_layout, this, false);
     ImageView dotView = dot.findViewById(R.id.dot);
-    dotView.setBackground(ContextCompat.getDrawable(getContext(),
-        stroke ? R.drawable.dot_stroke_background : R.drawable.dot_background));
+    dotView.setBackground(ContextCompat.getDrawable(getContext(), stroke ? R.drawable.dot_stroke_background : R.drawable.dot_background));
     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dotView.getLayoutParams();
     params.width = params.height = stroke ? dotStrokeSize : dotIndicatorSize;
     params.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 
     params.setMargins(dotSpacing, 0, dotSpacing, 0);
 
-    ((GradientDrawable) dotView.getBackground()).setCornerRadius(dotStrokeSize / 2);
+    ((GradientDrawable) dotView.getBackground()).setCornerRadius(dpToPx(4));
     if (stroke) {
       ((GradientDrawable) dotView.getBackground()).setStroke(dotStrokeWidth, dotsColor);
     } else {
-      ((GradientDrawable) dotView.getBackground()).setColor(dotsColor);
+      ((GradientDrawable) dotView.getBackground()).setColor(indicatorDotColor);
     }
     return dot;
   }
@@ -192,9 +190,7 @@ public class SpringDotsIndicator extends FrameLayout {
   }
 
   private void setUpDotsAnimators() {
-    if (viewPager != null
-        && viewPager.getAdapter() != null
-        && viewPager.getAdapter().getCount() > 0) {
+    if (viewPager != null && viewPager.getAdapter() != null && viewPager.getAdapter().getCount() > 0) {
       if (pageChangedListener != null) {
         viewPager.removeOnPageChangeListener(pageChangedListener);
       }
@@ -206,12 +202,9 @@ public class SpringDotsIndicator extends FrameLayout {
   private void setUpOnPageChangedListener() {
     pageChangedListener = new ViewPager.OnPageChangeListener() {
 
-      @Override
-      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        float globalPositionOffsetPixels = position * (dotStrokeSize + dotSpacing * 2)
-            + (dotStrokeSize + dotSpacing * 2) * positionOffset;
-        float indicatorTranslationX = globalPositionOffsetPixels + horizontalMargin + dotStrokeWidth
-            - dotIndicatorAdditionalSize / 2;
+      @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        float globalPositionOffsetPixels = position * (dotStrokeSize + dotSpacing * 2) + (dotStrokeSize + dotSpacing * 2) * positionOffset;
+        float indicatorTranslationX = globalPositionOffsetPixels + horizontalMargin + dotStrokeWidth - dotIndicatorAdditionalSize / 2;
         dotIndicatorSpring.getSpring().setFinalPosition(indicatorTranslationX);
 
         if (!dotIndicatorSpring.isRunning()) {
