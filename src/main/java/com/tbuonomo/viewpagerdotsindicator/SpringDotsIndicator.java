@@ -190,6 +190,8 @@ public class SpringDotsIndicator extends FrameLayout {
     GradientDrawable dotBackground = (GradientDrawable) dotView.getBackground();
     if (stroke) {
       dotBackground.setStroke(dotsStrokeWidth, dotsColor);
+    } else {
+      dotBackground.setColor(dotsColor);
     }
     dotBackground.setCornerRadius(dotsCornerRadius);
     return dot;
