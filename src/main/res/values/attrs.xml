@@ -5,6 +5,7 @@
     <attr format="dimension" name="dotsSize"/>
     <attr format="float" name="dotsWidthFactor"/>
     <attr format="dimension" name="dotsSpacing"/>
+    <attr format="dimension" name="dotsCornerRadius"/>
   </declare-styleable>
 
   <declare-styleable name="SpringDotsIndicator">

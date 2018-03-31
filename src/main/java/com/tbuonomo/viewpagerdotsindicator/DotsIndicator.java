@@ -19,13 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DotsIndicator extends LinearLayout {
-  private static final int DEFAULT_POINT_COLOR = Color.WHITE;
+  private static final int DEFAULT_POINT_COLOR = Color.CYAN;
   public static final float DEFAULT_WIDTH_FACTOR = 2.5f;
 
   private List<ImageView> dots;
   private ViewPager viewPager;
-  private float dotSize;
-  private float dotSpacing;
+  private float dotsSize;
+  private float dotsCornerRadius;
+  private float dotsSpacing;
   private int currentPage;
   private float dotsWidthFactor;
   private int dotsColor;
@@ -52,8 +53,10 @@ public class DotsIndicator extends LinearLayout {
     dots = new ArrayList<>();
     setOrientation(HORIZONTAL);
 
-    dotSize = context.getResources().getDisplayMetrics().density * 8; // 8dp
-    dotSpacing = context.getResources().getDisplayMetrics().density * 4; // 4dp
+    dotsSize = context.getResources().getDisplayMetrics().density * 8; // 8dp
+    dotsSpacing = context.getResources().getDisplayMetrics().density * 4; // 4dp
+    dotsCornerRadius = dotsSize / 2; // 1dp additional to fill the stroke dots
+
     dotsWidthFactor = DEFAULT_WIDTH_FACTOR;
     dotsColor = DEFAULT_POINT_COLOR;
     dotsClickable = true;
@@ -69,12 +72,18 @@ public class DotsIndicator extends LinearLayout {
         dotsWidthFactor = 2.5f;
       }
 
-      dotSize = a.getDimension(R.styleable.DotsIndicator_dotsSize, dotSize);
-      dotSpacing = a.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotSpacing);
+      dotsCornerRadius =
+          (int) a.getDimension(R.styleable.DotsIndicator_dotsCornerRadius, dotsCornerRadius);
+      dotsSize = a.getDimension(R.styleable.DotsIndicator_dotsSize, dotsSize);
+      dotsSpacing = a.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotsSpacing);
 
       a.recycle();
     } else {
       setUpCircleColors(DEFAULT_POINT_COLOR);
+    }
+
+    if (isInEditMode()) {
+      addDots(5);
     }
   }
 
@@ -97,7 +106,8 @@ public class DotsIndicator extends LinearLayout {
       }
       setUpDotsAnimators();
     } else {
-      Log.e(DotsIndicator.class.getSimpleName(), "You have to set an adapter to the view pager before !");
+      Log.e(DotsIndicator.class.getSimpleName(),
+          "You have to set an adapter to the view pager before !");
     }
   }
 
@@ -105,16 +115,20 @@ public class DotsIndicator extends LinearLayout {
     for (int i = 0; i < count; i++) {
       View dot = LayoutInflater.from(getContext()).inflate(R.layout.dot_layout, this, false);
       ImageView imageView = dot.findViewById(R.id.dot);
-      RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-      params.width = params.height = (int) dotSize;
-      params.setMargins((int) dotSpacing, 0, (int) dotSpacing, 0);
-      ((GradientDrawable) imageView.getBackground()).setCornerRadius(dotSize / 2);
+      RelativeLayout.LayoutParams params =
+          (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+      params.width = params.height = (int) dotsSize;
+      params.setMargins((int) dotsSpacing, 0, (int) dotsSpacing, 0);
+      ((GradientDrawable) imageView.getBackground()).setCornerRadius(dotsCornerRadius);
       ((GradientDrawable) imageView.getBackground()).setColor(dotsColor);
 
       final int finalI = i;
       dot.setOnClickListener(new OnClickListener() {
         @Override public void onClick(View v) {
-          if (dotsClickable && viewPager != null && viewPager.getAdapter() != null && finalI < viewPager.getAdapter().getCount()) {
+          if (dotsClickable
+              && viewPager != null
+              && viewPager.getAdapter() != null
+              && finalI < viewPager.getAdapter().getCount()) {
             viewPager.setCurrentItem(finalI, true);
           }
         }
@@ -133,13 +147,15 @@ public class DotsIndicator extends LinearLayout {
   }
 
   private void setUpDotsAnimators() {
-    if (viewPager != null && viewPager.getAdapter() != null && viewPager.getAdapter().getCount() > 0) {
+    if (viewPager != null
+        && viewPager.getAdapter() != null
+        && viewPager.getAdapter().getCount() > 0) {
       if (currentPage < dots.size()) {
         View dot = dots.get(currentPage);
 
         if (dot != null) {
           RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dot.getLayoutParams();
-          params.width = (int) dotSize;
+          params.width = (int) dotsSize;
           dot.setLayoutParams(params);
         }
       }
@@ -153,7 +169,7 @@ public class DotsIndicator extends LinearLayout {
 
       if (dot != null) {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dot.getLayoutParams();
-        params.width = (int) (dotSize * dotsWidthFactor);
+        params.width = (int) (dotsSize * dotsWidthFactor);
         dot.setLayoutParams(params);
       }
       if (pageChangedListener != null) {
@@ -168,14 +184,15 @@ public class DotsIndicator extends LinearLayout {
     pageChangedListener = new ViewPager.OnPageChangeListener() {
       private int lastPage;
 
-      @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+      @Override
+      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (position != currentPage && positionOffset == 0 || currentPage < position) {
-          setDotWidth(dots.get(currentPage), (int) dotSize);
+          setDotWidth(dots.get(currentPage), (int) dotsSize);
           currentPage = position;
         }
 
         if (Math.abs(currentPage - position) > 1) {
-          setDotWidth(dots.get(currentPage), (int) dotSize);
+          setDotWidth(dots.get(currentPage), (int) dotsSize);
           currentPage = lastPage;
         }
 
@@ -189,11 +206,12 @@ public class DotsIndicator extends LinearLayout {
           dot = dots.get(currentPage - 1);
         }
 
-        int dotWidth = (int) (dotSize + (dotSize * (dotsWidthFactor - 1) * (1 - positionOffset)));
+        int dotWidth = (int) (dotsSize + (dotsSize * (dotsWidthFactor - 1) * (1 - positionOffset)));
         setDotWidth(dot, dotWidth);
 
         if (nextDot != null) {
-          int nextDotWidth = (int) (dotSize + (dotSize * (dotsWidthFactor - 1) * (positionOffset)));
+          int nextDotWidth =
+              (int) (dotsSize + (dotsSize * (dotsWidthFactor - 1) * (positionOffset)));
           setDotWidth(nextDot, nextDotWidth);
         }
 
