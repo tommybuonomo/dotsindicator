@@ -40,7 +40,6 @@ public class StickyDotsIndicator extends FrameLayout {
   private int dotsCornerRadius;
   private int dotsColor;
 
-  private int dotIndicatorAdditionalSize;
   private int horizontalMargin;
   private SpringAnimation dotIndicatorXSpring;
   private SpringAnimation dotIndicatorWidthSpring;
@@ -67,7 +66,8 @@ public class StickyDotsIndicator extends FrameLayout {
   private void init(Context context, AttributeSet attrs) {
     strokeDots = new ArrayList<>();
     strokeDotsLinearLayout = new LinearLayout(context);
-    LayoutParams linearParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    LayoutParams linearParams =
+        new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     horizontalMargin = dpToPx(24);
     linearParams.setMargins(horizontalMargin, 0, horizontalMargin, 0);
     strokeDotsLinearLayout.setLayoutParams(linearParams);
@@ -77,24 +77,30 @@ public class StickyDotsIndicator extends FrameLayout {
     dotsSize = dpToPx(16); // 16dp
     dotsSpacing = dpToPx(4); // 4dp
     dotsStrokeWidth = dpToPx(2); // 2dp
-    dotIndicatorAdditionalSize = dpToPx(1); // 1dp additional to fill the stroke dots
     dotsCornerRadius = dotsSize / 2; // 1dp additional to fill the stroke dots
     dotsColor = DEFAULT_POINT_COLOR;
     dotsClickable = true;
 
     if (attrs != null) {
-      @SuppressLint("CustomViewStyleable") TypedArray dotsAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.DotsIndicator);
-      TypedArray springDotsAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.SpringDotsIndicator);
+      @SuppressLint("CustomViewStyleable") TypedArray dotsAttributes =
+          getContext().obtainStyledAttributes(attrs, R.styleable.DotsIndicator);
+      TypedArray springDotsAttributes =
+          getContext().obtainStyledAttributes(attrs, R.styleable.SpringDotsIndicator);
 
       // Dots attributes
       dotsColor = dotsAttributes.getColor(R.styleable.DotsIndicator_dotsColor, DEFAULT_POINT_COLOR);
       setUpCircleColors(dotsColor);
       dotsSize = (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsSize, dotsSize);
-      dotsSpacing = (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotsSpacing);
-      dotsCornerRadius = (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsCornerRadius, dotsCornerRadius);
+      dotsSpacing =
+          (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotsSpacing);
+      dotsCornerRadius =
+          (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsCornerRadius,
+              dotsSize / 2);
 
       // Spring dots attributes
-      dotsStrokeWidth = (int) springDotsAttributes.getDimension(R.styleable.SpringDotsIndicator_dotsStrokeWidth, dotsStrokeWidth);
+      dotsStrokeWidth =
+          (int) springDotsAttributes.getDimension(R.styleable.SpringDotsIndicator_dotsStrokeWidth,
+              dotsStrokeWidth);
 
       dotsAttributes.recycle();
       springDotsAttributes.recycle();
@@ -131,7 +137,8 @@ public class StickyDotsIndicator extends FrameLayout {
       }
       setUpDotsAnimators();
     } else {
-      Log.e(StickyDotsIndicator.class.getSimpleName(), "You have to set an adapter to the view pager before !");
+      Log.e(StickyDotsIndicator.class.getSimpleName(),
+          "You have to set an adapter to the view pager before !");
     }
   }
 
@@ -141,7 +148,7 @@ public class StickyDotsIndicator extends FrameLayout {
     dotIndicatorXSpring = new SpringAnimation(dotIndicator, SpringAnimation.TRANSLATION_X);
     SpringForce springForceX = new SpringForce(0);
     springForceX.setDampingRatio(1f);
-    springForceX.setStiffness(800);
+    springForceX.setStiffness(300);
     dotIndicatorXSpring.setSpring(springForceX);
 
     FloatPropertyCompat floatPropertyCompat = new FloatPropertyCompat("DotsWidth") {
@@ -157,10 +164,9 @@ public class StickyDotsIndicator extends FrameLayout {
       }
     };
     dotIndicatorWidthSpring = new SpringAnimation(dotIndicator, floatPropertyCompat);
-    dotIndicatorWidthSpring.setMinimumVisibleChange(SpringAnimation.MIN_VISIBLE_CHANGE_PIXELS);
     SpringForce springForceWidth = new SpringForce(0);
     springForceWidth.setDampingRatio(1f);
-    springForceWidth.setStiffness(800);
+    springForceWidth.setStiffness(300);
     dotIndicatorWidthSpring.setSpring(springForceWidth);
   }
 
@@ -170,7 +176,10 @@ public class StickyDotsIndicator extends FrameLayout {
       final int finalI = i;
       dot.setOnClickListener(new OnClickListener() {
         @Override public void onClick(View v) {
-          if (dotsClickable && viewPager != null && viewPager.getAdapter() != null && finalI < viewPager.getAdapter().getCount()) {
+          if (dotsClickable
+              && viewPager != null
+              && viewPager.getAdapter() != null
+              && finalI < viewPager.getAdapter().getCount()) {
             viewPager.setCurrentItem(finalI, true);
           }
         }
@@ -182,9 +191,11 @@ public class StickyDotsIndicator extends FrameLayout {
   }
 
   private ViewGroup buildDot(boolean stroke) {
-    ViewGroup dot = (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.dot_layout, this, false);
+    ViewGroup dot =
+        (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.dot_layout, this, false);
     ImageView dotView = dot.findViewById(R.id.dot);
-    dotView.setBackground(ContextCompat.getDrawable(getContext(), stroke ? R.drawable.dot_stroke_background : R.drawable.spring_dot_background));
+    dotView.setBackground(ContextCompat.getDrawable(getContext(),
+        stroke ? R.drawable.dot_stroke_background : R.drawable.sticky_dot_background));
     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dotView.getLayoutParams();
     params.width = params.height = dotsSize;
     params.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
@@ -209,7 +220,9 @@ public class StickyDotsIndicator extends FrameLayout {
   }
 
   private void setUpDotsAnimators() {
-    if (viewPager != null && viewPager.getAdapter() != null && viewPager.getAdapter().getCount() > 0) {
+    if (viewPager != null
+        && viewPager.getAdapter() != null
+        && viewPager.getAdapter().getCount() > 0) {
       if (pageChangedListener != null) {
         viewPager.removeOnPageChangeListener(pageChangedListener);
       }
@@ -220,19 +233,29 @@ public class StickyDotsIndicator extends FrameLayout {
 
   private void setUpOnPageChangedListener() {
     pageChangedListener = new ViewPager.OnPageChangeListener() {
-      @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+      @Override
+      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         int stepX = dotsSize + dotsSpacing * 2;
-        int paddingStart = horizontalMargin - dotIndicatorAdditionalSize / 2;
+        float xFinalPosition;
+        float widthFinalPosition;
 
         if (positionOffset >= 0 && positionOffset < 0.1f) {
-          dotIndicatorXSpring.getSpring().setFinalPosition(paddingStart + position * stepX);
-          dotIndicatorWidthSpring.getSpring().setFinalPosition(dotsSize);
-        } else if (positionOffset >= 0.1f && positionOffset < 0.9f) {
-          dotIndicatorXSpring.getSpring().setFinalPosition(paddingStart + position * stepX);
-          dotIndicatorWidthSpring.getSpring().setFinalPosition(dotsSize + stepX);
+          xFinalPosition = horizontalMargin + position * stepX;
+          widthFinalPosition = dotsSize;
+        } else if (positionOffset >= 0.1f && positionOffset <= 0.9f) {
+          xFinalPosition = horizontalMargin + position * stepX;
+          widthFinalPosition = dotsSize + stepX;
         } else {
-          dotIndicatorXSpring.getSpring().setFinalPosition(paddingStart + (position + 1) * stepX);
-          dotIndicatorWidthSpring.getSpring().setFinalPosition(dotsSize);
+          xFinalPosition = horizontalMargin + (position + 1) * stepX;
+          widthFinalPosition = dotsSize;
+        }
+
+        if (dotIndicatorXSpring.getSpring().getFinalPosition() != xFinalPosition) {
+          dotIndicatorXSpring.getSpring().setFinalPosition(xFinalPosition);
+        }
+
+        if (dotIndicatorWidthSpring.getSpring().getFinalPosition() != widthFinalPosition) {
+          dotIndicatorWidthSpring.getSpring().setFinalPosition(widthFinalPosition);
         }
 
         if (!dotIndicatorXSpring.isRunning()) {

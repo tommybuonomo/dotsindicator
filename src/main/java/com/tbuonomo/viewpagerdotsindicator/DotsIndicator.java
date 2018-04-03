@@ -55,7 +55,7 @@ public class DotsIndicator extends LinearLayout {
 
     dotsSize = context.getResources().getDisplayMetrics().density * 8; // 8dp
     dotsSpacing = context.getResources().getDisplayMetrics().density * 4; // 4dp
-    dotsCornerRadius = dotsSize / 2; // 1dp additional to fill the stroke dots
+    dotsCornerRadius = dotsSize / 2;
 
     dotsWidthFactor = DEFAULT_WIDTH_FACTOR;
     dotsColor = DEFAULT_POINT_COLOR;
@@ -72,9 +72,9 @@ public class DotsIndicator extends LinearLayout {
         dotsWidthFactor = 2.5f;
       }
 
-      dotsCornerRadius =
-          (int) a.getDimension(R.styleable.DotsIndicator_dotsCornerRadius, dotsCornerRadius);
       dotsSize = a.getDimension(R.styleable.DotsIndicator_dotsSize, dotsSize);
+      dotsCornerRadius =
+          (int) a.getDimension(R.styleable.DotsIndicator_dotsCornerRadius, dotsSize / 2);
       dotsSpacing = a.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotsSpacing);
 
       a.recycle();
@@ -85,10 +85,6 @@ public class DotsIndicator extends LinearLayout {
     if (isInEditMode()) {
       addDots(5);
     }
-  }
-
-  @Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-    super.onSizeChanged(w, h, oldw, oldh);
   }
 
   @Override protected void onAttachedToWindow() {

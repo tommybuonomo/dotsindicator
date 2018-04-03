@@ -97,7 +97,7 @@ public class SpringDotsIndicator extends FrameLayout {
           (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotsSpacing);
       dotsCornerRadius =
           (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsCornerRadius,
-              dotsCornerRadius);
+              dotsStrokeSize / 2);
 
       // Spring dots attributes
       dotsStrokeWidth =
@@ -150,7 +150,7 @@ public class SpringDotsIndicator extends FrameLayout {
     addView(dotIndicator);
     dotIndicatorSpring = new SpringAnimation(dotIndicator, SpringAnimation.TRANSLATION_X);
     SpringForce springForce = new SpringForce(0);
-    springForce.setDampingRatio(0.25f);
+    springForce.setDampingRatio(1f);
     springForce.setStiffness(300);
     dotIndicatorSpring.setSpring(springForce);
   }
