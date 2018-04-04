@@ -1,6 +1,5 @@
 package com.tbuonomo.viewpagerdotsindicator;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
@@ -26,11 +25,11 @@ import java.util.List;
 
 import static android.widget.LinearLayout.HORIZONTAL;
 
-public class StickyDotsIndicator extends FrameLayout {
+public class WormDotsIndicator extends FrameLayout {
   private static final int DEFAULT_POINT_COLOR = Color.CYAN;
 
   private List<ImageView> strokeDots;
-  private View dotIndicator;
+  private View dotIndicatorLayout;
   private ViewPager viewPager;
 
   // Attributes
@@ -47,18 +46,19 @@ public class StickyDotsIndicator extends FrameLayout {
 
   private boolean dotsClickable;
   private ViewPager.OnPageChangeListener pageChangedListener;
+  private ImageView dotIndicatorView;
 
-  public StickyDotsIndicator(Context context) {
+  public WormDotsIndicator(Context context) {
     super(context);
     init(context, null);
   }
 
-  public StickyDotsIndicator(Context context, AttributeSet attrs) {
+  public WormDotsIndicator(Context context, AttributeSet attrs) {
     super(context, attrs);
     init(context, attrs);
   }
 
-  public StickyDotsIndicator(Context context, AttributeSet attrs, int defStyleAttr) {
+  public WormDotsIndicator(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
     init(context, attrs);
   }
@@ -77,33 +77,26 @@ public class StickyDotsIndicator extends FrameLayout {
     dotsSize = dpToPx(16); // 16dp
     dotsSpacing = dpToPx(4); // 4dp
     dotsStrokeWidth = dpToPx(2); // 2dp
-    dotsCornerRadius = dotsSize / 2; // 1dp additional to fill the stroke dots
+    dotsCornerRadius = dotsSize / 2;
     dotsColor = DEFAULT_POINT_COLOR;
     dotsClickable = true;
 
     if (attrs != null) {
-      @SuppressLint("CustomViewStyleable") TypedArray dotsAttributes =
-          getContext().obtainStyledAttributes(attrs, R.styleable.DotsIndicator);
-      TypedArray springDotsAttributes =
-          getContext().obtainStyledAttributes(attrs, R.styleable.SpringDotsIndicator);
+      TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.WormDotsIndicator);
 
       // Dots attributes
-      dotsColor = dotsAttributes.getColor(R.styleable.DotsIndicator_dotsColor, DEFAULT_POINT_COLOR);
+      dotsColor = a.getColor(R.styleable.WormDotsIndicator_dotsColor, DEFAULT_POINT_COLOR);
       setUpCircleColors(dotsColor);
-      dotsSize = (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsSize, dotsSize);
-      dotsSpacing =
-          (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotsSpacing);
+      dotsSize = (int) a.getDimension(R.styleable.WormDotsIndicator_dotsSize, dotsSize);
+      dotsSpacing = (int) a.getDimension(R.styleable.WormDotsIndicator_dotsSpacing, dotsSpacing);
       dotsCornerRadius =
-          (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsCornerRadius,
-              dotsSize / 2);
+          (int) a.getDimension(R.styleable.WormDotsIndicator_dotsCornerRadius, dotsSize / 2);
 
       // Spring dots attributes
       dotsStrokeWidth =
-          (int) springDotsAttributes.getDimension(R.styleable.SpringDotsIndicator_dotsStrokeWidth,
-              dotsStrokeWidth);
+          (int) a.getDimension(R.styleable.WormDotsIndicator_dotsStrokeWidth, dotsStrokeWidth);
 
-      dotsAttributes.recycle();
-      springDotsAttributes.recycle();
+      a.recycle();
     } else {
       setUpCircleColors(DEFAULT_POINT_COLOR);
     }
@@ -114,17 +107,13 @@ public class StickyDotsIndicator extends FrameLayout {
     }
   }
 
-  private int dpToPx(int dp) {
-    return (int) getContext().getResources().getDisplayMetrics().density * dp;
-  }
-
   @Override protected void onAttachedToWindow() {
     super.onAttachedToWindow();
     refreshDots();
   }
 
   private void refreshDots() {
-    if (dotIndicator == null) {
+    if (dotIndicatorLayout == null) {
       setUpDotIndicator();
     }
 
@@ -137,15 +126,16 @@ public class StickyDotsIndicator extends FrameLayout {
       }
       setUpDotsAnimators();
     } else {
-      Log.e(StickyDotsIndicator.class.getSimpleName(),
+      Log.e(WormDotsIndicator.class.getSimpleName(),
           "You have to set an adapter to the view pager before !");
     }
   }
 
   private void setUpDotIndicator() {
-    dotIndicator = buildDot(false);
-    addView(dotIndicator);
-    dotIndicatorXSpring = new SpringAnimation(dotIndicator, SpringAnimation.TRANSLATION_X);
+    dotIndicatorLayout = buildDot(false);
+    dotIndicatorView = dotIndicatorLayout.findViewById(R.id.worm_dot);
+    addView(dotIndicatorLayout);
+    dotIndicatorXSpring = new SpringAnimation(dotIndicatorLayout, SpringAnimation.TRANSLATION_X);
     SpringForce springForceX = new SpringForce(0);
     springForceX.setDampingRatio(1f);
     springForceX.setStiffness(300);
@@ -153,17 +143,16 @@ public class StickyDotsIndicator extends FrameLayout {
 
     FloatPropertyCompat floatPropertyCompat = new FloatPropertyCompat("DotsWidth") {
       @Override public float getValue(Object object) {
-        return ((View) object).findViewById(R.id.dot).getLayoutParams().width;
+        return dotIndicatorView.getLayoutParams().width;
       }
 
       @Override public void setValue(Object object, float value) {
-        View view = ((View) object).findViewById(R.id.dot);
-        ViewGroup.LayoutParams params = view.getLayoutParams();
+        ViewGroup.LayoutParams params = dotIndicatorView.getLayoutParams();
         params.width = (int) value;
-        view.requestLayout();
+        dotIndicatorView.requestLayout();
       }
     };
-    dotIndicatorWidthSpring = new SpringAnimation(dotIndicator, floatPropertyCompat);
+    dotIndicatorWidthSpring = new SpringAnimation(dotIndicatorLayout, floatPropertyCompat);
     SpringForce springForceWidth = new SpringForce(0);
     springForceWidth.setDampingRatio(1f);
     springForceWidth.setStiffness(300);
@@ -191,18 +180,19 @@ public class StickyDotsIndicator extends FrameLayout {
   }
 
   private ViewGroup buildDot(boolean stroke) {
-    ViewGroup dot =
-        (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.dot_layout, this, false);
-    ImageView dotView = dot.findViewById(R.id.dot);
-    dotView.setBackground(ContextCompat.getDrawable(getContext(),
-        stroke ? R.drawable.dot_stroke_background : R.drawable.sticky_dot_background));
-    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dotView.getLayoutParams();
+    ViewGroup dot = (ViewGroup) LayoutInflater.from(getContext())
+        .inflate(R.layout.worm_dot_layout, this, false);
+    View dotImageView = dot.findViewById(R.id.worm_dot);
+    dotImageView.setBackground(ContextCompat.getDrawable(getContext(),
+        stroke ? R.drawable.worm_dot_stroke_background : R.drawable.worm_dot_background));
+    RelativeLayout.LayoutParams params =
+        (RelativeLayout.LayoutParams) dotImageView.getLayoutParams();
     params.width = params.height = dotsSize;
     params.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 
     params.setMargins(dotsSpacing, 0, dotsSpacing, 0);
 
-    GradientDrawable dotBackground = (GradientDrawable) dotView.getBackground();
+    GradientDrawable dotBackground = (GradientDrawable) dotImageView.getBackground();
     if (stroke) {
       dotBackground.setStroke(dotsStrokeWidth, dotsColor);
     } else {
@@ -292,6 +282,10 @@ public class StickyDotsIndicator extends FrameLayout {
         }
       });
     }
+  }
+
+  private int dpToPx(int dp) {
+    return (int) (getContext().getResources().getDisplayMetrics().density * dp);
   }
 
   //*********************************************************

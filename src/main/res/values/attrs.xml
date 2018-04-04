@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <attr format="color" name="dotsColor"/>
+  <attr format="dimension" name="dotsSize"/>
+  <attr format="float" name="dotsWidthFactor"/>
+  <attr format="dimension" name="dotsSpacing"/>
+  <attr format="dimension" name="dotsCornerRadius"/>
+  <attr format="dimension" name="dotsStrokeWidth"/>
+  <attr format="float" name="stiffness"/>
+  <attr format="float" name="dampingRatio"/>
+
   <declare-styleable name="DotsIndicator">
-    <attr format="color" name="dotsColor"/>
-    <attr format="dimension" name="dotsSize"/>
-    <attr format="float" name="dotsWidthFactor"/>
-    <attr format="dimension" name="dotsSpacing"/>
-    <attr format="dimension" name="dotsCornerRadius"/>
+    <attr name="dotsColor"/>
+    <attr name="dotsSize"/>
+    <attr name="dotsWidthFactor"/>
+    <attr name="dotsSpacing"/>
+    <attr name="dotsCornerRadius"/>
   </declare-styleable>
 
   <declare-styleable name="SpringDotsIndicator">
-    <attr format="dimension" name="dotsStrokeWidth"/>
+    <attr name="dotsColor"/>
+    <attr name="dotsSize"/>
+    <attr name="dotsSpacing"/>
+    <attr name="dotsCornerRadius"/>
+    <attr name="dotsStrokeWidth"/>
+    <attr name="stiffness"/>
+    <attr name="dampingRatio"/>
+  </declare-styleable>
+
+  <declare-styleable name="WormDotsIndicator">
+    <attr name="dotsColor"/>
+    <attr name="dotsSize"/>
+    <attr name="dotsSpacing"/>
+    <attr name="dotsCornerRadius"/>
+    <attr name="dotsStrokeWidth"/>
   </declare-styleable>
 </resources>

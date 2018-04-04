@@ -1,6 +1,5 @@
 package com.tbuonomo.viewpagerdotsindicator;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
@@ -27,6 +26,8 @@ import static android.widget.LinearLayout.HORIZONTAL;
 
 public class SpringDotsIndicator extends FrameLayout {
   private static final int DEFAULT_POINT_COLOR = Color.CYAN;
+  public static final float DEFAULT_DAMPING_RATIO = 0.5f;
+  public static final int DEFAULT_STIFFNESS = 300;
 
   private List<ImageView> strokeDots;
   private View dotIndicator;
@@ -38,6 +39,8 @@ public class SpringDotsIndicator extends FrameLayout {
   private int dotsStrokeWidth;
   private int dotsCornerRadius;
   private int dotsColor;
+  private float stiffness;
+  private float dampingRatio;
 
   private int dotIndicatorSize;
   private int dotIndicatorAdditionalSize;
@@ -80,32 +83,29 @@ public class SpringDotsIndicator extends FrameLayout {
     dotIndicatorAdditionalSize = dpToPx(1); // 1dp additional to fill the stroke dots
     dotsCornerRadius = dotsStrokeSize / 2; // 1dp additional to fill the stroke dots
     dotsColor = DEFAULT_POINT_COLOR;
+    stiffness = DEFAULT_STIFFNESS;
+    dampingRatio = DEFAULT_DAMPING_RATIO;
     dotsClickable = true;
 
     if (attrs != null) {
-      @SuppressLint("CustomViewStyleable") TypedArray dotsAttributes =
-          getContext().obtainStyledAttributes(attrs, R.styleable.DotsIndicator);
-      TypedArray springDotsAttributes =
-          getContext().obtainStyledAttributes(attrs, R.styleable.SpringDotsIndicator);
+      TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.SpringDotsIndicator);
 
       // Dots attributes
-      dotsColor = dotsAttributes.getColor(R.styleable.DotsIndicator_dotsColor, DEFAULT_POINT_COLOR);
+      dotsColor = a.getColor(R.styleable.SpringDotsIndicator_dotsColor, DEFAULT_POINT_COLOR);
       setUpCircleColors(dotsColor);
       dotsStrokeSize =
-          (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsSize, dotsStrokeSize);
-      dotsSpacing =
-          (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotsSpacing);
-      dotsCornerRadius =
-          (int) dotsAttributes.getDimension(R.styleable.DotsIndicator_dotsCornerRadius,
-              dotsStrokeSize / 2);
+          (int) a.getDimension(R.styleable.SpringDotsIndicator_dotsSize, dotsStrokeSize);
+      dotsSpacing = (int) a.getDimension(R.styleable.SpringDotsIndicator_dotsSpacing, dotsSpacing);
+      dotsCornerRadius = (int) a.getDimension(R.styleable.SpringDotsIndicator_dotsCornerRadius,
+          dotsStrokeSize / 2);
+      stiffness = a.getFloat(R.styleable.SpringDotsIndicator_stiffness, stiffness);
+      dampingRatio = a.getFloat(R.styleable.SpringDotsIndicator_dampingRatio, dampingRatio);
 
       // Spring dots attributes
       dotsStrokeWidth =
-          (int) springDotsAttributes.getDimension(R.styleable.SpringDotsIndicator_dotsStrokeWidth,
-              dotsStrokeWidth);
+          (int) a.getDimension(R.styleable.SpringDotsIndicator_dotsStrokeWidth, dotsStrokeWidth);
 
-      dotsAttributes.recycle();
-      springDotsAttributes.recycle();
+      a.recycle();
     } else {
       setUpCircleColors(DEFAULT_POINT_COLOR);
     }
@@ -115,10 +115,6 @@ public class SpringDotsIndicator extends FrameLayout {
       addStrokeDots(5);
       addView(buildDot(false));
     }
-  }
-
-  private int dpToPx(int dp) {
-    return (int) getContext().getResources().getDisplayMetrics().density * dp;
   }
 
   @Override protected void onAttachedToWindow() {
@@ -150,8 +146,8 @@ public class SpringDotsIndicator extends FrameLayout {
     addView(dotIndicator);
     dotIndicatorSpring = new SpringAnimation(dotIndicator, SpringAnimation.TRANSLATION_X);
     SpringForce springForce = new SpringForce(0);
-    springForce.setDampingRatio(1f);
-    springForce.setStiffness(300);
+    springForce.setDampingRatio(dampingRatio);
+    springForce.setStiffness(stiffness);
     dotIndicatorSpring.setSpring(springForce);
   }
 
@@ -176,11 +172,11 @@ public class SpringDotsIndicator extends FrameLayout {
   }
 
   private ViewGroup buildDot(boolean stroke) {
-    ViewGroup dot =
-        (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.dot_layout, this, false);
-    ImageView dotView = dot.findViewById(R.id.dot);
+    ViewGroup dot = (ViewGroup) LayoutInflater.from(getContext())
+        .inflate(R.layout.spring_dot_layout, this, false);
+    ImageView dotView = dot.findViewById(R.id.spring_dot);
     dotView.setBackground(ContextCompat.getDrawable(getContext(),
-        stroke ? R.drawable.dot_stroke_background : R.drawable.spring_dot_background));
+        stroke ? R.drawable.spring_dot_stroke_background : R.drawable.spring_dot_background));
     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dotView.getLayoutParams();
     params.width = params.height = stroke ? dotsStrokeSize : dotIndicatorSize;
     params.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
@@ -257,6 +253,10 @@ public class SpringDotsIndicator extends FrameLayout {
         }
       });
     }
+  }
+
+  private int dpToPx(int dp) {
+    return (int) (getContext().getResources().getDisplayMetrics().density * dp);
   }
 
   //*********************************************************

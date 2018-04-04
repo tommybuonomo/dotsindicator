@@ -53,8 +53,8 @@ public class DotsIndicator extends LinearLayout {
     dots = new ArrayList<>();
     setOrientation(HORIZONTAL);
 
-    dotsSize = context.getResources().getDisplayMetrics().density * 8; // 8dp
-    dotsSpacing = context.getResources().getDisplayMetrics().density * 4; // 4dp
+    dotsSize = dpToPx(16); // 16dp
+    dotsSpacing = dpToPx(4); // 4dp
     dotsCornerRadius = dotsSize / 2;
 
     dotsWidthFactor = DEFAULT_WIDTH_FACTOR;
@@ -245,6 +245,10 @@ public class DotsIndicator extends LinearLayout {
         }
       });
     }
+  }
+
+  private int dpToPx(int dp) {
+    return (int) (getContext().getResources().getDisplayMetrics().density * dp);
   }
 
   //*********************************************************
