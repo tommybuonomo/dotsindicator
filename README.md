@@ -46,6 +46,15 @@ dependencies {
     dotsIndicator.setViewPager(viewPager);
 ```
 
+#### In your Kotlin code
+```Kotlin
+    val dotsIndicator = findViewById<WormDotsIndicator>(R.id.dots_indicator)
+    val viewPager = findViewById<ViewPager>(R.id.view_pager)
+    val adapter = ViewPagerAdapter()
+    viewPager.adapter = adapter
+    dotsIndicator.setViewPager(viewPager)
+```
+
 
 ## SpringDotsIndicator 
 ![ezgif com-crop 4](https://user-images.githubusercontent.com/15737675/38329136-2c470ef0-384d-11e8-88a8-c8719dc1d0b7.gif) ![ezgif com-crop 5](https://user-images.githubusercontent.com/15737675/38329293-b87f68a4-384d-11e8-8a04-c560c60dac7c.gif)
@@ -85,6 +94,15 @@ dependencies {
     springDotsIndicator.setViewPager(viewPager);
 ```
 
+#### In your Kotlin code
+```Kotlin
+    val springDotsIndicator = findViewById<WormDotsIndicator>(R.id.spring_dots_indicator)
+    val viewPager = findViewById<ViewPager>(R.id.view_pager)
+    val adapter = ViewPagerAdapter()
+    viewPager.adapter = adapter
+    springDotsIndicator.setViewPager(viewPager)
+```
+
 
 ## WormDotsIndicator 
 ![ezgif com-crop 6](https://user-images.githubusercontent.com/15737675/38329969-9cf3de2e-384f-11e8-9ada-fa3fbef04d80.gif) ![ezgif com-crop 7](https://user-images.githubusercontent.com/15737675/38330079-f35908fc-384f-11e8-85aa-4daf64c73115.gif)
@@ -119,6 +137,15 @@ dependencies {
     adapter = new ViewPagerAdapter();
     viewPager.setAdapter(adapter);
     wormDotsIndicator.setViewPager(viewPager);
+```
+
+#### In your Kotlin code
+```Kotlin
+    val wormDotsIndicator = findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)
+    val viewPager = findViewById<ViewPager>(R.id.view_pager)
+    val adapter = ViewPagerAdapter()
+    viewPager.adapter = adapter
+    wormDotsIndicator.setViewPager(viewPager)
 ```
 
 ## License
