@@ -9,7 +9,7 @@ This library makes it possible to represent View Pager Dots Indicator with 3 dif
 #### Gradle
 ```Gradle
 dependencies {
-    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:2.0.0'
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:2.0.2'
 }
 ```
 ## DotsIndicator 

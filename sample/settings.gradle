@@ -1,3 +1,3 @@
-include ':app', ':library'
+include ':app', ':viewpagerdotsindicator'
 
-project(':library').projectDir = new File('../library')
+project(':viewpagerdotsindicator').projectDir = new File('../viewpagerdotsindicator')
