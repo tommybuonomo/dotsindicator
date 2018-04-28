@@ -4,7 +4,7 @@ This library makes it possible to represent View Pager Dots Indicator with 3 dif
 
 __Check out the sample demo:__ [![sampledemo](https://user-images.githubusercontent.com/15737675/39397282-08bedebe-4afd-11e8-9ea0-afe8330ad3b0.png)](https://appetize.io/app/f85p663e4b51tgc6qrd1k4vbv8)
 
-Don't forget to start the project if you like it! 
+Don't forget to star the project if you like it! 
 ![star](https://user-images.githubusercontent.com/15737675/39397370-85f5b294-4afe-11e8-9c02-0dfdf014136a.png)
  == ![heart](https://user-images.githubusercontent.com/15737675/39397367-6e312c2e-4afe-11e8-9fbf-32001b0165a1.png)
 
