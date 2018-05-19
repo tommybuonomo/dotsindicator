@@ -2,6 +2,8 @@
 
 This library makes it possible to represent View Pager Dots Indicator with 3 different awesome styles !
 
+![materialdots](https://user-images.githubusercontent.com/15737675/40272405-d7c5f192-5bac-11e8-9231-551c23ba7ef1.gif)
+
 __Check out the sample demo:__ [![sampledemo](https://user-images.githubusercontent.com/15737675/39397282-08bedebe-4afd-11e8-9ea0-afe8330ad3b0.png)](https://appetize.io/app/f85p663e4b51tgc6qrd1k4vbv8)
 
 Don't forget to star the project if you like it! 
