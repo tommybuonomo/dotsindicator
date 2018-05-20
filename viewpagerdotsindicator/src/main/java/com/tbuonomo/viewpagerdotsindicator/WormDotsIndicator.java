@@ -19,7 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import com.tbuonomo.materialsquareloading.R;
+import com.tbuonomo.viewpagerdotsindicator.R;
 import java.util.ArrayList;
 import java.util.List;
 
