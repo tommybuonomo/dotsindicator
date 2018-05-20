@@ -19,9 +19,9 @@ public class DotIndicatorPagerAdapter extends PagerAdapter {
   @NonNull @Override public Object instantiateItem(@NonNull ViewGroup container, int position) {
     View item = LayoutInflater.from(container.getContext())
         .inflate(R.layout.material_page, container, false);
-    CardView cardView = item.findViewById(R.id.card_view);
-    cardView.setCardBackgroundColor(
-        ContextCompat.getColor(container.getContext(), (items.get(position).color)));
+    //CardView cardView = item.findViewById(R.id.card_view);
+    //cardView.setCardBackgroundColor(
+    //    ContextCompat.getColor(container.getContext(), (items.get(position).color)));
     container.addView(item);
     return item;
   }
