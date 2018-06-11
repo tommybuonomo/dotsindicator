@@ -75,6 +75,7 @@ dependencies {
     android:layout_height="wrap_content"
     app:dampingRatio="0.5"
     app:dotsColor="@color/material_white"
+    app:dotsStrokeColor="@color/material_yellow"
     app:dotsCornerRadius="2dp"
     app:dotsSize="16dp"
     app:dotsSpacing="6dp"
@@ -86,7 +87,8 @@ dependencies {
 #### Custom Attributes
 | Attribute | Description |
 | --- | --- |
-| `dotsColor` | Color of the dots |
+| `dotsColor` | Color of the indicator dot |
+| `dotsColor` | Color of the stroke dots (by default the indicator color) |
 | `dotsSize` | Size in dp of the dots (by default 16dp) |
 | `dotsSpacing` | Size in dp of the space between the dots (by default 4dp) |
 | `dotsCornerRadius` | The dots corner radius (by default the half of dotsSize for circularity) |
@@ -123,6 +125,7 @@ dependencies {
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:dotsColor="@color/material_blueA200"
+    app:dotsStrokeColor="@color/material_yellow"
     app:dotsCornerRadius="8dp"
     app:dotsSize="16dp"
     app:dotsSpacing="4dp"
@@ -133,7 +136,8 @@ dependencies {
 #### Custom Attributes
 | Attribute | Description |
 | --- | --- |
-| `dotsColor` | Color of the dots |
+| `dotsColor` | Color of the indicator dot |
+| `dotsColor` | Color of the stroke dots (by default the indicator color) |
 | `dotsSize` | Size in dp of the dots (by default 16dp) |
 | `dotsSpacing` | Size in dp of the space between the dots (by default 4dp) |
 | `dotsCornerRadius` | The dots corner radius (by default the half of dotsSize for circularity) |
@@ -156,6 +160,10 @@ dependencies {
     viewPager.adapter = adapter
     wormDotsIndicator.setViewPager(viewPager)
 ```
+
+## Changelog
+### 2.1.0
+- Add attribute `dotsStrokeColor` to `SpringDotsIndicator` and `WormDotsIndicator`
 
 ## License
     Copyright 2016 Tommy Buonomo
