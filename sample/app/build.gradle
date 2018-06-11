@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 27
+  compileSdkVersion 28
   defaultConfig {
     applicationId "com.tbuonomo.dotsindicatorsample"
     minSdkVersion 19
-    targetSdkVersion 27
+    targetSdkVersion 28
     versionCode 1
     versionName "1.0"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -18,8 +18,8 @@ android {
   }
 }
 
-def androidSupportVersion = '27.1.1'
-def constraintLayoutVersion = '1.1.0'
+def androidSupportVersion = '28.0.0-alpha3'
+def constraintLayoutVersion = '1.1.1'
 
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -27,9 +27,9 @@ dependencies {
   implementation "com.android.support:cardview-v7:$androidSupportVersion"
   implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
   testImplementation 'junit:junit:4.12'
-  androidTestImplementation 'com.android.support.test:runner:1.0.1'
-  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+  androidTestImplementation 'com.android.support.test:runner:1.0.2'
+  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-//  implementation project(':viewpagerdotsindicator')
-  implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:2.0.2'
+  implementation project(':viewpagerdotsindicator')
+//  implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:2.0.2'
 }

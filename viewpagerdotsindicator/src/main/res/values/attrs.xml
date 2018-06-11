@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <attr format="color" name="dotsColor"/>
+  <attr format="color" name="dotsStrokeColor"/>
   <attr format="dimension" name="dotsSize"/>
   <attr format="float" name="dotsWidthFactor"/>
   <attr format="dimension" name="dotsSpacing"/>
@@ -23,6 +24,7 @@
     <attr name="dotsSpacing"/>
     <attr name="dotsCornerRadius"/>
     <attr name="dotsStrokeWidth"/>
+    <attr name="dotsStrokeColor"/>
     <attr name="stiffness"/>
     <attr name="dampingRatio"/>
   </declare-styleable>
@@ -33,5 +35,6 @@
     <attr name="dotsSpacing"/>
     <attr name="dotsCornerRadius"/>
     <attr name="dotsStrokeWidth"/>
+    <attr name="dotsStrokeColor"/>
   </declare-styleable>
 </resources>

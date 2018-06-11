@@ -3,7 +3,6 @@ package com.tbuonomo.viewpagerdotsindicator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.animation.FloatPropertyCompat;
 import android.support.animation.SpringAnimation;
@@ -19,16 +18,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import com.tbuonomo.viewpagerdotsindicator.R;
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.widget.LinearLayout.HORIZONTAL;
+import static com.tbuonomo.viewpagerdotsindicator.UiUtils.getThemePrimaryColor;
 
 public class WormDotsIndicator extends FrameLayout {
-  private static final int DEFAULT_POINT_COLOR = Color.CYAN;
-
   private List<ImageView> strokeDots;
+  private ImageView dotIndicatorView;
   private View dotIndicatorLayout;
   private ViewPager viewPager;
 
@@ -37,7 +35,8 @@ public class WormDotsIndicator extends FrameLayout {
   private int dotsSpacing;
   private int dotsStrokeWidth;
   private int dotsCornerRadius;
-  private int dotsColor;
+  private int dotIndicatorColor;
+  private int dotsStrokeColor;
 
   private int horizontalMargin;
   private SpringAnimation dotIndicatorXSpring;
@@ -46,28 +45,20 @@ public class WormDotsIndicator extends FrameLayout {
 
   private boolean dotsClickable;
   private ViewPager.OnPageChangeListener pageChangedListener;
-  private ImageView dotIndicatorView;
 
   public WormDotsIndicator(Context context) {
-    super(context);
-    init(context, null);
+    this(context, null);
   }
 
   public WormDotsIndicator(Context context, AttributeSet attrs) {
-    super(context, attrs);
-    init(context, attrs);
+    this(context, attrs, 0);
   }
 
   public WormDotsIndicator(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
-    init(context, attrs);
-  }
-
-  private void init(Context context, AttributeSet attrs) {
     strokeDots = new ArrayList<>();
     strokeDotsLinearLayout = new LinearLayout(context);
-    LayoutParams linearParams =
-        new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    LayoutParams linearParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     horizontalMargin = dpToPx(24);
     linearParams.setMargins(horizontalMargin, 0, horizontalMargin, 0);
     strokeDotsLinearLayout.setLayoutParams(linearParams);
@@ -78,27 +69,24 @@ public class WormDotsIndicator extends FrameLayout {
     dotsSpacing = dpToPx(4); // 4dp
     dotsStrokeWidth = dpToPx(2); // 2dp
     dotsCornerRadius = dotsSize / 2;
-    dotsColor = DEFAULT_POINT_COLOR;
+    dotIndicatorColor = getThemePrimaryColor(context);
+    dotsStrokeColor = dotIndicatorColor;
     dotsClickable = true;
 
     if (attrs != null) {
       TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.WormDotsIndicator);
 
       // Dots attributes
-      dotsColor = a.getColor(R.styleable.WormDotsIndicator_dotsColor, DEFAULT_POINT_COLOR);
-      setUpCircleColors(dotsColor);
+      dotIndicatorColor = a.getColor(R.styleable.WormDotsIndicator_dotsColor, dotIndicatorColor);
+      dotsStrokeColor = a.getColor(R.styleable.WormDotsIndicator_dotsStrokeColor, dotIndicatorColor);
       dotsSize = (int) a.getDimension(R.styleable.WormDotsIndicator_dotsSize, dotsSize);
       dotsSpacing = (int) a.getDimension(R.styleable.WormDotsIndicator_dotsSpacing, dotsSpacing);
-      dotsCornerRadius =
-          (int) a.getDimension(R.styleable.WormDotsIndicator_dotsCornerRadius, dotsSize / 2);
+      dotsCornerRadius = (int) a.getDimension(R.styleable.WormDotsIndicator_dotsCornerRadius, dotsSize / 2);
 
       // Spring dots attributes
-      dotsStrokeWidth =
-          (int) a.getDimension(R.styleable.WormDotsIndicator_dotsStrokeWidth, dotsStrokeWidth);
+      dotsStrokeWidth = (int) a.getDimension(R.styleable.WormDotsIndicator_dotsStrokeWidth, dotsStrokeWidth);
 
       a.recycle();
-    } else {
-      setUpCircleColors(DEFAULT_POINT_COLOR);
     }
 
     if (isInEditMode()) {
@@ -126,8 +114,7 @@ public class WormDotsIndicator extends FrameLayout {
       }
       setUpDotsAnimators();
     } else {
-      Log.e(WormDotsIndicator.class.getSimpleName(),
-          "You have to set an adapter to the view pager before !");
+      Log.e(WormDotsIndicator.class.getSimpleName(), "You have to set an adapter to the view pager before !");
     }
   }
 
@@ -165,10 +152,7 @@ public class WormDotsIndicator extends FrameLayout {
       final int finalI = i;
       dot.setOnClickListener(new OnClickListener() {
         @Override public void onClick(View v) {
-          if (dotsClickable
-              && viewPager != null
-              && viewPager.getAdapter() != null
-              && finalI < viewPager.getAdapter().getCount()) {
+          if (dotsClickable && viewPager != null && viewPager.getAdapter() != null && finalI < viewPager.getAdapter().getCount()) {
             viewPager.setCurrentItem(finalI, true);
           }
         }
@@ -180,26 +164,28 @@ public class WormDotsIndicator extends FrameLayout {
   }
 
   private ViewGroup buildDot(boolean stroke) {
-    ViewGroup dot = (ViewGroup) LayoutInflater.from(getContext())
-        .inflate(R.layout.worm_dot_layout, this, false);
+    ViewGroup dot = (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.worm_dot_layout, this, false);
     View dotImageView = dot.findViewById(R.id.worm_dot);
-    dotImageView.setBackground(ContextCompat.getDrawable(getContext(),
-        stroke ? R.drawable.worm_dot_stroke_background : R.drawable.worm_dot_background));
-    RelativeLayout.LayoutParams params =
-        (RelativeLayout.LayoutParams) dotImageView.getLayoutParams();
+    dotImageView.setBackground(
+        ContextCompat.getDrawable(getContext(), stroke ? R.drawable.worm_dot_stroke_background : R.drawable.worm_dot_background));
+    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dotImageView.getLayoutParams();
     params.width = params.height = dotsSize;
     params.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 
     params.setMargins(dotsSpacing, 0, dotsSpacing, 0);
 
+    setUpDotBackground(stroke, dotImageView);
+    return dot;
+  }
+
+  private void setUpDotBackground(boolean stroke, View dotImageView) {
     GradientDrawable dotBackground = (GradientDrawable) dotImageView.getBackground();
     if (stroke) {
-      dotBackground.setStroke(dotsStrokeWidth, dotsColor);
+      dotBackground.setStroke(dotsStrokeWidth, dotsStrokeColor);
     } else {
-      dotBackground.setColor(dotsColor);
+      dotBackground.setColor(dotIndicatorColor);
     }
     dotBackground.setCornerRadius(dotsCornerRadius);
-    return dot;
   }
 
   private void removeDots(int count) {
@@ -210,9 +196,7 @@ public class WormDotsIndicator extends FrameLayout {
   }
 
   private void setUpDotsAnimators() {
-    if (viewPager != null
-        && viewPager.getAdapter() != null
-        && viewPager.getAdapter().getCount() > 0) {
+    if (viewPager != null && viewPager.getAdapter() != null && viewPager.getAdapter().getCount() > 0) {
       if (pageChangedListener != null) {
         viewPager.removeOnPageChangeListener(pageChangedListener);
       }
@@ -223,8 +207,7 @@ public class WormDotsIndicator extends FrameLayout {
 
   private void setUpOnPageChangedListener() {
     pageChangedListener = new ViewPager.OnPageChangeListener() {
-      @Override
-      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+      @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         int stepX = dotsSize + dotsSpacing * 2;
         float xFinalPosition;
         float widthFinalPosition;
@@ -265,14 +248,6 @@ public class WormDotsIndicator extends FrameLayout {
     };
   }
 
-  private void setUpCircleColors(int color) {
-    if (strokeDots != null) {
-      for (ImageView dot : strokeDots) {
-        ((GradientDrawable) dot.getBackground()).setColor(color);
-      }
-    }
-  }
-
   private void setUpViewPager() {
     if (viewPager.getAdapter() != null) {
       viewPager.getAdapter().registerDataSetObserver(new DataSetObserver() {
@@ -292,10 +267,34 @@ public class WormDotsIndicator extends FrameLayout {
   // Users Methods
   //*********************************************************
 
-  public void setPointsColor(int color) {
-    setUpCircleColors(color);
+  /**
+   * Set the indicator dot color.
+   *
+   * @param color the color fo the indicator dot.
+   */
+  public void setDotIndicatorColor(int color) {
+    if (dotIndicatorView != null) {
+      dotIndicatorColor = color;
+      setUpDotBackground(false, dotIndicatorView);
+    }
   }
 
+  /**
+   * Set the stroke indicator dots color.
+   *
+   * @param color the color fo the stroke indicator dots.
+   */
+  public void setStrokeDotsIndicatorColor(int color) {
+    if (strokeDots != null && !strokeDots.isEmpty()) {
+      for (ImageView v : strokeDots) {
+        setUpDotBackground(true, v);
+      }
+    }
+  }
+
+  /**
+   * Determine if the stroke dots are clickable to go the a page directly.
+   */
   public void setDotsClickable(boolean dotsClickable) {
     this.dotsClickable = dotsClickable;
   }
