@@ -1,4 +1,5 @@
 # Material View Pager Dots Indicator
+ [ ![Download](https://api.bintray.com/packages/tbuonomo/maven/dots-indicator/images/download.svg) ](https://bintray.com/tbuonomo/maven/dots-indicator/_latestVersion)
 
 This library makes it possible to represent View Pager Dots Indicator with 3 different awesome styles !
 
