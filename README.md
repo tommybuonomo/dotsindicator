@@ -1,5 +1,6 @@
 # Material View Pager Dots Indicator
- [ ![Download](https://api.bintray.com/packages/tbuonomo/maven/dots-indicator/images/download.svg) ](https://bintray.com/tbuonomo/maven/dots-indicator/_latestVersion)
+   <a href="https://github.com/JStumpp/awesome-android"><img alt="awesome" src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" /></a>
+[ ![Download](https://api.bintray.com/packages/tbuonomo/maven/dots-indicator/images/download.svg) ](https://bintray.com/tbuonomo/maven/dots-indicator/_latestVersion)
 
 This library makes it possible to represent View Pager Dots Indicator with 3 different awesome styles !
 
