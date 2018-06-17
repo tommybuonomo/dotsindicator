@@ -1,3 +1,0 @@
-include ':app', ':viewpagerdotsindicator'
-
-project(':viewpagerdotsindicator').projectDir = new File('../viewpagerdotsindicator')
