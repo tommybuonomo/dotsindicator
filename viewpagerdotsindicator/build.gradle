@@ -51,11 +51,14 @@ artifacts {
 }
 
 bintray {
-  def Properties localProps = new Properties()
-  localProps.load(new FileInputStream(file('local.properties')))
+  Properties localProps = new Properties()
+  def propertiesFile = file('local.properties')
+  if (propertiesFile.exists()) {
+    localProps.load(new FileInputStream(propertiesFile))
+    user = localProps.getProperty("bintrayUser")
+    key = localProps.getProperty("bintrayApiKey")
+  }
 
-  user = localProps.getProperty("bintrayUser")
-  key = localProps.getProperty("bintrayApiKey")
   pkg {
     repo = 'maven'
     name = 'dots-indicator'
