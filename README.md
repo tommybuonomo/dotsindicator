@@ -11,7 +11,8 @@ __Check out the sample demo:__ [![sampledemo](https://user-images.githubusercont
 Don't forget to star the project if you like it! 
 ![star](https://user-images.githubusercontent.com/15737675/39397370-85f5b294-4afe-11e8-9c02-0dfdf014136a.png)
  == ![heart](https://user-images.githubusercontent.com/15737675/39397367-6e312c2e-4afe-11e8-9fbf-32001b0165a1.png)
-
+ 
+ Feel free to submit issues and enhancement requests !
 
 ![ezgif com-optimize](https://user-images.githubusercontent.com/15737675/38327474-981fcae0-3848-11e8-84f9-f3fefcc25ca6.gif)
 ![ezgif com-crop 8](https://user-images.githubusercontent.com/15737675/38330761-b64c7f3c-3851-11e8-9268-235ba8638467.gif)
