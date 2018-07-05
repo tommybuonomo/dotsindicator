@@ -152,7 +152,7 @@ public class SpringDotsIndicator extends FrameLayout {
         }
       });
 
-      strokeDots.add((ImageView) dot.findViewById(R.id.dot));
+      strokeDots.add((ImageView) dot.findViewById(R.id.spring_dot));
       strokeDotsLinearLayout.addView(dot);
     }
   }

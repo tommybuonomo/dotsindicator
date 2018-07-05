@@ -158,7 +158,7 @@ public class WormDotsIndicator extends FrameLayout {
         }
       });
 
-      strokeDots.add((ImageView) dot.findViewById(R.id.dot));
+      strokeDots.add((ImageView) dot.findViewById(R.id.worm_dot));
       strokeDotsLinearLayout.addView(dot);
     }
   }
