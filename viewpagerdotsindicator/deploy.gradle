@@ -4,7 +4,7 @@ apply plugin: 'com.jfrog.bintray'
 ext {
   groupId = 'com.tbuonomo.andrui' // package name of the project
   artifactId = "viewpagerdotsindicator" // module name of the library
-  libVersion = "2.1.0"
+  libVersion = "2.1.1"
 }
 version = libVersion
 group = groupId
@@ -19,7 +19,7 @@ bintray {
     user = props.getProperty("bintrayUser")
   }
   configurations = ['archives']
-  publish = false //[Default: false] Whether version should be auto published after an upload
+  publish = true //[Default: false] Whether version should be auto published after an upload
   override = false //[Default: false] Whether to override version artifacts already published
   // Package configuration. The plugin will use the repo and name properties to check if the
   // package already exists. In that case, there's no need to configure the other package

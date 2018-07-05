@@ -21,7 +21,7 @@ Don't forget to star the project if you like it!
 #### Gradle
 ```Gradle
 dependencies {
-    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:2.1.0'
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:2.1.1'
 }
 ```
 ## DotsIndicator 
