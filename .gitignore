@@ -40,4 +40,6 @@ local.properties
 
 /keystore
 /sample/app/release
+/*/keystore.properties
+keystore.properties
 
