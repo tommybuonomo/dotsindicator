@@ -286,6 +286,7 @@ public class WormDotsIndicator extends FrameLayout {
    */
   public void setStrokeDotsIndicatorColor(int color) {
     if (strokeDots != null && !strokeDots.isEmpty()) {
+      dotsStrokeColor = color;
       for (ImageView v : strokeDots) {
         setUpDotBackground(true, v);
       }
@@ -294,6 +295,8 @@ public class WormDotsIndicator extends FrameLayout {
 
   /**
    * Determine if the stroke dots are clickable to go the a page directly.
+   *
+   * @param dotsClickable true if dots are clickables.
    */
   public void setDotsClickable(boolean dotsClickable) {
     this.dotsClickable = dotsClickable;
