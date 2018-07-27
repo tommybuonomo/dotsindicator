@@ -18,8 +18,8 @@ android {
   }
 }
 
-def androidSupportVersion = '28.0.0-alpha3'
-def constraintLayoutVersion = '1.1.1'
+def androidSupportVersion = '28.0.0-beta01'
+def constraintLayoutVersion = '1.1.2'
 
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
