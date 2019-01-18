@@ -10,6 +10,7 @@
   <attr format="dimension" name="dotsStrokeWidth"/>
   <attr format="float" name="stiffness"/>
   <attr format="float" name="dampingRatio"/>
+  <attr format="boolean" name="progressMode"/>
 
   <declare-styleable name="DotsIndicator">
     <attr name="dotsColor"/>
@@ -18,6 +19,7 @@
     <attr name="dotsWidthFactor"/>
     <attr name="dotsSpacing"/>
     <attr name="dotsCornerRadius"/>
+    <attr name="progressMode"/>
   </declare-styleable>
 
   <declare-styleable name="SpringDotsIndicator">

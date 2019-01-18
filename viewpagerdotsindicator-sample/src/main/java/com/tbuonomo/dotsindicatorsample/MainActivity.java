@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
 
     DotsIndicator dotsIndicator = findViewById(R.id.dots_indicator);
+    DotsIndicator dotsIndicatorProgress = findViewById(R.id.dots_indicator_progress);
     SpringDotsIndicator springDotsIndicator = findViewById(R.id.spring_dots_indicator);
     WormDotsIndicator wormDotsIndicator = findViewById(R.id.worm_dots_indicator);
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
     dotsIndicator.setViewPager(viewPager);
+    dotsIndicatorProgress.setViewPager(viewPager);
     springDotsIndicator.setViewPager(viewPager);
     wormDotsIndicator.setViewPager(viewPager);
   }

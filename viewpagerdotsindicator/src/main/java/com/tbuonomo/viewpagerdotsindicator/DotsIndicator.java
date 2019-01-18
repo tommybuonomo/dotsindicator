@@ -31,6 +31,7 @@ public class DotsIndicator extends LinearLayout {
   private float dotsWidthFactor;
   private int dotsColor;
   private int selectedDotsColor;
+  private boolean progressMode;
 
   private boolean dotsClickable;
   private ViewPager.OnPageChangeListener pageChangedListener;
@@ -79,6 +80,8 @@ public class DotsIndicator extends LinearLayout {
       dotsCornerRadius =
           (int) a.getDimension(R.styleable.DotsIndicator_dotsCornerRadius, dotsSize / 2);
       dotsSpacing = a.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotsSpacing);
+
+      progressMode = a.getBoolean(R.styleable.DotsIndicator_progressMode, false);
 
       a.recycle();
     }
@@ -220,11 +223,23 @@ public class DotsIndicator extends LinearLayout {
             if (nextDot != null) {
                 DotsGradientDrawable selectedDotBackground = (DotsGradientDrawable) selectedDot.getBackground();
                 DotsGradientDrawable nextDotBackground = (DotsGradientDrawable) nextDot.getBackground();
-                buffer[1] = (int) argbEvaluator.evaluate(positionOffset, dotsColor, selectedDotsColor);
-                buffer[0] = (int) argbEvaluator.evaluate(positionOffset, selectedDotsColor, dotsColor);
 
-                selectedDotBackground.setColor(buffer[0]);
+
+                buffer[0] = (int) argbEvaluator.evaluate(positionOffset, selectedDotsColor, dotsColor);
+                buffer[1] = (int) argbEvaluator.evaluate(positionOffset, dotsColor, selectedDotsColor);
+
                 nextDotBackground.setColor(buffer[1]);
+
+                if(progressMode) {
+                    if (position > currentPage) {
+                        selectedDotBackground.setColor(buffer[0]);
+                    } else {
+                        selectedDotBackground.setColor(selectedDotsColor);
+                    }
+                } else {
+                    selectedDotBackground.setColor(buffer[0]);
+                }
+
                 invalidate();
             }
 
