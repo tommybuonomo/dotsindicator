@@ -1,10 +1,10 @@
 package com.tbuonomo.viewpagerdotsindicator;
 
+import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import com.tbuonomo.viewpagerdotsindicator.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +30,12 @@ public class DotsIndicator extends LinearLayout {
   private int currentPage;
   private float dotsWidthFactor;
   private int dotsColor;
+  private int selectedDotsColor;
 
   private boolean dotsClickable;
   private ViewPager.OnPageChangeListener pageChangedListener;
+
+  private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
 
   public DotsIndicator(Context context) {
     super(context);
@@ -65,7 +68,7 @@ public class DotsIndicator extends LinearLayout {
       TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.DotsIndicator);
 
       dotsColor = a.getColor(R.styleable.DotsIndicator_dotsColor, DEFAULT_POINT_COLOR);
-      setUpCircleColors(dotsColor);
+      selectedDotsColor = a.getColor(R.styleable.DotsIndicator_selectedDotsColor, DEFAULT_POINT_COLOR);
 
       dotsWidthFactor = a.getFloat(R.styleable.DotsIndicator_dotsWidthFactor, 2.5f);
       if (dotsWidthFactor < 1) {
@@ -78,9 +81,9 @@ public class DotsIndicator extends LinearLayout {
       dotsSpacing = a.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotsSpacing);
 
       a.recycle();
-    } else {
-      setUpCircleColors(DEFAULT_POINT_COLOR);
     }
+
+    setUpCircleColors();
 
     if (isInEditMode()) {
       addDots(5);
@@ -115,8 +118,10 @@ public class DotsIndicator extends LinearLayout {
           (RelativeLayout.LayoutParams) imageView.getLayoutParams();
       params.width = params.height = (int) dotsSize;
       params.setMargins((int) dotsSpacing, 0, (int) dotsSpacing, 0);
-      ((GradientDrawable) imageView.getBackground()).setCornerRadius(dotsCornerRadius);
-      ((GradientDrawable) imageView.getBackground()).setColor(dotsColor);
+      DotsGradientDrawable background = new DotsGradientDrawable();
+      background.setCornerRadius(dotsCornerRadius);
+      background.setColor(currentPage == i ? selectedDotsColor : dotsColor);
+      imageView.setBackground(background);
 
       final int finalI = i;
       dot.setOnClickListener(new OnClickListener() {
@@ -178,61 +183,84 @@ public class DotsIndicator extends LinearLayout {
 
   private void setUpOnPageChangedListener() {
     pageChangedListener = new ViewPager.OnPageChangeListener() {
-      private int lastPage;
 
-      @Override
-      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (position != currentPage && positionOffset == 0 || currentPage < position) {
-          setDotWidth(dots.get(currentPage), (int) dotsSize);
-          currentPage = position;
+        private int lastPage;
+
+        private int[] buffer = new int[2];
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            ImageView selectedDot = dots.get(currentPage);
+            if (position != currentPage && positionOffset == 0 || currentPage < position) {
+                setDotWidth(selectedDot, (int) dotsSize);
+                currentPage = position;
+            }
+
+            if (Math.abs(currentPage - position) > 1) {
+                setDotWidth(selectedDot, (int) dotsSize);
+                currentPage = lastPage;
+            }
+
+            ImageView nextDot = null;
+            if (currentPage == position && currentPage + 1 < dots.size()) {
+                nextDot = dots.get(currentPage + 1);
+            } else if (currentPage > position) {
+                nextDot = selectedDot;
+                selectedDot = dots.get(currentPage - 1);
+            }
+
+            int dotWidth = (int) (dotsSize + (dotsSize * (dotsWidthFactor - 1) * (1 - positionOffset)));
+            setDotWidth(selectedDot, dotWidth);
+
+            if (nextDot != null) {
+                int nextDotWidth = (int) (dotsSize + (dotsSize * (dotsWidthFactor - 1) * (positionOffset)));
+                setDotWidth(nextDot, nextDotWidth);
+            }
+
+            if (nextDot != null) {
+                DotsGradientDrawable selectedDotBackground = (DotsGradientDrawable) selectedDot.getBackground();
+                DotsGradientDrawable nextDotBackground = (DotsGradientDrawable) nextDot.getBackground();
+                buffer[1] = (int) argbEvaluator.evaluate(positionOffset, dotsColor, selectedDotsColor);
+                buffer[0] = (int) argbEvaluator.evaluate(positionOffset, selectedDotsColor, dotsColor);
+
+                selectedDotBackground.setColor(buffer[0]);
+                nextDotBackground.setColor(buffer[1]);
+                invalidate();
+            }
+
+            lastPage = position;
         }
 
-        if (Math.abs(currentPage - position) > 1) {
-          setDotWidth(dots.get(currentPage), (int) dotsSize);
-          currentPage = lastPage;
+        private void setDotWidth(ImageView dot, int dotWidth) {
+            ViewGroup.LayoutParams dotParams = dot.getLayoutParams();
+            dotParams.width = dotWidth;
+            dot.setLayoutParams(dotParams);
         }
 
-        ImageView dot = dots.get(currentPage);
-
-        ImageView nextDot = null;
-        if (currentPage == position && currentPage + 1 < dots.size()) {
-          nextDot = dots.get(currentPage + 1);
-        } else if (currentPage > position) {
-          nextDot = dot;
-          dot = dots.get(currentPage - 1);
+        @Override
+        public void onPageSelected(int position) {
         }
 
-        int dotWidth = (int) (dotsSize + (dotsSize * (dotsWidthFactor - 1) * (1 - positionOffset)));
-        setDotWidth(dot, dotWidth);
-
-        if (nextDot != null) {
-          int nextDotWidth =
-              (int) (dotsSize + (dotsSize * (dotsWidthFactor - 1) * (positionOffset)));
-          setDotWidth(nextDot, nextDotWidth);
+        @Override
+        public void onPageScrollStateChanged(int state) {
         }
-
-        lastPage = position;
-      }
-
-      private void setDotWidth(ImageView dot, int dotWidth) {
-        ViewGroup.LayoutParams dotParams = dot.getLayoutParams();
-        dotParams.width = dotWidth;
-        dot.setLayoutParams(dotParams);
-      }
-
-      @Override public void onPageSelected(int position) {
-      }
-
-      @Override public void onPageScrollStateChanged(int state) {
-      }
     };
   }
 
-  private void setUpCircleColors(int color) {
-    if (dots != null) {
-      for (ImageView elevationItem : dots) {
-        ((GradientDrawable) elevationItem.getBackground()).setColor(color);
-      }
+  private void setUpCircleColors() {
+    if (dots == null) {
+      return;
+    }
+    for (int i = 0; i < dots.size(); i++) {
+      ImageView elevationItem = dots.get(i);
+      DotsGradientDrawable background = (DotsGradientDrawable) elevationItem.getBackground();
+      if (i == currentPage)
+        background.setColor(selectedDotsColor);
+      else
+        background.setColor(dotsColor);
+
+      elevationItem.setBackground(background);
+      elevationItem.invalidate();
     }
   }
 
@@ -255,8 +283,15 @@ public class DotsIndicator extends LinearLayout {
   // Users Methods
   //*********************************************************
 
+
   public void setPointsColor(int color) {
-    setUpCircleColors(color);
+    dotsColor = color;
+    setUpCircleColors();
+  }
+
+  public void setSelectedPointColor(int color) {
+    selectedDotsColor = color;
+    setUpCircleColors();
   }
 
   public void setDotsClickable(boolean dotsClickable) {

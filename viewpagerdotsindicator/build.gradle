@@ -22,8 +22,8 @@ android {
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   testImplementation 'junit:junit:4.12'
-  implementation 'com.android.support:appcompat-v7:28.0.0-beta01'
-  implementation 'com.android.support:support-dynamic-animation:28.0.0-beta01'
+  implementation 'com.android.support:appcompat-v7:28.0.0'
+  implementation 'com.android.support:support-dynamic-animation:28.0.0'
 }
 
 buildscript {
@@ -31,8 +31,8 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-    classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
   }
 }
 

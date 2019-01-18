@@ -49,6 +49,7 @@
       app:dotsSize="16dp"
       app:dotsSpacing="4dp"
       app:dotsWidthFactor="2.5"
+      app:selectedDotsColor="@color/md_black_1000"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="@+id/guideline"
