@@ -239,6 +239,7 @@ public class DotsIndicator extends LinearLayout {
 
         @Override
         public void onPageSelected(int position) {
+            currentPage = position;
         }
 
         @Override
