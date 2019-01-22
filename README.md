@@ -165,6 +165,11 @@ dependencies {
     wormDotsIndicator.setViewPager(viewPager)
 ```
 
+## Help Maintenance
+If you could help me to continue maintain this repo, buying me a cup of coffee will make my life really happy and get much energy out of it.
+
+<a href="https://www.buymeacoffee.com/tommybuonomo" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+
 ## Changelog
 ### 2.1.0
 - Add attribute `dotsStrokeColor` to `SpringDotsIndicator` and `WormDotsIndicator`
