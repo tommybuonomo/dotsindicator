@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <attr format="color" name="dotsColor"/>
+  <attr format="color" name="selectedDotsColor"/>
   <attr format="color" name="dotsStrokeColor"/>
   <attr format="dimension" name="dotsSize"/>
   <attr format="float" name="dotsWidthFactor"/>
@@ -9,13 +10,16 @@
   <attr format="dimension" name="dotsStrokeWidth"/>
   <attr format="float" name="stiffness"/>
   <attr format="float" name="dampingRatio"/>
+  <attr format="boolean" name="progressMode"/>
 
   <declare-styleable name="DotsIndicator">
     <attr name="dotsColor"/>
+    <attr name="selectedDotsColor"/>
     <attr name="dotsSize"/>
     <attr name="dotsWidthFactor"/>
     <attr name="dotsSpacing"/>
     <attr name="dotsCornerRadius"/>
+    <attr name="progressMode"/>
   </declare-styleable>
 
   <declare-styleable name="SpringDotsIndicator">
