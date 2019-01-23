@@ -65,7 +65,7 @@ public class DotsIndicator extends LinearLayout {
       TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.DotsIndicator);
 
       dotsColor = a.getColor(R.styleable.DotsIndicator_dotsColor, DEFAULT_POINT_COLOR);
-      selectedDotColor = a.getColor(R.styleable.DotsIndicator_selectedDotsColor, DEFAULT_POINT_COLOR);
+      selectedDotColor = a.getColor(R.styleable.DotsIndicator_selectedDotColor, DEFAULT_POINT_COLOR);
 
       dotsWidthFactor = a.getFloat(R.styleable.DotsIndicator_dotsWidthFactor, 2.5f);
       if (dotsWidthFactor < 1) {
