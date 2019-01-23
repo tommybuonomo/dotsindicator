@@ -38,7 +38,7 @@ dependencies {
     app:dotsSize="16dp"
     app:dotsSpacing="4dp"
     app:dotsWidthFactor="2.5"
-    app:selectedDotsColor="@color/md_blue_200"
+    app:selectedDotColor="@color/md_blue_200"
     app:progressMode="true"
     />
 ```
