@@ -28,7 +28,7 @@ public class DotsIndicator extends LinearLayout {
   private float dotsSpacing;
   private float dotsWidthFactor;
   private int dotsColor;
-  private int selectedDotsColor;
+  private int selectedDotColor;
   private boolean progressMode;
 
   private boolean dotsClickable;
@@ -65,7 +65,7 @@ public class DotsIndicator extends LinearLayout {
       TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.DotsIndicator);
 
       dotsColor = a.getColor(R.styleable.DotsIndicator_dotsColor, DEFAULT_POINT_COLOR);
-      selectedDotsColor = a.getColor(R.styleable.DotsIndicator_selectedDotsColor, DEFAULT_POINT_COLOR);
+      selectedDotColor = a.getColor(R.styleable.DotsIndicator_selectedDotsColor, DEFAULT_POINT_COLOR);
 
       dotsWidthFactor = a.getFloat(R.styleable.DotsIndicator_dotsWidthFactor, 2.5f);
       if (dotsWidthFactor < 1) {
@@ -127,9 +127,9 @@ public class DotsIndicator extends LinearLayout {
       DotsGradientDrawable background = new DotsGradientDrawable();
       background.setCornerRadius(dotsCornerRadius);
       if (isInEditMode()) {
-        background.setColor(0 == i ? selectedDotsColor : dotsColor);
+        background.setColor(0 == i ? selectedDotColor : dotsColor);
       } else {
-        background.setColor(viewPager.getCurrentItem() == i ? selectedDotsColor : dotsColor);
+        background.setColor(viewPager.getCurrentItem() == i ? selectedDotColor : dotsColor);
       }
       imageView.setBackground(background);
 
@@ -190,14 +190,14 @@ public class DotsIndicator extends LinearLayout {
           DotsGradientDrawable selectedDotBackground = (DotsGradientDrawable) selectedDot.getBackground();
           DotsGradientDrawable nextDotBackground = (DotsGradientDrawable) nextDot.getBackground();
 
-          if (selectedDotsColor != dotsColor) {
-            int selectedColor = (int) argbEvaluator.evaluate(positionOffset, selectedDotsColor, dotsColor);
-            int nextColor = (int) argbEvaluator.evaluate(positionOffset, dotsColor, selectedDotsColor);
+          if (selectedDotColor != dotsColor) {
+            int selectedColor = (int) argbEvaluator.evaluate(positionOffset, selectedDotColor, dotsColor);
+            int nextColor = (int) argbEvaluator.evaluate(positionOffset, dotsColor, selectedDotColor);
 
             nextDotBackground.setColor(nextColor);
 
             if (progressMode && selectedPosition <= viewPager.getCurrentItem()) {
-              selectedDotBackground.setColor(selectedDotsColor);
+              selectedDotBackground.setColor(selectedDotColor);
             } else {
               selectedDotBackground.setColor(selectedColor);
             }
@@ -232,7 +232,7 @@ public class DotsIndicator extends LinearLayout {
       DotsGradientDrawable background = (DotsGradientDrawable) elevationItem.getBackground();
 
       if (i == viewPager.getCurrentItem() || (progressMode && i < viewPager.getCurrentItem())) {
-        background.setColor(selectedDotsColor);
+        background.setColor(selectedDotColor);
       } else {
         background.setColor(dotsColor);
       }
@@ -276,7 +276,7 @@ public class DotsIndicator extends LinearLayout {
   }
 
   public void setSelectedPointColor(int color) {
-    selectedDotsColor = color;
+    selectedDotColor = color;
     refreshDotsColors();
   }
 

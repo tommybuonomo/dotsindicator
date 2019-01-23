@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <attr format="color" name="dotsColor"/>
-  <attr format="color" name="selectedDotsColor"/>
+  <attr format="color" name="selectedDotColor"/>
   <attr format="color" name="dotsStrokeColor"/>
   <attr format="dimension" name="dotsSize"/>
   <attr format="float" name="dotsWidthFactor"/>
