@@ -26,14 +26,12 @@ public class DotsIndicator extends LinearLayout {
   private float dotsSize;
   private float dotsCornerRadius;
   private float dotsSpacing;
-  private int currentPage;
   private float dotsWidthFactor;
   private int dotsColor;
   private int selectedDotsColor;
   private boolean progressMode;
 
   private boolean dotsClickable;
-  private ViewPager.OnPageChangeListener pageChangedListener;
 
   private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
 
@@ -74,8 +72,7 @@ public class DotsIndicator extends LinearLayout {
       }
 
       dotsSize = a.getDimension(R.styleable.DotsIndicator_dotsSize, dotsSize);
-      dotsCornerRadius =
-          (int) a.getDimension(R.styleable.DotsIndicator_dotsCornerRadius, dotsSize / 2);
+      dotsCornerRadius = (int) a.getDimension(R.styleable.DotsIndicator_dotsCornerRadius, dotsSize / 2);
       dotsSpacing = a.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotsSpacing);
 
       progressMode = a.getBoolean(R.styleable.DotsIndicator_progressMode, false);
@@ -83,11 +80,11 @@ public class DotsIndicator extends LinearLayout {
       a.recycle();
     }
 
-    setUpCircleColors();
-
     if (isInEditMode()) {
       addDots(5);
     }
+
+    refreshDots();
   }
 
   @Override protected void onAttachedToWindow() {
@@ -98,15 +95,20 @@ public class DotsIndicator extends LinearLayout {
   private void refreshDots() {
     if (viewPager != null && viewPager.getAdapter() != null) {
       // Check if we need to refresh the dots count
-      if (dots.size() < viewPager.getAdapter().getCount()) {
-        addDots(viewPager.getAdapter().getCount() - dots.size());
-      } else if (dots.size() > viewPager.getAdapter().getCount()) {
-        removeDots(dots.size() - viewPager.getAdapter().getCount());
-      }
-      setUpDotsAnimators();
+      refreshDotsCount();
+      refreshDotsColors();
+      refreshDotsSize();
+      refreshOnPageChangedListener();
     } else {
-      Log.e(DotsIndicator.class.getSimpleName(),
-          "You have to set an adapter to the view pager before !");
+      Log.e(DotsIndicator.class.getSimpleName(), "You have to set an adapter to the view pager before !");
+    }
+  }
+
+  private void refreshDotsCount() {
+    if (dots.size() < viewPager.getAdapter().getCount()) {
+      addDots(viewPager.getAdapter().getCount() - dots.size());
+    } else if (dots.size() > viewPager.getAdapter().getCount()) {
+      removeDots(dots.size() - viewPager.getAdapter().getCount());
     }
   }
 
@@ -114,22 +116,19 @@ public class DotsIndicator extends LinearLayout {
     for (int i = 0; i < count; i++) {
       View dot = LayoutInflater.from(getContext()).inflate(R.layout.dot_layout, this, false);
       ImageView imageView = dot.findViewById(R.id.dot);
-      RelativeLayout.LayoutParams params =
-          (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+      RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
       params.width = params.height = (int) dotsSize;
       params.setMargins((int) dotsSpacing, 0, (int) dotsSpacing, 0);
       DotsGradientDrawable background = new DotsGradientDrawable();
       background.setCornerRadius(dotsCornerRadius);
-      background.setColor(currentPage == i ? selectedDotsColor : dotsColor);
+      background.setColor(viewPager.getCurrentItem() == i ? selectedDotsColor : dotsColor);
       imageView.setBackground(background);
 
       final int finalI = i;
       dot.setOnClickListener(new OnClickListener() {
         @Override public void onClick(View v) {
-          if (dotsClickable
-              && viewPager != null
-              && viewPager.getAdapter() != null
-              && finalI < viewPager.getAdapter().getCount()) {
+          if (dotsClickable && viewPager != null && viewPager.getAdapter() != null && finalI < viewPager.getAdapter()
+              .getCount()) {
             viewPager.setCurrentItem(finalI, true);
           }
         }
@@ -147,71 +146,37 @@ public class DotsIndicator extends LinearLayout {
     }
   }
 
-  private void setUpDotsAnimators() {
-    if (viewPager != null
-        && viewPager.getAdapter() != null
-        && viewPager.getAdapter().getCount() > 0) {
-      if (currentPage < dots.size()) {
-        View dot = dots.get(currentPage);
-
-        if (dot != null) {
-          RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dot.getLayoutParams();
-          params.width = (int) dotsSize;
-          dot.setLayoutParams(params);
-        }
-      }
-
-      currentPage = viewPager.getCurrentItem();
-      if (currentPage >= dots.size()) {
-        currentPage = dots.size() - 1;
-        viewPager.setCurrentItem(currentPage, false);
-      }
-      View dot = dots.get(currentPage);
-
-      if (dot != null) {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dot.getLayoutParams();
-        params.width = (int) (dotsSize * dotsWidthFactor);
-        dot.setLayoutParams(params);
-      }
-      if (pageChangedListener != null) {
-        viewPager.removeOnPageChangeListener(pageChangedListener);
-      }
-      setUpOnPageChangedListener();
-      viewPager.addOnPageChangeListener(pageChangedListener);
+  private void refreshOnPageChangedListener() {
+    if (viewPager != null && viewPager.getAdapter() != null && viewPager.getAdapter().getCount() > 0) {
+      viewPager.clearOnPageChangeListeners();
+      OnPageChangeListenerHelper onPageChangeListenerHelper = buildOnPageChangedListener();
+      onPageChangeListenerHelper.onPageScrolled(viewPager.getCurrentItem(), -1, 0f);
+      viewPager.addOnPageChangeListener(onPageChangeListenerHelper);
     }
   }
 
-  private void setUpOnPageChangedListener() {
-    pageChangedListener = new ViewPager.OnPageChangeListener() {
+  private OnPageChangeListenerHelper buildOnPageChangedListener() {
+    return new OnPageChangeListenerHelper() {
+      @Override void onPageScrolled(int selectedPosition, int nextPosition, float positionOffset) {
+        Log.i(DotsIndicator.class.getSimpleName(),
+            "onPageScrolled: selected: " + selectedPosition + " next: " + nextPosition + " offset: " + positionOffset);
 
-      private int lastPage;
-
-      private int[] evaluatedColors = new int[2];
-
-      @Override
-      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        ImageView selectedDot = dots.get(currentPage);
-        if (position != currentPage && positionOffset == 0 || currentPage < position) {
-          setDotWidth(selectedDot, (int) dotsSize);
-          currentPage = position;
+        if (selectedPosition == -1) {
+          return;
         }
 
-        if (Math.abs(currentPage - position) > 1) {
-          setDotWidth(selectedDot, (int) dotsSize);
-          currentPage = lastPage;
+        ImageView selectedDot = dots.get(selectedPosition);
+
+        // Selected dot
+        int selectedDotWidth = (int) (dotsSize + (dotsSize * (dotsWidthFactor - 1) * (1 - positionOffset)));
+        setDotWidth(selectedDot, selectedDotWidth);
+
+        // Next dot
+        if (nextPosition == -1) {
+          return;
         }
 
-        ImageView nextDot = null;
-        if (currentPage == position && currentPage + 1 < dots.size()) {
-          nextDot = dots.get(currentPage + 1);
-        } else if (currentPage > position) {
-          nextDot = selectedDot;
-          selectedDot = dots.get(currentPage - 1);
-        }
-
-        int dotWidth = (int) (dotsSize + (dotsSize * (dotsWidthFactor - 1) * (1 - positionOffset)));
-        setDotWidth(selectedDot, dotWidth);
-
+        ImageView nextDot = dots.get(nextPosition);
         if (nextDot != null) {
           int nextDotWidth = (int) (dotsSize + (dotsSize * (dotsWidthFactor - 1) * (positionOffset)));
           setDotWidth(nextDot, nextDotWidth);
@@ -219,48 +184,48 @@ public class DotsIndicator extends LinearLayout {
           DotsGradientDrawable selectedDotBackground = (DotsGradientDrawable) selectedDot.getBackground();
           DotsGradientDrawable nextDotBackground = (DotsGradientDrawable) nextDot.getBackground();
 
-          evaluatedColors[0] = (int) argbEvaluator.evaluate(positionOffset, selectedDotsColor, dotsColor);
-          evaluatedColors[1] = (int) argbEvaluator.evaluate(positionOffset, dotsColor, selectedDotsColor);
+          if (selectedDotsColor != dotsColor) {
+            int selectedColor = (int) argbEvaluator.evaluate(positionOffset, selectedDotsColor, dotsColor);
+            int nextColor = (int) argbEvaluator.evaluate(positionOffset, dotsColor, selectedDotsColor);
 
-          nextDotBackground.setColor(evaluatedColors[1]);
+            nextDotBackground.setColor(nextColor);
 
-          if (progressMode && position <= currentPage) {
-            selectedDotBackground.setColor(selectedDotsColor);
-          } else {
-            selectedDotBackground.setColor(evaluatedColors[0]);
+            if (progressMode && selectedPosition <= viewPager.getCurrentItem()) {
+              selectedDotBackground.setColor(selectedDotsColor);
+            } else {
+              selectedDotBackground.setColor(selectedColor);
+            }
           }
-
-          invalidate();
         }
 
-        lastPage = position;
+        invalidate();
       }
 
-      private void setDotWidth(ImageView dot, int dotWidth) {
-        ViewGroup.LayoutParams dotParams = dot.getLayoutParams();
-        dotParams.width = dotWidth;
-        dot.setLayoutParams(dotParams);
+      @Override void resetPosition(int position) {
+        setDotWidth(dots.get(position), (int) dotsSize);
       }
 
-      @Override
-      public void onPageSelected(int position) {
-        currentPage = position;
-      }
-
-      @Override
-      public void onPageScrollStateChanged(int state) {
+      @Override int getPageCount() {
+        return dots.size();
       }
     };
   }
 
-  private void setUpCircleColors() {
+  private void setDotWidth(ImageView dot, int dotWidth) {
+    ViewGroup.LayoutParams dotParams = dot.getLayoutParams();
+    dotParams.width = dotWidth;
+    dot.setLayoutParams(dotParams);
+  }
+
+  private void refreshDotsColors() {
     if (dots == null) {
       return;
     }
     for (int i = 0; i < dots.size(); i++) {
       ImageView elevationItem = dots.get(i);
       DotsGradientDrawable background = (DotsGradientDrawable) elevationItem.getBackground();
-      if (i == currentPage) {
+
+      if (i == viewPager.getCurrentItem() || (progressMode && i < viewPager.getCurrentItem())) {
         background.setColor(selectedDotsColor);
       } else {
         background.setColor(dotsColor);
@@ -268,6 +233,15 @@ public class DotsIndicator extends LinearLayout {
 
       elevationItem.setBackground(background);
       elevationItem.invalidate();
+    }
+  }
+
+  private void refreshDotsSize() {
+    if (dots == null) {
+      return;
+    }
+    for (int i = 0; i < viewPager.getCurrentItem(); i++) {
+      setDotWidth(dots.get(i), (int) dotsSize);
     }
   }
 
@@ -290,15 +264,14 @@ public class DotsIndicator extends LinearLayout {
   // Users Methods
   //*********************************************************
 
-
   public void setPointsColor(int color) {
     dotsColor = color;
-    setUpCircleColors();
+    refreshDotsColors();
   }
 
   public void setSelectedPointColor(int color) {
     selectedDotsColor = color;
-    setUpCircleColors();
+    refreshDotsColors();
   }
 
   public void setDotsClickable(boolean dotsClickable) {

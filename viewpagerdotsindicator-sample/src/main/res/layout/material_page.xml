@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,12 +8,13 @@
   <android.support.v7.widget.CardView
       android:id="@+id/card_view"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="0dp"
       android:layout_gravity="center"
-      android:layout_marginEnd="16dp"
-      android:layout_marginStart="16dp"
+      android:layout_marginEnd="24dp"
+      android:layout_marginStart="24dp"
+      app:layout_constraintDimensionRatio="1:1.1"
       app:cardBackgroundColor="#DCEBF7"
-      app:cardCornerRadius="4dp"
+      app:cardCornerRadius="16dp"
       app:cardElevation="4dp"
       app:cardUseCompatPadding="true"
       app:contentPaddingBottom="24dp"
@@ -33,7 +34,9 @@
           android:layout_marginEnd="16dp"
           android:layout_marginStart="24dp"
           android:layout_marginTop="24dp"
+          android:layout_marginBottom="16dp"
           android:src="@drawable/mountains"
+          app:layout_constraintBottom_toTopOf="@+id/item_placeholder_layout"
           app:layout_constraintDimensionRatio="1:1"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
@@ -41,23 +44,25 @@
           />
 
       <LinearLayout
+          android:id="@+id/item_placeholder_layout"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_below="@id/item_image"
-          android:layout_marginTop="16dp"
           android:orientation="vertical"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="@+id/item_image"
           app:layout_constraintStart_toStartOf="@+id/item_image"
-          app:layout_constraintTop_toBottomOf="@+id/item_image"
           >
         <View
-            android:layout_width="224dp"
-            android:layout_height="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_marginEnd="48dp"
             android:background="@drawable/background_title_element"
             />
 
         <View
             android:id="@+id/item_text1"
-            android:layout_width="224dp"
+            android:layout_width="match_parent"
             android:layout_height="8dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/background_text_element"
@@ -65,12 +70,13 @@
 
         <View
             android:id="@+id/item_text2"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="8dp"
+            android:layout_marginEnd="78dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/background_text_element"
             />
       </LinearLayout>
     </android.support.constraint.ConstraintLayout>
   </android.support.v7.widget.CardView>
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>
