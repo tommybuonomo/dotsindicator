@@ -34,6 +34,7 @@ public class DotsIndicator extends LinearLayout {
   private boolean dotsClickable;
 
   private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+  private OnPageChangeListenerHelper onPageChangeListenerHelper;
 
   public DotsIndicator(Context context) {
     this(context, null);
@@ -94,11 +95,15 @@ public class DotsIndicator extends LinearLayout {
 
   private void refreshDots() {
     if (viewPager != null && viewPager.getAdapter() != null) {
-      // Check if we need to refresh the dots count
-      refreshDotsCount();
-      refreshDotsColors();
-      refreshDotsSize();
-      refreshOnPageChangedListener();
+      post(new Runnable() {
+        @Override public void run() {
+          // Check if we need to refresh the dots count
+          refreshDotsCount();
+          refreshDotsColors();
+          refreshDotsSize();
+          refreshOnPageChangedListener();
+        }
+      });
     } else {
       Log.e(DotsIndicator.class.getSimpleName(), "You have to set an adapter to the view pager before !");
     }
@@ -121,7 +126,11 @@ public class DotsIndicator extends LinearLayout {
       params.setMargins((int) dotsSpacing, 0, (int) dotsSpacing, 0);
       DotsGradientDrawable background = new DotsGradientDrawable();
       background.setCornerRadius(dotsCornerRadius);
-      background.setColor(viewPager.getCurrentItem() == i ? selectedDotsColor : dotsColor);
+      if (isInEditMode()) {
+        background.setColor(0 == i ? selectedDotsColor : dotsColor);
+      } else {
+        background.setColor(viewPager.getCurrentItem() == i ? selectedDotsColor : dotsColor);
+      }
       imageView.setBackground(background);
 
       final int finalI = i;
@@ -148,19 +157,16 @@ public class DotsIndicator extends LinearLayout {
 
   private void refreshOnPageChangedListener() {
     if (viewPager != null && viewPager.getAdapter() != null && viewPager.getAdapter().getCount() > 0) {
-      viewPager.clearOnPageChangeListeners();
-      OnPageChangeListenerHelper onPageChangeListenerHelper = buildOnPageChangedListener();
-      onPageChangeListenerHelper.onPageScrolled(viewPager.getCurrentItem(), -1, 0f);
+      viewPager.removeOnPageChangeListener(onPageChangeListenerHelper);
+      onPageChangeListenerHelper = buildOnPageChangedListener();
       viewPager.addOnPageChangeListener(onPageChangeListenerHelper);
+      onPageChangeListenerHelper.onPageScrolled(viewPager.getCurrentItem(), -1, 0f);
     }
   }
 
   private OnPageChangeListenerHelper buildOnPageChangedListener() {
     return new OnPageChangeListenerHelper() {
       @Override void onPageScrolled(int selectedPosition, int nextPosition, float positionOffset) {
-        Log.i(DotsIndicator.class.getSimpleName(),
-            "onPageScrolled: selected: " + selectedPosition + " next: " + nextPosition + " offset: " + positionOffset);
-
         if (selectedPosition == -1) {
           return;
         }

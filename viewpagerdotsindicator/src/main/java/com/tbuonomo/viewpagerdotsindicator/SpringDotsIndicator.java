@@ -203,12 +203,9 @@ public class SpringDotsIndicator extends FrameLayout {
     pageChangedListener = new ViewPager.OnPageChangeListener() {
       @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         float globalPositionOffsetPixels = position * (dotsStrokeSize + dotsSpacing * 2) + (dotsStrokeSize + dotsSpacing * 2) * positionOffset;
-        float indicatorTranslationX = globalPositionOffsetPixels + horizontalMargin + dotsStrokeWidth - dotIndicatorAdditionalSize / 2;
+        float indicatorTranslationX = globalPositionOffsetPixels + horizontalMargin + dotsStrokeWidth - dotIndicatorAdditionalSize / 2f;
         dotIndicatorSpring.getSpring().setFinalPosition(indicatorTranslationX);
-
-        if (!dotIndicatorSpring.isRunning()) {
-          dotIndicatorSpring.start();
-        }
+        dotIndicatorSpring.animateToFinalPosition(indicatorTranslationX);
       }
 
       @Override public void onPageSelected(int position) {

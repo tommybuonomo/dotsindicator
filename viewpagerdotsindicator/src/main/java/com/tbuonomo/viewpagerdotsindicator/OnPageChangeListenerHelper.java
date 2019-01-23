@@ -10,7 +10,7 @@ public abstract class OnPageChangeListenerHelper implements ViewPager.OnPageChan
     int selectedPosition = currentPage;
     if (position != currentPage && positionOffset == 0 || currentPage < position) {
       resetPosition(selectedPosition);
-      currentPage = position;
+      selectedPosition = currentPage = position;
     }
 
     if (Math.abs(currentPage - position) > 1) {
