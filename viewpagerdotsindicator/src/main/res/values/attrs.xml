@@ -14,7 +14,7 @@
 
   <declare-styleable name="DotsIndicator">
     <attr name="dotsColor"/>
-    <attr name="selectedDotsColor"/>
+    <attr name="selectedDotColor"/>
     <attr name="dotsSize"/>
     <attr name="dotsWidthFactor"/>
     <attr name="dotsSpacing"/>

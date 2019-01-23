@@ -44,7 +44,7 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="@+id/guideline"
       app:progressMode="false"
-      app:selectedDotsColor="@color/md_blue_200"
+      app:selectedDotColor="@color/md_blue_200"
       />
 
   <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
