@@ -131,6 +131,14 @@ public class SpringDotsIndicator extends FrameLayout {
   }
 
   private void setUpDotIndicator() {
+    if (viewPager != null && viewPager.getAdapter() != null && viewPager.getAdapter().getCount() == 0) {
+      return;
+    }
+
+    if (dotIndicatorView != null && indexOfChild(dotIndicatorView) != -1) {
+      removeView(dotIndicatorView);
+    }
+
     dotIndicatorView = buildDot(false);
     addView(dotIndicatorView);
     dotIndicatorSpring = new SpringAnimation(dotIndicatorView, SpringAnimation.TRANSLATION_X);
@@ -196,6 +204,7 @@ public class SpringDotsIndicator extends FrameLayout {
       }
       setUpOnPageChangedListener();
       viewPager.addOnPageChangeListener(pageChangedListener);
+      pageChangedListener.onPageScrolled(0, 0, 0);
     }
   }
 

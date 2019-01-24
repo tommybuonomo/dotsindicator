@@ -119,6 +119,14 @@ public class WormDotsIndicator extends FrameLayout {
   }
 
   private void setUpDotIndicator() {
+    if (viewPager != null && viewPager.getAdapter() != null && viewPager.getAdapter().getCount() == 0) {
+      return;
+    }
+
+    if (dotIndicatorView != null && indexOfChild(dotIndicatorView) != -1) {
+      removeView(dotIndicatorView);
+    }
+
     dotIndicatorLayout = buildDot(false);
     dotIndicatorView = dotIndicatorLayout.findViewById(R.id.worm_dot);
     addView(dotIndicatorLayout);
@@ -202,6 +210,7 @@ public class WormDotsIndicator extends FrameLayout {
       }
       setUpOnPageChangedListener();
       viewPager.addOnPageChangeListener(pageChangedListener);
+      pageChangedListener.onPageScrolled(0, 0, 0);
     }
   }
 
