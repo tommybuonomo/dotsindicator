@@ -174,7 +174,7 @@ public class DotsIndicator extends LinearLayout {
         ImageView selectedDot = dots.get(selectedPosition);
 
         // Selected dot
-        int selectedDotWidth = (int) (dotsSize + (dotsSize * (dotsWidthFactor - 1) * (1 - positionOffset)));
+        int selectedDotWidth = (int) (dotsSize + (dotsSize * (dotsWidthFactor - 1) * (1 - positionOffset)) + 0.5);
         setDotWidth(selectedDot, selectedDotWidth);
 
         // Next dot
@@ -184,7 +184,7 @@ public class DotsIndicator extends LinearLayout {
 
         ImageView nextDot = dots.get(nextPosition);
         if (nextDot != null) {
-          int nextDotWidth = (int) (dotsSize + (dotsSize * (dotsWidthFactor - 1) * (positionOffset)));
+          int nextDotWidth = (int) (dotsSize + (dotsSize * (dotsWidthFactor - 1) * (positionOffset)) + 0.5);
           setDotWidth(nextDot, nextDotWidth);
 
           DotsGradientDrawable selectedDotBackground = (DotsGradientDrawable) selectedDot.getBackground();
@@ -263,7 +263,7 @@ public class DotsIndicator extends LinearLayout {
   }
 
   private int dpToPx(int dp) {
-    return (int) (getContext().getResources().getDisplayMetrics().density * dp);
+    return (int) (getContext().getResources().getDisplayMetrics().density * dp + 0.5);
   }
 
   //*********************************************************
