@@ -145,7 +145,7 @@ dependencies {
 | Attribute | Description |
 | --- | --- |
 | `dotsColor` | Color of the indicator dot |
-| `dotsColor` | Color of the stroke dots (by default the indicator color) |
+| `dotsStrokeColor` | Color of the stroke dots (by default the indicator color) |
 | `dotsSize` | Size in dp of the dots (by default 16dp) |
 | `dotsSpacing` | Size in dp of the space between the dots (by default 4dp) |
 | `dotsCornerRadius` | The dots corner radius (by default the half of dotsSize for circularity) |
