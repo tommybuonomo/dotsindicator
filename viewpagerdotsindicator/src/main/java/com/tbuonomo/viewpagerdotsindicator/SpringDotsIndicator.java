@@ -181,7 +181,7 @@ public class SpringDotsIndicator extends FrameLayout {
   }
 
   private void setUpDotBackground(boolean stroke, View dotView) {
-    GradientDrawable dotBackground = (GradientDrawable) dotView.getBackground();
+    GradientDrawable dotBackground = (GradientDrawable) dotView.findViewById(R.id.spring_dot).getBackground();
     if (stroke) {
       dotBackground.setStroke(dotsStrokeWidth, dotsStrokeColor);
     } else {

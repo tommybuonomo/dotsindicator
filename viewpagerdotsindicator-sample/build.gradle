@@ -30,6 +30,11 @@ dependencies {
   androidTestImplementation 'com.android.support.test:runner:1.0.2'
   androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+  androidTestImplementation('com.schibsted.spain:barista:2.8.0') {
+    exclude group: 'com.android.support'
+    exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
+  }
+
     implementation project(':viewpagerdotsindicator')
 //  implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:2.1.2'
 }
