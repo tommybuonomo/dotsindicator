@@ -210,7 +210,7 @@ public class WormDotsIndicator extends FrameLayout {
       }
       setUpOnPageChangedListener();
       viewPager.addOnPageChangeListener(pageChangedListener);
-      pageChangedListener.onPageScrolled(0, 0, 0);
+      pageChangedListener.onPageScrolled(viewPager.getCurrentItem(), 0, 0);
     }
   }
 
