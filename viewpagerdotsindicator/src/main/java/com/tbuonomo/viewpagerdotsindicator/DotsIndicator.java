@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,7 +120,7 @@ public class DotsIndicator extends LinearLayout {
     for (int i = 0; i < count; i++) {
       View dot = LayoutInflater.from(getContext()).inflate(R.layout.dot_layout, this, false);
       ImageView imageView = dot.findViewById(R.id.dot);
-      RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+      LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
       params.width = params.height = (int) dotsSize;
       params.setMargins((int) dotsSpacing, 0, (int) dotsSpacing, 0);
       DotsGradientDrawable background = new DotsGradientDrawable();

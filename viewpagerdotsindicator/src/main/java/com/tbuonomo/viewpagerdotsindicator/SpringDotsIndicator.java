@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,9 +169,8 @@ public class SpringDotsIndicator extends FrameLayout {
     ImageView dotView = dot.findViewById(R.id.spring_dot);
     dotView.setBackground(
         ContextCompat.getDrawable(getContext(), stroke ? R.drawable.spring_dot_stroke_background : R.drawable.spring_dot_background));
-    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dotView.getLayoutParams();
+    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) dotView.getLayoutParams();
     params.width = params.height = stroke ? dotsStrokeSize : dotIndicatorSize;
-    params.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 
     params.setMargins(dotsSpacing, 0, dotsSpacing, 0);
 

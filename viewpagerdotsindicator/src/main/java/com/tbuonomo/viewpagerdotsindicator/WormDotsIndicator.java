@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -176,9 +175,8 @@ public class WormDotsIndicator extends FrameLayout {
     View dotImageView = dot.findViewById(R.id.worm_dot);
     dotImageView.setBackground(
         ContextCompat.getDrawable(getContext(), stroke ? R.drawable.worm_dot_stroke_background : R.drawable.worm_dot_background));
-    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dotImageView.getLayoutParams();
+    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) dotImageView.getLayoutParams();
     params.width = params.height = dotsSize;
-    params.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 
     params.setMargins(dotsSpacing, 0, dotsSpacing, 0);
 
