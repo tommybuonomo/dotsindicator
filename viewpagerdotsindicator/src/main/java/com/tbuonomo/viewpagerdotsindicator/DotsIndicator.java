@@ -11,18 +11,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DotsIndicator extends LinearLayout {
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
+public class DotsIndicator extends FrameLayout {
   private static final int DEFAULT_POINT_COLOR = Color.CYAN;
   public static final float DEFAULT_WIDTH_FACTOR = 2.5f;
 
   private List<ImageView> dots;
   private ViewPager viewPager;
+  private LinearLayout linearLayout;
   private float dotsSize;
   private float dotsCornerRadius;
   private float dotsSpacing;
@@ -51,7 +55,9 @@ public class DotsIndicator extends LinearLayout {
 
   private void init(AttributeSet attrs) {
     dots = new ArrayList<>();
-    setOrientation(HORIZONTAL);
+    linearLayout = new LinearLayout(getContext());
+    linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+    addView(linearLayout, WRAP_CONTENT, WRAP_CONTENT);
 
     dotsSize = dpToPx(16); // 16dp
     dotsSpacing = dpToPx(4); // 4dp
@@ -131,7 +137,7 @@ public class DotsIndicator extends LinearLayout {
       } else {
         background.setColor(viewPager.getCurrentItem() == i ? selectedDotColor : dotsColor);
       }
-      imageView.setBackground(background);
+      imageView.setBackgroundDrawable(background);
 
       final int finalI = i;
       dot.setOnClickListener(new OnClickListener() {
@@ -144,13 +150,13 @@ public class DotsIndicator extends LinearLayout {
       });
 
       dots.add(imageView);
-      addView(dot);
+      linearLayout.addView(dot);
     }
   }
 
   private void removeDots(int count) {
     for (int i = 0; i < count; i++) {
-      removeViewAt(getChildCount() - 1);
+      linearLayout.removeViewAt(getChildCount() - 1);
       dots.remove(dots.size() - 1);
     }
   }
@@ -237,7 +243,7 @@ public class DotsIndicator extends LinearLayout {
         background.setColor(dotsColor);
       }
 
-      elevationItem.setBackground(background);
+      elevationItem.setBackgroundDrawable(background);
       elevationItem.invalidate();
     }
   }
