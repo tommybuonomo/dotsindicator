@@ -14,7 +14,6 @@ import android.widget.LinearLayout
 import android.widget.LinearLayout.HORIZONTAL
 import android.widget.RelativeLayout
 import com.tbuonomo.viewpagerdotsindicator.BaseDotsIndicator.Type.SPRING
-import com.tbuonomo.viewpagerdotsindicator.UiUtils.getThemePrimaryColor
 
 class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null,
         defStyleAttr: Int = 0) : BaseDotsIndicator(context, attrs, defStyleAttr) {
@@ -51,7 +50,7 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
 
     dotsStrokeWidth = dpToPx(2) // 2dp
     dotIndicatorAdditionalSize = dpToPx(1) // 1dp additional to fill the stroke dots
-    dotIndicatorColor = getThemePrimaryColor(context)
+    dotIndicatorColor = context.getThemePrimaryColor()
     dotsStrokeColor = dotIndicatorColor
     stiffness = DEFAULT_STIFFNESS.toFloat()
     dampingRatio = DEFAULT_DAMPING_RATIO

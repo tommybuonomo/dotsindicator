@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager
 import android.support.v4.view.ViewPager.OnPageChangeListener
 import android.util.AttributeSet
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -194,4 +195,10 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
   }
 
   fun <T> ArrayList<T>.isInBounds(index: Int) = index in 0 until size
+
+  fun Context.getThemePrimaryColor(): Int {
+    val value = TypedValue()
+    this.theme.resolveAttribute(R.attr.colorPrimary, value, true)
+    return value.data
+  }
 }

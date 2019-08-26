@@ -16,7 +16,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.LinearLayout.HORIZONTAL
 import android.widget.RelativeLayout
-import com.tbuonomo.viewpagerdotsindicator.UiUtils.getThemePrimaryColor
 
 class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null,
         defStyleAttr: Int = 0) : BaseDotsIndicator(context, attrs, defStyleAttr) {
@@ -43,7 +42,7 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
     addView(strokeDotsLinearLayout)
 
     dotsStrokeWidth = dpToPx(2) // 2dp
-    dotIndicatorColor = getThemePrimaryColor(context)
+    dotIndicatorColor = context.getThemePrimaryColor()
     dotsStrokeColor = dotIndicatorColor
 
     if (attrs != null) {
