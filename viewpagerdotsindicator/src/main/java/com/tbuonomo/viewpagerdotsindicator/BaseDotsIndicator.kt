@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.DataSetObserver
 import android.graphics.Color
 import android.support.v4.view.ViewPager
+import android.support.v4.view.ViewPager.OnPageChangeListener
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -17,13 +18,44 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
 
   companion object {
     const val DEFAULT_POINT_COLOR = Color.CYAN
-    const val DEFAULT_WIDTH_FACTOR = 2.5f
   }
+
+  enum class Type(val defaultSize: Float,
+          val defaultSpacing: Float,
+          val styleableId: IntArray,
+          val dotsColorId: Int,
+          val dotsSizeId: Int,
+          val dotsSpacingId: Int,
+          val dotsCornerRadiusId: Int) {
+    DEFAULT(16f,
+            8f,
+            R.styleable.SpringDotsIndicator,
+            R.styleable.SpringDotsIndicator_dotsColor,
+            R.styleable.SpringDotsIndicator_dotsSize,
+            R.styleable.SpringDotsIndicator_dotsSpacing,
+            R.styleable.SpringDotsIndicator_dotsCornerRadius),
+    SPRING(16f,
+            4f,
+            R.styleable.DotsIndicator,
+            R.styleable.DotsIndicator_dotsColor,
+            R.styleable.DotsIndicator_dotsSize,
+            R.styleable.DotsIndicator_dotsSpacing,
+            R.styleable.DotsIndicator_dotsCornerRadius),
+    WORM(16f,
+            4f,
+            R.styleable.WormDotsIndicator,
+            R.styleable.WormDotsIndicator_dotsColor,
+            R.styleable.WormDotsIndicator_dotsSize,
+            R.styleable.WormDotsIndicator_dotsSpacing,
+            R.styleable.WormDotsIndicator_dotsCornerRadius)
+  }
+
+  private val type: Type = getType()
 
   @JvmField
   protected val dots = ArrayList<ImageView>()
 
-  private var onPageChangeListenerHelper: OnPageChangeListenerHelper? = null
+  private var onPageChangeListener: OnPageChangeListener? = null
 
   var dotsClickable: Boolean = true
   var dotsColor: Int = DEFAULT_POINT_COLOR
@@ -32,9 +64,22 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
       refreshDotsColors()
     }
 
-  protected var dotsSize: Float = dpToPx(16).toFloat() // 16dp
-  protected var dotsCornerRadius: Float = dpToPx(4).toFloat() // 4dp
-  protected var dotsSpacing: Float = dotsSize / 2
+  protected var dotsSize = dpToPxF(type.defaultSize)
+  protected var dotsCornerRadius = dotsSize / 2f
+  protected var dotsSpacing = dpToPxF(type.defaultSpacing)
+
+  init {
+    if (attrs != null) {
+      val a = context.obtainStyledAttributes(attrs, getType().styleableId)
+
+      dotsColor = a.getColor(getType().dotsColorId, DEFAULT_POINT_COLOR)
+      dotsSize = a.getDimension(getType().dotsSizeId, dotsSize)
+      dotsCornerRadius = a.getDimension(getType().dotsCornerRadiusId, dotsCornerRadius)
+      dotsSpacing = a.getDimension(getType().dotsSpacingId, dotsSpacing)
+
+      a.recycle()
+    }
+  }
 
   var viewPager: ViewPager? = null
     set(value) {
@@ -59,7 +104,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
     }
   }
 
-  protected fun refreshDotsCount() {
+  private fun refreshDotsCount() {
     if (dots.size < viewPager!!.adapter!!.count) {
       addDots(viewPager!!.adapter!!.count - dots.size)
     } else if (dots.size > viewPager!!.adapter!!.count) {
@@ -77,13 +122,17 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
     return (context.resources.displayMetrics.density * dp).toInt()
   }
 
+  protected fun dpToPxF(dp: Float): Float {
+    return context.resources.displayMetrics.density * dp
+  }
+
   protected fun addDots(count: Int) {
     for (i in 0 until count) {
       addDot(i)
     }
   }
 
-  protected fun removeDots(count: Int) {
+  private fun removeDots(count: Int) {
     for (i in 0 until count) {
       removeDot(i)
     }
@@ -104,16 +153,16 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
     }
   }
 
-  protected fun refreshOnPageChangedListener() {
+  private fun refreshOnPageChangedListener() {
     if (viewPager != null && viewPager!!.adapter != null && viewPager!!.adapter!!.count > 0) {
-      onPageChangeListenerHelper?.let { viewPager!!.removeOnPageChangeListener(it) }
-      onPageChangeListenerHelper = buildOnPageChangedListener()
-      viewPager!!.addOnPageChangeListener(onPageChangeListenerHelper!!)
-      onPageChangeListenerHelper!!.onPageScrolled(viewPager!!.currentItem, -1, 0f)
+      onPageChangeListener?.let { viewPager!!.removeOnPageChangeListener(it) }
+      onPageChangeListener = buildOnPageChangedListener()
+      viewPager!!.addOnPageChangeListener(onPageChangeListener!!)
+      onPageChangeListener!!.onPageScrolled(viewPager!!.currentItem, 0f, 0)
     }
   }
 
-  protected fun refreshDotsSize() {
+  private fun refreshDotsSize() {
     for (i in 0 until viewPager!!.currentItem) {
       dots[i].setWidth(dotsSize.toInt())
     }
@@ -124,7 +173,8 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
   abstract fun refreshDotColor(index: Int)
   abstract fun addDot(index: Int)
   abstract fun removeDot(index: Int)
-  abstract fun buildOnPageChangedListener(): OnPageChangeListenerHelper
+  abstract fun buildOnPageChangedListener(): OnPageChangeListener
+  abstract fun getType(): Type
 
   // PUBLIC METHODS
 

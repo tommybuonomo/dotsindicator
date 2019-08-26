@@ -8,9 +8,14 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import com.tbuonomo.viewpagerdotsindicator.BaseDotsIndicator.Type.DEFAULT
 
 class DotsIndicator @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null,
         defStyleAttr: Int = 0) : BaseDotsIndicator(context, attrs, defStyleAttr) {
+
+  companion object {
+    const val DEFAULT_WIDTH_FACTOR = 2.5f
+  }
 
   private var linearLayout: LinearLayout? = null
   private var dotsWidthFactor: Float = 0f
@@ -38,18 +43,12 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
     if (attrs != null) {
       val a = context.obtainStyledAttributes(attrs, R.styleable.DotsIndicator)
 
-      dotsColor = a.getColor(R.styleable.DotsIndicator_dotsColor, DEFAULT_POINT_COLOR)
       selectedDotColor = a.getColor(R.styleable.DotsIndicator_selectedDotColor, DEFAULT_POINT_COLOR)
 
       dotsWidthFactor = a.getFloat(R.styleable.DotsIndicator_dotsWidthFactor, 2.5f)
       if (dotsWidthFactor < 1) {
         dotsWidthFactor = 2.5f
       }
-
-      dotsSize = a.getDimension(R.styleable.DotsIndicator_dotsSize, dotsSize)
-      dotsCornerRadius = a.getDimension(R.styleable.DotsIndicator_dotsCornerRadius,
-              dotsSize / 2).toInt().toFloat()
-      dotsSpacing = a.getDimension(R.styleable.DotsIndicator_dotsSpacing, dotsSpacing)
 
       progressMode = a.getBoolean(R.styleable.DotsIndicator_progressMode, false)
 
@@ -160,6 +159,8 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
     elevationItem.setBackgroundDrawable(background)
     elevationItem.invalidate()
   }
+
+  override fun getType() = DEFAULT
 
   //*********************************************************
   // Users Methods
