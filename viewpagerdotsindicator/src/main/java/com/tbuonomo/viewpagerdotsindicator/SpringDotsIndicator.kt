@@ -147,7 +147,7 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
   }
 
   override fun refreshDotColor(index: Int) {
-
+    setUpDotBackground(true, dots[index])
   }
 
   override fun buildOnPageChangedListener(): OnPageChangeListener {
