@@ -140,9 +140,8 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
         dots[position].setWidth(dotsSize.toInt())
       }
 
-      override fun getPageCount(): Int {
-        return dots.size
-      }
+      override val pageCount: Int
+        get() = dots.size
     }
   }
 

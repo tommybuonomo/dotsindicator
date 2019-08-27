@@ -2,11 +2,11 @@ package com.tbuonomo.viewpagerdotsindicator
 
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
-import android.support.animation.FloatPropertyCompat
-import android.support.animation.SpringAnimation
-import android.support.animation.SpringForce
-import android.support.v4.view.ViewPager
-import android.support.v4.view.ViewPager.OnPageChangeListener
+import androidx.dynamicanimation.animation.FloatPropertyCompat
+import androidx.dynamicanimation.animation.SpringAnimation
+import androidx.dynamicanimation.animation.SpringForce
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -152,7 +152,7 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
   }
 
   override fun buildOnPageChangedListener(): OnPageChangeListener {
-    return object : ViewPager.OnPageChangeListener {
+    return object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
       override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
         val stepX = dotsSize + dotsSpacing * 2
         val xFinalPosition: Float

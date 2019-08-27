@@ -2,9 +2,9 @@ package com.tbuonomo.viewpagerdotsindicator
 
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
-import android.support.animation.SpringAnimation
-import android.support.animation.SpringForce
-import android.support.v4.view.ViewPager.OnPageChangeListener
+import androidx.dynamicanimation.animation.SpringAnimation
+import androidx.dynamicanimation.animation.SpringForce
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View

@@ -2,8 +2,8 @@ package com.tbuonomo.dotsindicatorsample;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import android.view.ViewGroup;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 import org.junit.Assert;

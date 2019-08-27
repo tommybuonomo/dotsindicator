@@ -3,8 +3,8 @@ package com.tbuonomo.viewpagerdotsindicator
 import android.content.Context
 import android.database.DataSetObserver
 import android.graphics.Color
-import android.support.v4.view.ViewPager
-import android.support.v4.view.ViewPager.OnPageChangeListener
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
@@ -82,7 +82,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
     }
   }
 
-  var viewPager: ViewPager? = null
+  var viewPager: androidx.viewpager.widget.ViewPager? = null
     set(value) {
       field = value
       setUpViewPager()
