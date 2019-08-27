@@ -2,9 +2,6 @@ package com.tbuonomo.viewpagerdotsindicator
 
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
-import androidx.dynamicanimation.animation.SpringAnimation
-import androidx.dynamicanimation.animation.SpringForce
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +10,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.LinearLayout.HORIZONTAL
 import android.widget.RelativeLayout
+import androidx.dynamicanimation.animation.SpringAnimation
+import androidx.dynamicanimation.animation.SpringForce
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.tbuonomo.viewpagerdotsindicator.BaseDotsIndicator.Type.SPRING
 
 class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null,
@@ -84,7 +84,7 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
   }
 
   private fun setUpDotIndicator() {
-    if (viewPager != null && viewPager!!.adapter != null && viewPager!!.adapter!!.count == 0) {
+    if (viewPager.isEmpty) {
       return
     }
 
@@ -165,7 +165,7 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
     };
   }
 
-  override fun getType() = SPRING
+  override val type get() = SPRING
 
   //*********************************************************
   // Users Methods

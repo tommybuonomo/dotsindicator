@@ -57,9 +57,9 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
 
     if (isInEditMode) {
       addDots(5)
+      refreshDots()
     }
 
-    refreshDots()
   }
 
   override fun addDot(index: Int) {
@@ -159,7 +159,7 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
     elevationItem.invalidate()
   }
 
-  override fun getType() = DEFAULT
+  override val type get() = DEFAULT
 
   //*********************************************************
   // Users Methods

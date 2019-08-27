@@ -3,14 +3,13 @@ package com.tbuonomo.viewpagerdotsindicator
 import android.content.Context
 import android.database.DataSetObserver
 import android.graphics.Color
-import androidx.viewpager.widget.ViewPager
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 
 abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
         attrs: AttributeSet? = null,
@@ -51,8 +50,6 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
             R.styleable.WormDotsIndicator_dotsCornerRadius)
   }
 
-  private val type: Type = getType()
-
   @JvmField
   protected val dots = ArrayList<ImageView>()
 
@@ -71,38 +68,38 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
 
   init {
     if (attrs != null) {
-      val a = context.obtainStyledAttributes(attrs, getType().styleableId)
+      val a = context.obtainStyledAttributes(attrs, type.styleableId)
 
-      dotsColor = a.getColor(getType().dotsColorId, DEFAULT_POINT_COLOR)
-      dotsSize = a.getDimension(getType().dotsSizeId, dotsSize)
-      dotsCornerRadius = a.getDimension(getType().dotsCornerRadiusId, dotsCornerRadius)
-      dotsSpacing = a.getDimension(getType().dotsSpacingId, dotsSpacing)
+      dotsColor = a.getColor(type.dotsColorId, DEFAULT_POINT_COLOR)
+      dotsSize = a.getDimension(type.dotsSizeId, dotsSize)
+      dotsCornerRadius = a.getDimension(type.dotsCornerRadiusId, dotsCornerRadius)
+      dotsSpacing = a.getDimension(type.dotsSpacingId, dotsSpacing)
 
       a.recycle()
     }
   }
 
-  var viewPager: androidx.viewpager.widget.ViewPager? = null
+  var viewPager: ViewPager? = null
     set(value) {
+      if (value!!.adapter == null) {
+        throw IllegalStateException("You have to set an adapter to the view pager before " +
+                "initializing the dots indicator !")
+      }
       field = value
-      setUpViewPager()
+
+      value.adapter!!.registerDataSetObserver(object : DataSetObserver() {
+        override fun onChanged() {
+          super.onChanged()
+          refreshDots()
+        }
+      })
+
       refreshDots()
     }
 
   override fun onAttachedToWindow() {
     super.onAttachedToWindow()
     refreshDots()
-  }
-
-  private fun setUpViewPager() {
-    if (viewPager!!.adapter != null) {
-      viewPager!!.adapter!!.registerDataSetObserver(object : DataSetObserver() {
-        override fun onChanged() {
-          super.onChanged()
-          refreshDots()
-        }
-      })
-    }
   }
 
   private fun refreshDotsCount() {
@@ -140,22 +137,17 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
   }
 
   protected fun refreshDots() {
-    if (viewPager != null && viewPager!!.adapter != null) {
-      post {
-        // Check if we need to refresh the dots count
-        refreshDotsCount()
-        refreshDotsColors()
-        refreshDotsSize()
-        refreshOnPageChangedListener()
-      }
-    } else {
-      Log.e(DotsIndicator::class.java.simpleName,
-              "You have to set an adapter to the view pager before !")
+    post {
+      // Check if we need to refresh the dots count
+      refreshDotsCount()
+      refreshDotsColors()
+      refreshDotsSize()
+      refreshOnPageChangedListener()
     }
   }
 
   private fun refreshOnPageChangedListener() {
-    if (viewPager != null && viewPager!!.adapter != null && viewPager!!.adapter!!.count > 0) {
+    if (viewPager!!.isNotEmpty) {
       onPageChangeListener?.let { viewPager!!.removeOnPageChangeListener(it) }
       onPageChangeListener = buildOnPageChangedListener()
       viewPager!!.addOnPageChangeListener(onPageChangeListener!!)
@@ -169,13 +161,13 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
     }
   }
 
-  // ABSTRACT METHODS
+  // ABSTRACT METHODS AND FIELDS
 
   abstract fun refreshDotColor(index: Int)
   abstract fun addDot(index: Int)
   abstract fun removeDot(index: Int)
   abstract fun buildOnPageChangedListener(): OnPageChangeListener
-  abstract fun getType(): Type
+  abstract val type: Type
 
   // PUBLIC METHODS
 
@@ -201,4 +193,9 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
     this.theme.resolveAttribute(R.attr.colorPrimary, value, true)
     return value.data
   }
+
+  protected val ViewPager.isNotEmpty: Boolean get() = adapter!!.count > 0
+  protected val ViewPager?.isEmpty: Boolean
+    get() = this != null && this.adapter != null &&
+            adapter!!.count == 0
 }

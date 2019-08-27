@@ -2,20 +2,19 @@ package com.tbuonomo.viewpagerdotsindicator
 
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
-import androidx.dynamicanimation.animation.FloatPropertyCompat
-import androidx.dynamicanimation.animation.SpringAnimation
-import androidx.dynamicanimation.animation.SpringForce
-import androidx.viewpager.widget.ViewPager
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.LinearLayout.HORIZONTAL
 import android.widget.RelativeLayout
+import androidx.dynamicanimation.animation.FloatPropertyCompat
+import androidx.dynamicanimation.animation.SpringAnimation
+import androidx.dynamicanimation.animation.SpringForce
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.tbuonomo.viewpagerdotsindicator.BaseDotsIndicator.Type.WORM
 
 class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null,
         defStyleAttr: Int = 0) : BaseDotsIndicator(context, attrs, defStyleAttr) {
@@ -33,7 +32,7 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
   private val strokeDotsLinearLayout: LinearLayout = LinearLayout(context)
 
   init {
-    val linearParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+    val linearParams = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT)
     horizontalMargin = dpToPx(24)
     linearParams.setMargins(horizontalMargin, 0, horizontalMargin, 0)
@@ -68,7 +67,7 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
   }
 
   private fun setUpDotIndicator() {
-    if (viewPager != null && viewPager!!.adapter != null && viewPager!!.adapter!!.count == 0) {
+    if (viewPager.isEmpty) {
       return
     }
 
@@ -152,21 +151,21 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
   }
 
   override fun buildOnPageChangedListener(): OnPageChangeListener {
-    return object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
+    return object : OnPageChangeListener {
       override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
         val stepX = dotsSize + dotsSpacing * 2
         val xFinalPosition: Float
         val widthFinalPosition: Float
 
         if (positionOffset >= 0 && positionOffset < 0.1f) {
-          xFinalPosition = (horizontalMargin + position * stepX).toFloat()
-          widthFinalPosition = dotsSize.toFloat()
-        } else if (positionOffset >= 0.1f && positionOffset <= 0.9f) {
-          xFinalPosition = (horizontalMargin + position * stepX).toFloat()
-          widthFinalPosition = (dotsSize + stepX).toFloat()
+          xFinalPosition = (horizontalMargin + position * stepX)
+          widthFinalPosition = dotsSize
+        } else if (positionOffset in 0.1f..0.9f) {
+          xFinalPosition = (horizontalMargin + position * stepX)
+          widthFinalPosition = (dotsSize + stepX)
         } else {
-          xFinalPosition = (horizontalMargin + (position + 1) * stepX).toFloat()
-          widthFinalPosition = dotsSize.toFloat()
+          xFinalPosition = (horizontalMargin + (position + 1) * stepX)
+          widthFinalPosition = dotsSize
         }
 
         if (dotIndicatorXSpring!!.spring.finalPosition != xFinalPosition) {
@@ -192,7 +191,7 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
     }
   }
 
-  override fun getType() = Type.WORM
+  override val type get() = WORM
 
   //*********************************************************
   // Users Methods
