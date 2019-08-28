@@ -26,30 +26,26 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
   private var dotIndicatorView: View? = null
 
   // Attributes
-  private var dotsStrokeWidth: Int = 0
+  private var dotsStrokeWidth: Float = 0f
   private var dotsStrokeColor: Int = 0
   private var dotIndicatorColor: Int = 0
   private var stiffness: Float = 0f
   private var dampingRatio: Float = 0f
 
-  private val dotIndicatorSize: Int
-  private val dotIndicatorAdditionalSize: Int
-  private val horizontalMargin: Int
+  private val dotIndicatorSize: Float
   private var dotIndicatorSpring: SpringAnimation? = null
   private val strokeDotsLinearLayout: LinearLayout = LinearLayout(context)
 
   init {
 
-    val linearParams = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT)
-    horizontalMargin = dpToPx(24)
-    linearParams.setMargins(horizontalMargin, 0, horizontalMargin, 0)
-    strokeDotsLinearLayout.layoutParams = linearParams
+    val horizontalPadding = dpToPxF(24f)
+    clipToPadding = false
+    setPadding(horizontalPadding.toInt(), 0, horizontalPadding.toInt(), 0)
     strokeDotsLinearLayout.orientation = HORIZONTAL
-    addView(strokeDotsLinearLayout)
+    addView(strokeDotsLinearLayout, ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT)
 
-    dotsStrokeWidth = dpToPx(2) // 2dp
-    dotIndicatorAdditionalSize = dpToPx(1) // 1dp additional to fill the stroke dots
+    dotsStrokeWidth = dpToPxF(2f) // 2dp
     dotIndicatorColor = context.getThemePrimaryColor()
     dotsStrokeColor = dotIndicatorColor
     stiffness = DEFAULT_STIFFNESS.toFloat()
@@ -68,12 +64,12 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
 
       // Spring dots attributes
       dotsStrokeWidth = a.getDimension(R.styleable.SpringDotsIndicator_dotsStrokeWidth,
-              dotsStrokeWidth.toFloat()).toInt()
+              dotsStrokeWidth)
 
       a.recycle()
     }
 
-    dotIndicatorSize = (dotsSize - dotsStrokeWidth * 2 + dotIndicatorAdditionalSize).toInt()
+    dotIndicatorSize = dotsSize - dotsStrokeWidth
 
     if (isInEditMode) {
       addDots(5)
@@ -120,7 +116,7 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
     dotView.setBackgroundResource(
             if (stroke) R.drawable.spring_dot_stroke_background else R.drawable.spring_dot_background)
     val params = dotView.layoutParams as RelativeLayout.LayoutParams
-    params.height = if (stroke) dotsSize.toInt() else dotIndicatorSize
+    params.height = (if (stroke) dotsSize else dotIndicatorSize).toInt()
     params.width = params.height
     params.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE)
 
@@ -133,7 +129,7 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
   private fun setUpDotBackground(stroke: Boolean, dotView: View) {
     val dotBackground = dotView.findViewById<View>(R.id.spring_dot).background as GradientDrawable
     if (stroke) {
-      dotBackground.setStroke(dotsStrokeWidth, dotsStrokeColor)
+      dotBackground.setStroke(dotsStrokeWidth.toInt(), dotsStrokeColor)
     } else {
       dotBackground.setColor(dotIndicatorColor)
     }
@@ -149,12 +145,12 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
     setUpDotBackground(true, dots[index])
   }
 
-  override fun buildOnPageChangedListener(): OnPageChangeListener {
+  fun buildOnPageChangedListener2(): OnPageChangeListener {
     return object : OnPageChangeListener {
       override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
         val globalPositionOffsetPixels = position * (dotsSize + dotsSpacing * 2) + (dotsSize + dotsSpacing * 2) *
                 positionOffset
-        val indicatorTranslationX = globalPositionOffsetPixels + horizontalMargin.toFloat() + dotsStrokeWidth.toFloat() - dotIndicatorAdditionalSize / 2f
+        val indicatorTranslationX = globalPositionOffsetPixels + dotsStrokeWidth / 2f
         dotIndicatorSpring?.spring?.finalPosition = indicatorTranslationX
         dotIndicatorSpring?.animateToFinalPosition(indicatorTranslationX)
       }
@@ -163,6 +159,25 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
 
       override fun onPageScrollStateChanged(state: Int) {}
     };
+  }
+
+  override fun buildOnPageChangedListener(): OnPageChangeListenerHelper {
+    return object : OnPageChangeListenerHelper() {
+
+      override val pageCount: Int
+        get() = dots.size
+
+      override fun onPageScrolled(selectedPosition: Int, nextPosition: Int, positionOffset: Float) {
+        val distance = dotsSize + dotsSpacing * 2
+        val x = (dots[selectedPosition].parent as ViewGroup).left
+        val globalPositionOffsetPixels = x + distance * positionOffset + dotsStrokeWidth - 1
+        dotIndicatorSpring?.animateToFinalPosition(globalPositionOffsetPixels)
+      }
+
+      override fun resetPosition(position: Int) {
+        // Empty
+      }
+    }
   }
 
   override val type get() = SPRING
