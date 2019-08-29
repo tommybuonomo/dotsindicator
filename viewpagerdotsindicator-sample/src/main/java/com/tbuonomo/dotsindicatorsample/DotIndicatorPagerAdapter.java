@@ -23,7 +23,7 @@ public class DotIndicatorPagerAdapter extends PagerAdapter {
   }
 
   @Override public int getCount() {
-    return items.size();
+    return 10;
   }
 
   @Override public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {

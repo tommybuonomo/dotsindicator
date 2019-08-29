@@ -13,7 +13,6 @@ import android.widget.RelativeLayout
 import androidx.dynamicanimation.animation.FloatPropertyCompat
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.tbuonomo.viewpagerdotsindicator.BaseDotsIndicator.Type.WORM
 
 class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null,
@@ -26,7 +25,6 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
   private var dotIndicatorColor: Int = 0
   private var dotsStrokeColor: Int = 0
 
-  private val horizontalMargin: Int
   private var dotIndicatorXSpring: SpringAnimation? = null
   private var dotIndicatorWidthSpring: SpringAnimation? = null
   private val strokeDotsLinearLayout: LinearLayout = LinearLayout(context)
@@ -34,8 +32,9 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
   init {
     val linearParams = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT)
-    horizontalMargin = dpToPx(24)
-    linearParams.setMargins(horizontalMargin, 0, horizontalMargin, 0)
+    val horizontalPadding = dpToPx(24)
+    setPadding(horizontalPadding, 0, horizontalPadding, 0)
+    clipToPadding = false
     strokeDotsLinearLayout.layoutParams = linearParams
     strokeDotsLinearLayout.orientation = HORIZONTAL
     addView(strokeDotsLinearLayout)
@@ -150,44 +149,41 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
     dots.removeAt(dots.size - 1)
   }
 
-  override fun buildOnPageChangedListener(): OnPageChangeListener {
-    return object : OnPageChangeListener {
-      override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        val stepX = dotsSize + dotsSpacing * 2
+  override fun buildOnPageChangedListener(): OnPageChangeListenerHelper {
+    return object : OnPageChangeListenerHelper() {
+
+      override val pageCount: Int
+        get() = dots.size
+
+      override fun onPageScrolled(selectedPosition: Int, nextPosition: Int, positionOffset: Float) {
+        val x = (dots[selectedPosition].parent as ViewGroup).left.toFloat()
+        val nextX = (dots[if (nextPosition == -1) selectedPosition else nextPosition].parent as ViewGroup).left
+                .toFloat()
         val xFinalPosition: Float
         val widthFinalPosition: Float
 
-        if (positionOffset >= 0 && positionOffset < 0.1f) {
-          xFinalPosition = (horizontalMargin + position * stepX)
-          widthFinalPosition = dotsSize
-        } else if (positionOffset in 0.1f..0.9f) {
-          xFinalPosition = (horizontalMargin + position * stepX)
-          widthFinalPosition = (dotsSize + stepX)
-        } else {
-          xFinalPosition = (horizontalMargin + (position + 1) * stepX)
-          widthFinalPosition = dotsSize
+        when (positionOffset) {
+          in 0.0f..0.1f -> {
+            xFinalPosition = x
+            widthFinalPosition = dotsSize
+          }
+          in 0.1f..0.9f -> {
+            xFinalPosition = x
+            widthFinalPosition = nextX - x + dotsSize
+          }
+          else -> {
+            xFinalPosition = nextX
+            widthFinalPosition = dotsSize
+          }
         }
 
-        if (dotIndicatorXSpring!!.spring.finalPosition != xFinalPosition) {
-          dotIndicatorXSpring!!.spring.finalPosition = xFinalPosition
-        }
-
-        if (dotIndicatorWidthSpring!!.spring.finalPosition != widthFinalPosition) {
-          dotIndicatorWidthSpring!!.spring.finalPosition = widthFinalPosition
-        }
-
-        if (!dotIndicatorXSpring!!.isRunning) {
-          dotIndicatorXSpring!!.start()
-        }
-
-        if (!dotIndicatorWidthSpring!!.isRunning) {
-          dotIndicatorWidthSpring!!.start()
-        }
+        dotIndicatorXSpring?.animateToFinalPosition(xFinalPosition)
+        dotIndicatorWidthSpring?.animateToFinalPosition(widthFinalPosition)
       }
 
-      override fun onPageSelected(position: Int) {}
-
-      override fun onPageScrollStateChanged(state: Int) {}
+      override fun resetPosition(position: Int) {
+        // Empty
+      }
     }
   }
 
