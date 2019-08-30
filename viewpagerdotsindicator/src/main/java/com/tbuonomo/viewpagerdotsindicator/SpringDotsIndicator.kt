@@ -170,7 +170,7 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
       override fun onPageScrolled(selectedPosition: Int, nextPosition: Int, positionOffset: Float) {
         val distance = dotsSize + dotsSpacing * 2
         val x = (dots[selectedPosition].parent as ViewGroup).left
-        val globalPositionOffsetPixels = x + distance * positionOffset + dotsStrokeWidth - 1
+        val globalPositionOffsetPixels = x + distance * positionOffset + dotsStrokeWidth - 2
         dotIndicatorSpring?.animateToFinalPosition(globalPositionOffsetPixels)
       }
 

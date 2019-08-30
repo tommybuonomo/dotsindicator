@@ -96,14 +96,8 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
 
   override fun buildOnPageChangedListener(): OnPageChangeListenerHelper {
     return object : OnPageChangeListenerHelper() {
-      override fun onPageScrolled(selectedPosition: Int, nextPosition: Int,
-              positionOffset: Float) {
-        if (selectedPosition == -1) {
-          return
-        }
-
+      override fun onPageScrolled(selectedPosition: Int, nextPosition: Int, positionOffset: Float) {
         val selectedDot = dots[selectedPosition]
-
         // Selected dot
         val selectedDotWidth = (dotsSize + dotsSize * (dotsWidthFactor - 1) * (1 - positionOffset)).toInt()
         selectedDot.setWidth(selectedDotWidth)
@@ -138,6 +132,7 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
 
       override fun resetPosition(position: Int) {
         dots[position].setWidth(dotsSize.toInt())
+        refreshDotColor(position)
       }
 
       override val pageCount: Int
