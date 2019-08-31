@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_main"
-    tools:context="com.tbuonomo.dotsindicatorsample.MainActivity"
+    tools:context="com.tbuonomo.dotsindicatorsample.viewpager.ViewPagerActivity"
     >
 
   <androidx.constraintlayout.widget.Guideline
