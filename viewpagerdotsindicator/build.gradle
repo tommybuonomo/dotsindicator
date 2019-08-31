@@ -29,6 +29,7 @@ dependencies {
   implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
 
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  implementation 'androidx.viewpager2:viewpager2:1.0.0-beta03'
 }
 
 dokka {
@@ -50,7 +51,6 @@ buildscript {
     classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:${dokka_version}"
-
   }
 }
 

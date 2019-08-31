@@ -66,7 +66,7 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
   }
 
   private fun setUpDotIndicator() {
-    if (viewPager.isEmpty) {
+    if (pager?.isEmpty == true) {
       return
     }
 
@@ -104,8 +104,8 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
   override fun addDot(index: Int) {
     val dot = buildDot(true)
     dot.setOnClickListener {
-      if (dotsClickable && viewPager != null && viewPager!!.adapter != null && index < viewPager!!.adapter!!.count) {
-        viewPager!!.setCurrentItem(index, true)
+      if (dotsClickable && index < pager?.count ?: 0) {
+        pager!!.setCurrentItem(index, true)
       }
     }
 

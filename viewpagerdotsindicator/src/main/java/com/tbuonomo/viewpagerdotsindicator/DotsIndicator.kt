@@ -74,14 +74,13 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
     if (isInEditMode) {
       background.setColor(if (0 == index) selectedDotColor else dotsColor)
     } else {
-      background.setColor(if (viewPager!!.currentItem == index) selectedDotColor else dotsColor)
+      background.setColor(if (pager!!.currentItem == index) selectedDotColor else dotsColor)
     }
     imageView.setBackgroundDrawable(background)
 
     dot.setOnClickListener {
-      if (dotsClickable && viewPager != null && viewPager!!.adapter != null && index < viewPager!!.adapter!!
-                      .count) {
-        viewPager!!.setCurrentItem(index, true)
+      if (dotsClickable && index < pager?.count ?: 0) {
+        pager!!.setCurrentItem(index, true)
       }
     }
 
@@ -119,7 +118,7 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
 
             nextDotBackground.setColor(nextColor)
 
-            if (progressMode && selectedPosition <= viewPager!!.currentItem) {
+            if (progressMode && selectedPosition <= pager!!.currentItem) {
               selectedDotBackground.setColor(selectedDotColor)
             } else {
               selectedDotBackground.setColor(selectedColor)
@@ -144,7 +143,7 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
     val elevationItem = dots[index]
     val background = elevationItem.background as DotsGradientDrawable
 
-    if (index == viewPager!!.currentItem || progressMode && index < viewPager!!.currentItem) {
+    if (index == pager!!.currentItem || progressMode && index < pager!!.currentItem) {
       background.setColor(selectedDotColor)
     } else {
       background.setColor(dotsColor)

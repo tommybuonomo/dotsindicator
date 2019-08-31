@@ -8,8 +8,11 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 
 abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
         attrs: AttributeSet? = null,
@@ -53,8 +56,6 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
   @JvmField
   protected val dots = ArrayList<ImageView>()
 
-  private var onPageChangeListener: OnPageChangeListener? = null
-
   var dotsClickable: Boolean = true
   var dotsColor: Int = DEFAULT_POINT_COLOR
     set(value) {
@@ -79,23 +80,17 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
     }
   }
 
-  var viewPager: ViewPager? = null
-    set(value) {
-      if (value!!.adapter == null) {
-        throw IllegalStateException("You have to set an adapter to the view pager before " +
-                "initializing the dots indicator !")
-      }
-      field = value
+  var pager: Pager? = null
 
-      value.adapter!!.registerDataSetObserver(object : DataSetObserver() {
-        override fun onChanged() {
-          super.onChanged()
-          refreshDots()
-        }
-      })
-
-      refreshDots()
-    }
+  interface Pager {
+    val isNotEmpty: Boolean
+    val currentItem: Int
+    val isEmpty: Boolean
+    val count: Int
+    fun setCurrentItem(item: Int, smoothScroll: Boolean)
+    fun removeOnPageChangeListener()
+    fun addOnPageChangeListener(onPageChangeListenerHelper: OnPageChangeListenerHelper)
+  }
 
   override fun onAttachedToWindow() {
     super.onAttachedToWindow()
@@ -103,10 +98,10 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
   }
 
   private fun refreshDotsCount() {
-    if (dots.size < viewPager!!.adapter!!.count) {
-      addDots(viewPager!!.adapter!!.count - dots.size)
-    } else if (dots.size > viewPager!!.adapter!!.count) {
-      removeDots(dots.size - viewPager!!.adapter!!.count)
+    if (dots.size < pager!!.count) {
+      addDots(pager!!.count - dots.size)
+    } else if (dots.size > pager!!.count) {
+      removeDots(dots.size - pager!!.count)
     }
   }
 
@@ -147,16 +142,16 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
   }
 
   private fun refreshOnPageChangedListener() {
-    if (viewPager!!.isNotEmpty) {
-      onPageChangeListener?.let { viewPager!!.removeOnPageChangeListener(it) }
-      onPageChangeListener = buildOnPageChangedListener()
-      viewPager!!.addOnPageChangeListener(onPageChangeListener!!)
-      onPageChangeListener!!.onPageScrolled(viewPager!!.currentItem, 0f, 0)
+    if (pager!!.isNotEmpty) {
+      pager!!.removeOnPageChangeListener()
+      val onPageChangeListenerHelper = buildOnPageChangedListener()
+      pager!!.addOnPageChangeListener(onPageChangeListenerHelper)
+      onPageChangeListenerHelper.onPageScrolled(pager!!.currentItem, 0f)
     }
   }
 
   private fun refreshDotsSize() {
-    for (i in 0 until viewPager!!.currentItem) {
+    for (i in 0 until pager!!.currentItem) {
       dots[i].setWidth(dotsSize.toInt())
     }
   }
@@ -166,7 +161,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
   abstract fun refreshDotColor(index: Int)
   abstract fun addDot(index: Int)
   abstract fun removeDot(index: Int)
-  abstract fun buildOnPageChangedListener(): OnPageChangeListener
+  abstract fun buildOnPageChangedListener(): OnPageChangeListenerHelper
   abstract val type: Type
 
   // PUBLIC METHODS
@@ -175,6 +170,110 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
   fun setPointsColor(color: Int) {
     dotsColor = color
     refreshDotsColors()
+  }
+
+  fun setViewPager(viewPager: ViewPager) {
+    if (viewPager.adapter == null) {
+      throw IllegalStateException("You have to set an adapter to the view pager before " +
+              "initializing the dots indicator !")
+    }
+
+    viewPager.adapter!!.registerDataSetObserver(object : DataSetObserver() {
+      override fun onChanged() {
+        super.onChanged()
+        refreshDots()
+      }
+    })
+
+    pager = object : Pager {
+      var onPageChangeListener: OnPageChangeListener? = null
+
+      override val isNotEmpty: Boolean
+        get() = viewPager.isNotEmpty
+      override val currentItem: Int
+        get() = viewPager.currentItem
+      override val isEmpty: Boolean
+        get() = viewPager.isEmpty
+      override val count: Int
+        get() = viewPager.adapter?.count ?: 0
+
+      override fun setCurrentItem(item: Int, smoothScroll: Boolean) {
+        viewPager.setCurrentItem(item, smoothScroll)
+      }
+
+      override fun removeOnPageChangeListener() {
+        onPageChangeListener?.let { viewPager.removeOnPageChangeListener(it) }
+      }
+
+      override fun addOnPageChangeListener(onPageChangeListenerHelper:
+      OnPageChangeListenerHelper) {
+        onPageChangeListener = object : OnPageChangeListener {
+          override fun onPageScrolled(position: Int, positionOffset: Float,
+                  positionOffsetPixels: Int) {
+            onPageChangeListenerHelper.onPageScrolled(position, positionOffset)
+          }
+
+          override fun onPageScrollStateChanged(state: Int) {
+          }
+
+          override fun onPageSelected(position: Int) {
+          }
+        }
+        viewPager.addOnPageChangeListener(onPageChangeListener!!)
+      }
+    }
+
+    refreshDots()
+  }
+
+  fun setViewPager2(viewPager2: ViewPager2) {
+    if (viewPager2.adapter == null) {
+      throw IllegalStateException("You have to set an adapter to the view pager before " +
+              "initializing the dots indicator !")
+    }
+
+
+    viewPager2.adapter!!.registerAdapterDataObserver(object : AdapterDataObserver() {
+      override fun onChanged() {
+        super.onChanged()
+        refreshDots()
+      }
+    })
+
+    pager = object : Pager {
+      var onPageChangeCallback: OnPageChangeCallback? = null
+
+      override val isNotEmpty: Boolean
+        get() = viewPager2.isNotEmpty
+      override val currentItem: Int
+        get() = viewPager2.currentItem
+      override val isEmpty: Boolean
+        get() = viewPager2.isEmpty
+      override val count: Int
+        get() = viewPager2.adapter?.itemCount ?: 0
+
+      override fun setCurrentItem(item: Int, smoothScroll: Boolean) {
+        viewPager2.setCurrentItem(item, smoothScroll)
+      }
+
+      override fun removeOnPageChangeListener() {
+        onPageChangeCallback?.let { viewPager2.unregisterOnPageChangeCallback(it) }
+      }
+
+      override fun addOnPageChangeListener(
+              onPageChangeListenerHelper: OnPageChangeListenerHelper) {
+        onPageChangeCallback = object : OnPageChangeCallback() {
+          override fun onPageScrolled(position: Int, positionOffset: Float,
+                  positionOffsetPixels: Int) {
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            onPageChangeListenerHelper.onPageScrolled(position, positionOffset)
+          }
+        }
+        viewPager2.registerOnPageChangeCallback(onPageChangeCallback!!)
+      }
+    }
+
+    refreshDots()
   }
 
   // EXTENSIONS
@@ -195,7 +294,13 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
   }
 
   protected val ViewPager.isNotEmpty: Boolean get() = adapter!!.count > 0
+  protected val ViewPager2.isNotEmpty: Boolean get() = adapter!!.itemCount > 0
+
   protected val ViewPager?.isEmpty: Boolean
     get() = this != null && this.adapter != null &&
             adapter!!.count == 0
+
+  protected val ViewPager2?.isEmpty: Boolean
+    get() = this != null && this.adapter != null &&
+            adapter!!.itemCount == 0
 }
