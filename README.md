@@ -4,6 +4,7 @@
 [ ![Download](https://api.bintray.com/packages/tbuonomo/maven/dots-indicator/images/download.svg) ](https://bintray.com/tbuonomo/maven/dots-indicator/_latestVersion)
 
 This library makes it possible to represent View Pager Dots Indicator with 3 different awesome styles !
+It supports ViewPager and ViewPager2
 
 ![materialdots](https://user-images.githubusercontent.com/15737675/40272405-d7c5f192-5bac-11e8-9231-551c23ba7ef1.gif)
 
@@ -22,7 +23,7 @@ Don't forget to star the project if you like it!
 #### Gradle
 ```Gradle
 dependencies {
-    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3'
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.0'
 }
 ```
 ## DotsIndicator 
@@ -169,12 +170,21 @@ dependencies {
     wormDotsIndicator.setViewPager(viewPager)
 ```
 
+## Support of ViewPager2
+Use `setViewPager2(viewPager2)` instead of `setViewPager(viewPager)`
+
 ## Help Maintenance
 If you could help me to continue maintain this repo, buying me a cup of coffee will make my life really happy and get much energy out of it.
 
 <a href="https://www.buymeacoffee.com/tommybuonomo" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 ## Changelog
+### 4.0
+- Support of ViewPager2 (fix #40)
+- Convert all the project to Kotlin
+- Migration to AndroidX
+- Fix #37: findViewById, causing missing adapter error
+
 ### 3.0.3
 - Fix #20: Dots indicator initialises with the wrong number of dots initially
 ### 3.0.2
