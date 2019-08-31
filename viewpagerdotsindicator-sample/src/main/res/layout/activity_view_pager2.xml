@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_main"
+    tools:context="com.tbuonomo.dotsindicatorsample.viewpager.ViewPagerActivity"
+    >
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="8dp"
+      android:layout_marginStart="8dp"
+      android:text="@string/worm_dots_indicator"
+      android:textColor="@color/md_white_1000"
+      android:textSize="12sp"
+      android:visibility="gone"
+      app:layout_constraintBottom_toBottomOf="@+id/worm_dots_indicator"
+      app:layout_constraintEnd_toStartOf="@+id/worm_dots_indicator"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/worm_dots_indicator"
+      />
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_percent="0.7"
+      />
+
+  <androidx.viewpager2.widget.ViewPager2
+      android:id="@+id/view_pager2"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_marginBottom="8dp"
+      android:layout_marginTop="24dp"
+      app:layout_constraintBottom_toTopOf="@+id/guideline"
+      app:layout_constraintDimensionRatio="1:1"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      />
+
+  <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+      android:id="@+id/dots_indicator"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="8dp"
+      android:layout_marginStart="8dp"
+      app:dotsColor="@color/md_white_1000"
+      app:dotsCornerRadius="8dp"
+      app:dotsSize="16dp"
+      app:dotsSpacing="4dp"
+      app:dotsWidthFactor="2.5"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/guideline"
+      app:progressMode="false"
+      app:selectedDotColor="@color/md_blue_200"
+      />
+
+  <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
+      android:id="@+id/spring_dots_indicator"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="8dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="16dp"
+      app:dotsColor="@color/md_white_1000"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/dots_indicator"
+      />
+  <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+      android:id="@+id/worm_dots_indicator"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="8dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="16dp"
+      app:dotsColor="@color/md_white_1000"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/spring_dots_indicator"
+      ></com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

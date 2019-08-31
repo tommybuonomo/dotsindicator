@@ -1,11 +1,14 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'org.jetbrains.dokka-android'
 
 android {
-  compileSdkVersion 28
+  compileSdkVersion 29
 
   defaultConfig {
     minSdkVersion 15
-    targetSdkVersion 28
+    targetSdkVersion 29
     versionCode 1
     versionName version
   }
@@ -22,17 +25,32 @@ android {
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   testImplementation 'junit:junit:4.12'
-  implementation 'com.android.support:appcompat-v7:28.0.0'
-  implementation 'com.android.support:support-dynamic-animation:28.0.0'
+  implementation 'androidx.appcompat:appcompat:1.0.2'
+  implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
+
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  implementation 'androidx.viewpager2:viewpager2:1.0.0-beta03'
 }
 
+dokka {
+  outputFormat = 'html'
+  outputDirectory = "$buildDir/javadoc"
+}
+
+
 buildscript {
+  ext.dokka_version = '0.9.16-eap-3'
   repositories {
     jcenter()
+    mavenCentral()
+    maven {
+      url  "https://dl.bintray.com/kotlin/kotlin-eap"
+    }
   }
   dependencies {
     classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+    classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:${dokka_version}"
   }
 }
 
