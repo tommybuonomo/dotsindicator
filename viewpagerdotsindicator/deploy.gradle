@@ -4,7 +4,7 @@ apply plugin: 'com.jfrog.bintray'
 ext {
   groupId = 'com.tbuonomo.andrui' // package name of the project
   artifactId = "viewpagerdotsindicator" // module name of the library
-  libVersion = "4.0-snapshot"
+  libVersion = "4.1-snapshot"
 }
 version = libVersion
 group = groupId
