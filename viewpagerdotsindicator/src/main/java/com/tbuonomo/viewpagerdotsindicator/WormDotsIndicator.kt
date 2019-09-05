@@ -2,6 +2,8 @@ package com.tbuonomo.viewpagerdotsindicator
 
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -116,6 +118,9 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
   private fun buildDot(stroke: Boolean): ViewGroup {
     val dot = LayoutInflater.from(context).inflate(R.layout.worm_dot_layout, this,
             false) as ViewGroup
+    if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
+      dot.layoutDirection = View.LAYOUT_DIRECTION_LTR
+    }
     val dotImageView = dot.findViewById<View>(R.id.worm_dot)
     dotImageView.setBackgroundResource(
             if (stroke) R.drawable.worm_dot_stroke_background else R.drawable.worm_dot_background)
