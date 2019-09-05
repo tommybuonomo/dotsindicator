@@ -2,6 +2,8 @@ package com.tbuonomo.viewpagerdotsindicator
 
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +14,6 @@ import android.widget.LinearLayout.HORIZONTAL
 import android.widget.RelativeLayout
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.tbuonomo.viewpagerdotsindicator.BaseDotsIndicator.Type.SPRING
 
 class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null,
@@ -112,6 +113,10 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
   private fun buildDot(stroke: Boolean): ViewGroup {
     val dot = LayoutInflater.from(context).inflate(R.layout.spring_dot_layout, this,
             false) as ViewGroup
+    if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
+      dot.layoutDirection = View.LAYOUT_DIRECTION_LTR
+    }
+
     val dotView = dot.findViewById<ImageView>(R.id.spring_dot)
     dotView.setBackgroundResource(
             if (stroke) R.drawable.spring_dot_stroke_background else R.drawable.spring_dot_background)
@@ -143,22 +148,6 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
 
   override fun refreshDotColor(index: Int) {
     setUpDotBackground(true, dots[index])
-  }
-
-  fun buildOnPageChangedListener2(): OnPageChangeListener {
-    return object : OnPageChangeListener {
-      override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        val globalPositionOffsetPixels = position * (dotsSize + dotsSpacing * 2) + (dotsSize + dotsSpacing * 2) *
-                positionOffset
-        val indicatorTranslationX = globalPositionOffsetPixels + dotsStrokeWidth / 2f
-        dotIndicatorSpring?.spring?.finalPosition = indicatorTranslationX
-        dotIndicatorSpring?.animateToFinalPosition(indicatorTranslationX)
-      }
-
-      override fun onPageSelected(position: Int) {}
-
-      override fun onPageScrollStateChanged(state: Int) {}
-    };
   }
 
   override fun buildOnPageChangedListener(): OnPageChangeListenerHelper {

@@ -3,6 +3,8 @@ package com.tbuonomo.viewpagerdotsindicator
 import android.content.Context
 import android.database.DataSetObserver
 import android.graphics.Color
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -303,4 +305,13 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
   protected val ViewPager2?.isEmpty: Boolean
     get() = this != null && this.adapter != null &&
             adapter!!.itemCount == 0
+
+  override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+    super.onLayout(changed, left, top, right, bottom)
+    if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1 && layoutDirection == View.LAYOUT_DIRECTION_RTL) {
+      layoutDirection = View.LAYOUT_DIRECTION_LTR
+      rotation = 180f
+      requestLayout()
+    }
+  }
 }

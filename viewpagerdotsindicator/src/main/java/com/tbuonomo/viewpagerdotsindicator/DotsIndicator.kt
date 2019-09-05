@@ -2,8 +2,11 @@ package com.tbuonomo.viewpagerdotsindicator
 
 import android.animation.ArgbEvaluator
 import android.content.Context
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -66,6 +69,11 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
     val dot = LayoutInflater.from(context).inflate(R.layout.dot_layout, this, false)
     val imageView = dot.findViewById<ImageView>(R.id.dot)
     val params = imageView.layoutParams as RelativeLayout.LayoutParams
+
+    if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
+      dot.layoutDirection = View.LAYOUT_DIRECTION_LTR
+    }
+
     params.height = dotsSize.toInt()
     params.width = params.height
     params.setMargins(dotsSpacing.toInt(), 0, dotsSpacing.toInt(), 0)
