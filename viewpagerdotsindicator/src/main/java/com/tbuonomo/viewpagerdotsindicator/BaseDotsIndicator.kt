@@ -134,6 +134,9 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
   }
 
   protected fun refreshDots() {
+    if (pager == null) {
+      return
+    }
     post {
       // Check if we need to refresh the dots count
       refreshDotsCount()
