@@ -14,6 +14,11 @@ abstract class OnPageChangeListenerHelper {
     }
     val leftPosition = offset.toInt()
     val rightPosition = leftPosition + 1
+
+    if (rightPosition > lastPageIndex || leftPosition == -1) {
+      return
+    }
+
     onPageScrolled(leftPosition, rightPosition, offset % 1)
 
     if (lastLeftPosition != -1) {
