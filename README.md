@@ -179,6 +179,10 @@ If you could help me to continue maintain this repo, buying me a cup of coffee w
 <a href="https://www.buymeacoffee.com/tommybuonomo" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 ## Changelog
+### 4.1.2
+Fix #55 and #56
+### 4.1.1
+Fix crash
 ### 4.1
 - Support RTL (fix #32 and #51)
 ### 4.0
