@@ -180,19 +180,19 @@ If you could help me to continue maintain this repo, buying me a cup of coffee w
 
 ## Changelog
 ### 4.1.2
-Fix #55 and #56
+Fix [#55][i55] and [#56][i56]
 ### 4.1.1
 Fix crash
 ### 4.1
-- Support RTL (fix #32 and #51)
+- Support RTL (fix [#32][i32] and [#51][i51])
 ### 4.0
-- Support of ViewPager2 (fix #40)
+- Support of ViewPager2 (fix [#40][i40])
 - Convert all the project to Kotlin
 - Migration to AndroidX
-- Fix #37: findViewById, causing missing adapter error
+- Fix [#37][i37]: findViewById, causing missing adapter error
 
 ### 3.0.3
-- Fix #20: Dots indicator initialises with the wrong number of dots initially
+- Fix [#20][i20]: Dots indicator initialises with the wrong number of dots initially
 ### 3.0.2
 - Add attribute `selectedDotColor` and `progressMode` to `DotsIndicator`
 - Fix RTL issues and improve `DotsIndicator` globally
@@ -213,3 +213,12 @@ Fix crash
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+[i20]: https://github.com/tommybuonomo/dotsindicator/issues/20
+[i32]: https://github.com/tommybuonomo/dotsindicator/issues/32
+[i37]: https://github.com/tommybuonomo/dotsindicator/issues/37
+[i40]: https://github.com/tommybuonomo/dotsindicator/issues/40
+[i51]: https://github.com/tommybuonomo/dotsindicator/issues/51
+[i55]: https://github.com/tommybuonomo/dotsindicator/issues/55
+[i56]: https://github.com/tommybuonomo/dotsindicator/issues/56
+
