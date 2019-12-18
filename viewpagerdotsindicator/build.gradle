@@ -29,7 +29,7 @@ dependencies {
   implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
 
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-  implementation 'androidx.viewpager2:viewpager2:1.0.0-beta03'
+  implementation 'androidx.viewpager2:viewpager2:1.0.0'
 }
 
 dokka {
