@@ -23,7 +23,7 @@ Don't forget to star the project if you like it!
 #### Gradle
 ```Gradle
 dependencies {
-    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1'
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
 }
 ```
 ## DotsIndicator 
@@ -146,7 +146,7 @@ dependencies {
 | Attribute | Description |
 | --- | --- |
 | `dotsColor` | Color of the indicator dot |
-| `dotsColor` | Color of the stroke dots (by default the indicator color) |
+| `dotsStrokeColor` | Color of the stroke dots (by default the indicator color) |
 | `dotsSize` | Size in dp of the dots (by default 16dp) |
 | `dotsSpacing` | Size in dp of the space between the dots (by default 4dp) |
 | `dotsCornerRadius` | The dots corner radius (by default the half of dotsSize for circularity) |
@@ -179,16 +179,20 @@ If you could help me to continue maintain this repo, buying me a cup of coffee w
 <a href="https://www.buymeacoffee.com/tommybuonomo" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 ## Changelog
+### 4.1.2
+Fix [#55][i55] and [#56][i56]
+### 4.1.1
+Fix crash
 ### 4.1
-- Support RTL (fix #32 and #51)
+- Support RTL (fix [#32][i32] and [#51][i51])
 ### 4.0
-- Support of ViewPager2 (fix #40)
+- Support of ViewPager2 (fix [#40][i40])
 - Convert all the project to Kotlin
 - Migration to AndroidX
-- Fix #37: findViewById, causing missing adapter error
+- Fix [#37][i37]: findViewById, causing missing adapter error
 
 ### 3.0.3
-- Fix #20: Dots indicator initialises with the wrong number of dots initially
+- Fix [#20][i20]: Dots indicator initialises with the wrong number of dots initially
 ### 3.0.2
 - Add attribute `selectedDotColor` and `progressMode` to `DotsIndicator`
 - Fix RTL issues and improve `DotsIndicator` globally
@@ -209,3 +213,12 @@ If you could help me to continue maintain this repo, buying me a cup of coffee w
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+[i20]: https://github.com/tommybuonomo/dotsindicator/issues/20
+[i32]: https://github.com/tommybuonomo/dotsindicator/issues/32
+[i37]: https://github.com/tommybuonomo/dotsindicator/issues/37
+[i40]: https://github.com/tommybuonomo/dotsindicator/issues/40
+[i51]: https://github.com/tommybuonomo/dotsindicator/issues/51
+[i55]: https://github.com/tommybuonomo/dotsindicator/issues/55
+[i56]: https://github.com/tommybuonomo/dotsindicator/issues/56
+
