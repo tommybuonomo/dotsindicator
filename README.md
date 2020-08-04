@@ -66,7 +66,7 @@ dependencies {
 
 #### In your Kotlin code
 ```Kotlin
-    val dotsIndicator = findViewById<WormDotsIndicator>(R.id.dots_indicator)
+    val dotsIndicator = findViewById<DotsIndicator>(R.id.dots_indicator)
     val viewPager = findViewById<ViewPager>(R.id.view_pager)
     val adapter = ViewPagerAdapter()
     viewPager.adapter = adapter
@@ -116,7 +116,7 @@ dependencies {
 
 #### In your Kotlin code
 ```Kotlin
-    val springDotsIndicator = findViewById<WormDotsIndicator>(R.id.spring_dots_indicator)
+    val springDotsIndicator = findViewById<SpringDotsIndicator>(R.id.spring_dots_indicator)
     val viewPager = findViewById<ViewPager>(R.id.view_pager)
     val adapter = ViewPagerAdapter()
     viewPager.adapter = adapter
