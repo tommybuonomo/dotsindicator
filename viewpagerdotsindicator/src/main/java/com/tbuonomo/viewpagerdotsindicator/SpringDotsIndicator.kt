@@ -51,7 +51,6 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
     dotsStrokeColor = dotIndicatorColor
     stiffness = DEFAULT_STIFFNESS.toFloat()
     dampingRatio = DEFAULT_DAMPING_RATIO
-    dotsClickable = true
 
     if (attrs != null) {
       val a = getContext().obtainStyledAttributes(attrs, R.styleable.SpringDotsIndicator)
