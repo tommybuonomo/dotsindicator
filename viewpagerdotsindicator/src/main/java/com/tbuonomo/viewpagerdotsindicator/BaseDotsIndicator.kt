@@ -83,7 +83,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
   }
 
   var pager: Pager? = null
-    set(value) { 
+    set(value) {
       field = value
       refreshDots()
     }
