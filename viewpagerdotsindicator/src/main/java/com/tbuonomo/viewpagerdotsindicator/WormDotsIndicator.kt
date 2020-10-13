@@ -31,6 +31,8 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
   private var dotIndicatorWidthSpring: SpringAnimation? = null
   private val strokeDotsLinearLayout: LinearLayout = LinearLayout(context)
 
+  private val systemAnimationEnabled = getAnimationScale(context) != 0f
+
   init {
     val linearParams = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -181,9 +183,15 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
             widthFinalPosition = dotsSize
           }
         }
-
-        dotIndicatorXSpring?.animateToFinalPosition(xFinalPosition)
-        dotIndicatorWidthSpring?.animateToFinalPosition(widthFinalPosition)
+        if (systemAnimationEnabled) {
+          dotIndicatorXSpring?.animateToFinalPosition(xFinalPosition)
+          dotIndicatorWidthSpring?.animateToFinalPosition(widthFinalPosition)
+        } else {
+          dotIndicatorLayout?.translationX = xFinalPosition
+          val params = dotIndicatorView!!.layoutParams
+          params.width = widthFinalPosition.toInt()
+          dotIndicatorView!!.requestLayout()
+        }
       }
 
       override fun resetPosition(position: Int) {
