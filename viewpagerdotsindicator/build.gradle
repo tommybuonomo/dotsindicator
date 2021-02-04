@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'org.jetbrains.dokka-android'
+apply plugin: 'com.vanniktech.maven.publish'
 
 android {
   compileSdkVersion 30
@@ -32,26 +32,13 @@ dependencies {
   implementation 'androidx.viewpager2:viewpager2:1.0.0'
 }
 
-dokka {
-  outputFormat = 'html'
-  outputDirectory = "$buildDir/javadoc"
-}
-
-
 buildscript {
-  ext.dokka_version = '0.9.16-eap-3'
   repositories {
     jcenter()
     mavenCentral()
-    maven {
-      url  "https://dl.bintray.com/kotlin/kotlin-eap"
-    }
   }
   dependencies {
-    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-    classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-    classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:${dokka_version}"
+    classpath 'com.vanniktech:gradle-maven-publish-plugin:0.13.0'
+    classpath 'org.jetbrains.dokka:dokka-gradle-plugin:1.4.20'
   }
 }
-
-apply from: 'deploy.gradle'
