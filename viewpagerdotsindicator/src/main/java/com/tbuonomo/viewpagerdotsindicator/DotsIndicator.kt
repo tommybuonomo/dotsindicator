@@ -157,12 +157,14 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
 
   override fun refreshDotColor(index: Int) {
     val elevationItem = dots[index]
-    val background = elevationItem.background as DotsGradientDrawable
+    val background = elevationItem.background as? DotsGradientDrawable?
 
-    if (index == pager!!.currentItem || progressMode && index < pager!!.currentItem) {
-      background.setColor(selectedDotColor)
-    } else {
-      background.setColor(dotsColor)
+    background?.let {
+      if (index == pager!!.currentItem || progressMode && index < pager!!.currentItem) {
+        background.setColor(selectedDotColor)
+      } else {
+        background.setColor(dotsColor)
+      }
     }
 
     elevationItem.setBackgroundDrawable(background)
