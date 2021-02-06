@@ -10,6 +10,7 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.annotation.StyleableRes
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
@@ -27,12 +28,12 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
 
   enum class Type(val defaultSize: Float,
           val defaultSpacing: Float,
-          val styleableId: IntArray,
-          val dotsColorId: Int,
-          val dotsSizeId: Int,
-          val dotsSpacingId: Int,
-          val dotsCornerRadiusId: Int,
-          val dotsClickableId: Int) {
+          @StyleableRes val styleableId: IntArray,
+          @StyleableRes val dotsColorId: Int,
+          @StyleableRes val dotsSizeId: Int,
+          @StyleableRes val dotsSpacingId: Int,
+          @StyleableRes val dotsCornerRadiusId: Int,
+          @StyleableRes val dotsClickableId: Int) {
     DEFAULT(16f,
             8f,
             R.styleable.SpringDotsIndicator,
