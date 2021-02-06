@@ -138,7 +138,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
     }
   }
 
-  protected fun refreshDots() {
+  fun refreshDots() {
     if (pager == null) {
       return
     }
