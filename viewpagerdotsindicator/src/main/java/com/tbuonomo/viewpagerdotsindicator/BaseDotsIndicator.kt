@@ -248,6 +248,16 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
         super.onChanged()
         refreshDots()
       }
+
+      override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+        super.onItemRangeInserted(positionStart, itemCount)
+        refreshDots()
+      }
+
+      override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+        super.onItemRangeRemoved(positionStart, itemCount)
+        refreshDots()
+      }
     })
 
     pager = object : Pager {
