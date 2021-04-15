@@ -23,7 +23,7 @@ Don't forget to star the project if you like it!
 #### Gradle
 ```Gradle
 dependencies {
-    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
+    implementation 'com.tbuonomo:dotsindicator:4.2'
 }
 ```
 ## DotsIndicator 
@@ -179,6 +179,10 @@ If you could help me to continue maintain this repo, buying me a cup of coffee w
 <a href="https://www.buymeacoffee.com/tommybuonomo" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 ## Changelog
+### 4.2
+Fix [#115][i115]
+The library is now on MavenCentral.
+The library name moves from `com.tbuonomo.andrui:viewpagerdotsindicator` to `com.tbuonomo:dotsindicator`
 ### 4.1.2
 Fix [#55][i55] and [#56][i56]
 ### 4.1.1
