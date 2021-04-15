@@ -1,3 +1,13 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.vanniktech:gradle-maven-publish-plugin:0.14.2'
+    classpath 'org.jetbrains.dokka:dokka-gradle-plugin:1.4.20'
+  }
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -20,8 +30,6 @@ android {
   }
 }
 
-
-
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   testImplementation 'junit:junit:4.12'
@@ -30,15 +38,4 @@ dependencies {
 
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
   implementation 'androidx.viewpager2:viewpager2:1.0.0'
-}
-
-buildscript {
-  repositories {
-    jcenter()
-    mavenCentral()
-  }
-  dependencies {
-    classpath 'com.vanniktech:gradle-maven-publish-plugin:0.13.0'
-    classpath 'org.jetbrains.dokka:dokka-gradle-plugin:1.4.20'
-  }
 }
