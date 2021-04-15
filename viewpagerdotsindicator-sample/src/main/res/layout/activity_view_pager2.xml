@@ -81,10 +81,11 @@
       android:layout_marginStart="8dp"
       android:layout_marginTop="16dp"
       app:dotsColor="@color/md_white_1000"
+      app:dotsStrokeWidth="8dp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/spring_dots_indicator"
-      ></com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator>
+      />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

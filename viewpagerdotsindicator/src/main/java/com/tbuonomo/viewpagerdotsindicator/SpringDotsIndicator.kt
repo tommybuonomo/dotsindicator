@@ -51,7 +51,6 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
     dotsStrokeColor = dotIndicatorColor
     stiffness = DEFAULT_STIFFNESS.toFloat()
     dampingRatio = DEFAULT_DAMPING_RATIO
-    dotsClickable = true
 
     if (attrs != null) {
       val a = getContext().obtainStyledAttributes(attrs, R.styleable.SpringDotsIndicator)
@@ -70,7 +69,7 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
       a.recycle()
     }
 
-    dotIndicatorSize = dotsSize - dotsStrokeWidth
+    dotIndicatorSize = dotsSize
 
     if (isInEditMode) {
       addDots(5)
@@ -159,7 +158,7 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
       override fun onPageScrolled(selectedPosition: Int, nextPosition: Int, positionOffset: Float) {
         val distance = dotsSize + dotsSpacing * 2
         val x = (dots[selectedPosition].parent as ViewGroup).left
-        val globalPositionOffsetPixels = x + distance * positionOffset + dotsStrokeWidth - 2
+        val globalPositionOffsetPixels = x + distance * positionOffset
         dotIndicatorSpring?.animateToFinalPosition(globalPositionOffsetPixels)
       }
 

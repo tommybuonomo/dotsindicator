@@ -11,6 +11,7 @@
   <attr format="float" name="stiffness"/>
   <attr format="float" name="dampingRatio"/>
   <attr format="boolean" name="progressMode"/>
+  <attr format="boolean" name="dotsClickable"/>
 
   <declare-styleable name="DotsIndicator">
     <attr name="dotsColor"/>
@@ -20,6 +21,8 @@
     <attr name="dotsSpacing"/>
     <attr name="dotsCornerRadius"/>
     <attr name="progressMode"/>
+    <attr name="dotsClickable"/>
+    <attr name="dotsElevation" format="dimension"/>
   </declare-styleable>
 
   <declare-styleable name="SpringDotsIndicator">
@@ -31,6 +34,7 @@
     <attr name="dotsStrokeColor"/>
     <attr name="stiffness"/>
     <attr name="dampingRatio"/>
+    <attr name="dotsClickable"/>
   </declare-styleable>
 
   <declare-styleable name="WormDotsIndicator">
@@ -40,5 +44,6 @@
     <attr name="dotsCornerRadius"/>
     <attr name="dotsStrokeWidth"/>
     <attr name="dotsStrokeColor"/>
+    <attr name="dotsClickable"/>
   </declare-styleable>
 </resources>

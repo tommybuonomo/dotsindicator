@@ -10,6 +10,7 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.annotation.StyleableRes
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
@@ -27,32 +28,36 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
 
   enum class Type(val defaultSize: Float,
           val defaultSpacing: Float,
-          val styleableId: IntArray,
-          val dotsColorId: Int,
-          val dotsSizeId: Int,
-          val dotsSpacingId: Int,
-          val dotsCornerRadiusId: Int) {
+          @StyleableRes val styleableId: IntArray,
+          @StyleableRes val dotsColorId: Int,
+          @StyleableRes val dotsSizeId: Int,
+          @StyleableRes val dotsSpacingId: Int,
+          @StyleableRes val dotsCornerRadiusId: Int,
+          @StyleableRes val dotsClickableId: Int) {
     DEFAULT(16f,
             8f,
             R.styleable.SpringDotsIndicator,
             R.styleable.SpringDotsIndicator_dotsColor,
             R.styleable.SpringDotsIndicator_dotsSize,
             R.styleable.SpringDotsIndicator_dotsSpacing,
-            R.styleable.SpringDotsIndicator_dotsCornerRadius),
+            R.styleable.SpringDotsIndicator_dotsCornerRadius,
+            R.styleable.SpringDotsIndicator_dotsClickable),
     SPRING(16f,
             4f,
             R.styleable.DotsIndicator,
             R.styleable.DotsIndicator_dotsColor,
             R.styleable.DotsIndicator_dotsSize,
             R.styleable.DotsIndicator_dotsSpacing,
-            R.styleable.DotsIndicator_dotsCornerRadius),
+            R.styleable.DotsIndicator_dotsCornerRadius,
+            R.styleable.SpringDotsIndicator_dotsClickable),
     WORM(16f,
             4f,
             R.styleable.WormDotsIndicator,
             R.styleable.WormDotsIndicator_dotsColor,
             R.styleable.WormDotsIndicator_dotsSize,
             R.styleable.WormDotsIndicator_dotsSpacing,
-            R.styleable.WormDotsIndicator_dotsCornerRadius)
+            R.styleable.WormDotsIndicator_dotsCornerRadius,
+            R.styleable.SpringDotsIndicator_dotsClickable)
   }
 
   @JvmField
@@ -77,6 +82,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
       dotsSize = a.getDimension(type.dotsSizeId, dotsSize)
       dotsCornerRadius = a.getDimension(type.dotsCornerRadiusId, dotsCornerRadius)
       dotsSpacing = a.getDimension(type.dotsSpacingId, dotsSpacing)
+      dotsClickable = a.getBoolean(type.dotsClickableId, true)
 
       a.recycle()
     }
@@ -133,7 +139,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
     }
   }
 
-  protected fun refreshDots() {
+  fun refreshDots() {
     if (pager == null) {
       return
     }

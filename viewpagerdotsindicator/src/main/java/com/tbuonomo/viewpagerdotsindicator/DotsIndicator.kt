@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import com.tbuonomo.viewpagerdotsindicator.BaseDotsIndicator.Type.DEFAULT
 
 class DotsIndicator @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null,
@@ -20,9 +19,10 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
     const val DEFAULT_WIDTH_FACTOR = 2.5f
   }
 
-  private var linearLayout: LinearLayout? = null
+  private lateinit var linearLayout: LinearLayout
   private var dotsWidthFactor: Float = 0f
   private var progressMode: Boolean = false
+  private var dotsElevation: Float = 0f
 
   var selectedDotColor: Int = 0
     set(value) {
@@ -38,7 +38,7 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
 
   private fun init(attrs: AttributeSet?) {
     linearLayout = LinearLayout(context)
-    linearLayout!!.orientation = LinearLayout.HORIZONTAL
+    linearLayout.orientation = LinearLayout.HORIZONTAL
     addView(linearLayout, WRAP_CONTENT, WRAP_CONTENT)
 
     dotsWidthFactor = DEFAULT_WIDTH_FACTOR
@@ -55,6 +55,8 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
 
       progressMode = a.getBoolean(R.styleable.DotsIndicator_progressMode, false)
 
+      dotsElevation = a.getDimension(R.styleable.DotsIndicator_dotsElevation, 0f)
+
       a.recycle()
     }
 
@@ -68,7 +70,7 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
   override fun addDot(index: Int) {
     val dot = LayoutInflater.from(context).inflate(R.layout.dot_layout, this, false)
     val imageView = dot.findViewById<ImageView>(R.id.dot)
-    val params = imageView.layoutParams as RelativeLayout.LayoutParams
+    val params = imageView.layoutParams as LayoutParams
 
     if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
       dot.layoutDirection = View.LAYOUT_DIRECTION_LTR
@@ -92,12 +94,18 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
       }
     }
 
+    if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+      dot.setPaddingHorizontal((dotsElevation * 0.8f).toInt())
+      dot.setPaddingVertical((dotsElevation * 2).toInt())
+      imageView.elevation = dotsElevation
+    }
+
     dots.add(imageView)
-    linearLayout!!.addView(dot)
+    linearLayout.addView(dot)
   }
 
   override fun removeDot(index: Int) {
-    linearLayout!!.removeViewAt(childCount - 1)
+    linearLayout.removeViewAt(linearLayout.childCount - 1)
     dots.removeAt(dots.size - 1)
   }
 
@@ -149,12 +157,14 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
 
   override fun refreshDotColor(index: Int) {
     val elevationItem = dots[index]
-    val background = elevationItem.background as DotsGradientDrawable
+    val background = elevationItem.background as? DotsGradientDrawable?
 
-    if (index == pager!!.currentItem || progressMode && index < pager!!.currentItem) {
-      background.setColor(selectedDotColor)
-    } else {
-      background.setColor(dotsColor)
+    background?.let {
+      if (index == pager!!.currentItem || progressMode && index < pager!!.currentItem) {
+        background.setColor(selectedDotColor)
+      } else {
+        background.setColor(dotsColor)
+      }
     }
 
     elevationItem.setBackgroundDrawable(background)
