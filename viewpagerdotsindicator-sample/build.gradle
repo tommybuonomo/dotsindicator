@@ -41,5 +41,5 @@ dependencies {
   }
 
     implementation project(':viewpagerdotsindicator')
-//  implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.0'
+//  implementation 'com.tbuonomo:dotsindicator:4.2'
 }
