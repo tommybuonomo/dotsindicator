@@ -180,7 +180,7 @@ If you could help me to continue maintain this repo, buying me a cup of coffee w
 
 ## Changelog
 ### 4.2
-Fix [#115][i115]
+Fix [#115](https://github.com/tommybuonomo/dotsindicator/issues/115)
 The library is now on MavenCentral.
 The library name moves from `com.tbuonomo.andrui:viewpagerdotsindicator` to `com.tbuonomo:dotsindicator`
 ### 4.1.2
