@@ -89,6 +89,10 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
   }
 
   var pager: Pager? = null
+    set(value) {
+      field = value
+      refreshDots()
+    }
 
   interface Pager {
     val isNotEmpty: Boolean
@@ -233,8 +237,6 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
         viewPager.addOnPageChangeListener(onPageChangeListener!!)
       }
     }
-
-    refreshDots()
   }
 
   fun setViewPager2(viewPager2: ViewPager2) {
@@ -283,8 +285,6 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
         viewPager2.registerOnPageChangeCallback(onPageChangeCallback!!)
       }
     }
-
-    refreshDots()
   }
 
   // EXTENSIONS
