@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_main"
-    tools:context="com.tbuonomo.dotsindicatorsample.viewpager.ViewPagerActivity"
+    tools:context="com.tbuonomo.dotsindicatorsample.viewpager2.ViewPager2Activity"
     >
 
   <TextView
@@ -85,6 +85,16 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/spring_dots_indicator"
+      />
+
+  <Button
+      android:text="REFRESH"
+      android:onClick="refresh"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
       />
 
 

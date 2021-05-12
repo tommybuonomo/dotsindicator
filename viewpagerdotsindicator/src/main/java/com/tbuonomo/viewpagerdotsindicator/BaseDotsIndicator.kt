@@ -111,6 +111,13 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
     } else if (dots.size > pager!!.count) {
       removeDots(dots.size - pager!!.count)
     }
+    with(pager) {
+      if (this!=null){
+        if (currentItem > count) {
+          setCurrentItem(count,false)
+        }
+      }
+    }
   }
 
   protected fun refreshDotsColors() {

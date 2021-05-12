@@ -146,8 +146,10 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
       }
 
       override fun resetPosition(position: Int) {
-        dots[position].setWidth(dotsSize.toInt())
-        refreshDotColor(position)
+        if (position<dots.size) {
+          dots[position].setWidth(dotsSize.toInt())
+          refreshDotColor(position)
+        }
       }
 
       override val pageCount: Int
