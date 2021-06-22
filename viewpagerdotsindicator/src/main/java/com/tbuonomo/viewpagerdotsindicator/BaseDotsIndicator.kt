@@ -206,7 +206,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
       override val isEmpty: Boolean
         get() = viewPager.isEmpty
       override val count: Int
-        get() = viewPager.adapter?.count ?: 0
+        get() = viewPager.safeItemCount()
 
       override fun setCurrentItem(item: Int, smoothScroll: Boolean) {
         viewPager.setCurrentItem(item, smoothScroll)
@@ -261,7 +261,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
       override val isEmpty: Boolean
         get() = viewPager2.isEmpty
       override val count: Int
-        get() = viewPager2.adapter?.itemCount ?: 0
+        get() = viewPager2.safeItemCount()
 
       override fun setCurrentItem(item: Int, smoothScroll: Boolean) {
         viewPager2.setCurrentItem(item, smoothScroll)
@@ -304,16 +304,19 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
     return value.data
   }
 
-  protected val ViewPager.isNotEmpty: Boolean get() = adapter!!.count > 0
-  protected val ViewPager2.isNotEmpty: Boolean get() = adapter!!.itemCount > 0
+  protected val ViewPager.isNotEmpty: Boolean get() = safeItemCount() > 0
+  protected val ViewPager2.isNotEmpty: Boolean get() = safeItemCount() > 0
 
   protected val ViewPager?.isEmpty: Boolean
     get() = this != null && this.adapter != null &&
-            adapter!!.count == 0
+            safeItemCount() == 0
 
   protected val ViewPager2?.isEmpty: Boolean
     get() = this != null && this.adapter != null &&
-            adapter!!.itemCount == 0
+            safeItemCount() == 0
+
+  private fun ViewPager.safeItemCount(): Int = adapter?.count ?: 0
+  private fun ViewPager2.safeItemCount(): Int = adapter?.itemCount ?: 0
 
   override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
     super.onLayout(changed, left, top, right, bottom)
