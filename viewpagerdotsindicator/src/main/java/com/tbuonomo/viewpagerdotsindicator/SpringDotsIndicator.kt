@@ -149,6 +149,16 @@ class SpringDotsIndicator @JvmOverloads constructor(context: Context, attrs: Att
     setUpDotBackground(true, dots[index])
   }
 
+  override fun setCurrentPosition(selectedPosition: Int) {
+    post {
+      if (selectedPosition >= 0 && selectedPosition < dots.size) {
+        val x = (dots[selectedPosition].parent as ViewGroup).left.toFloat()
+        dotIndicatorSpring?.setStartValue(x)
+        dotIndicatorSpring?.animateToFinalPosition(x)
+      }
+    }
+  }
+
   override fun buildOnPageChangedListener(): OnPageChangeListenerHelper {
     return object : OnPageChangeListenerHelper() {
 

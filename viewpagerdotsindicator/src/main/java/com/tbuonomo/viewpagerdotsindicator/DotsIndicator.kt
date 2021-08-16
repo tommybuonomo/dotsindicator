@@ -109,6 +109,10 @@ class DotsIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
     dots.removeAt(dots.size - 1)
   }
 
+  override fun setCurrentPosition(selectedPosition: Int) {
+    //NA
+  }
+
   override fun buildOnPageChangedListener(): OnPageChangeListenerHelper {
     return object : OnPageChangeListenerHelper() {
       override fun onPageScrolled(selectedPosition: Int, nextPosition: Int, positionOffset: Float) {

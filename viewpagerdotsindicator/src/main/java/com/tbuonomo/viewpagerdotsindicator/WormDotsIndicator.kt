@@ -154,6 +154,16 @@ class WormDotsIndicator @JvmOverloads constructor(context: Context, attrs: Attri
     dots.removeAt(dots.size - 1)
   }
 
+  override fun setCurrentPosition(selectedPosition: Int) {
+    post {
+      if (selectedPosition >= 0 && selectedPosition < dots.size) {
+        val x = (dots[selectedPosition].parent as ViewGroup).left.toFloat()
+        dotIndicatorXSpring?.setStartValue(x)
+        dotIndicatorXSpring?.animateToFinalPosition(x)
+      }
+    }
+  }
+
   override fun buildOnPageChangedListener(): OnPageChangeListenerHelper {
     return object : OnPageChangeListenerHelper() {
 

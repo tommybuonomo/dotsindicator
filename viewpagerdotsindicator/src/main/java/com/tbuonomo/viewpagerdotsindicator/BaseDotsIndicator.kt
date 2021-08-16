@@ -149,6 +149,9 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
       refreshDotsColors()
       refreshDotsSize()
       refreshOnPageChangedListener()
+      pager?.let {
+        setCurrentPosition(it.currentItem)
+      }
     }
   }
 
@@ -173,6 +176,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(context: Context,
   abstract fun addDot(index: Int)
   abstract fun removeDot(index: Int)
   abstract fun buildOnPageChangedListener(): OnPageChangeListenerHelper
+  abstract fun setCurrentPosition(selectedPosition: Int)
   abstract val type: Type
 
   // PUBLIC METHODS
