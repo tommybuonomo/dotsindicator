@@ -240,4 +240,20 @@ Fix crash
 [i51]: https://github.com/tommybuonomo/dotsindicator/issues/51
 [i55]: https://github.com/tommybuonomo/dotsindicator/issues/55
 [i56]: https://github.com/tommybuonomo/dotsindicator/issues/56
-
+[i144]: https://github.com/tommybuonomo/dotsindicator/issues/144
+[i143]: https://github.com/tommybuonomo/dotsindicator/issues/143
+[i139]: https://github.com/tommybuonomo/dotsindicator/issues/139
+[i135]: https://github.com/tommybuonomo/dotsindicator/issues/135
+[i133]: https://github.com/tommybuonomo/dotsindicator/issues/133
+[i131]: https://github.com/tommybuonomo/dotsindicator/issues/131
+[i126]: https://github.com/tommybuonomo/dotsindicator/issues/126
+[i109]: https://github.com/tommybuonomo/dotsindicator/issues/109
+[i95]: https://github.com/tommybuonomo/dotsindicator/issues/95
+[i93]: https://github.com/tommybuonomo/dotsindicator/issues/93
+[i86]: https://github.com/tommybuonomo/dotsindicator/issues/86
+[i85]: https://github.com/tommybuonomo/dotsindicator/issues/85
+[i80]: https://github.com/tommybuonomo/dotsindicator/issues/80
+[i78]: https://github.com/tommybuonomo/dotsindicator/issues/78
+[i73]: https://github.com/tommybuonomo/dotsindicator/issues/73
+[i68]: https://github.com/tommybuonomo/dotsindicator/issues/68
+[i58]: https://github.com/tommybuonomo/dotsindicator/issues/58
