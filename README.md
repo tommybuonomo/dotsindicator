@@ -185,7 +185,7 @@ If you could help me to continue maintain this repo, buying me a cup of coffee w
 
 ## Changelog
 ### 4.3
-- Fix #144,#143,#139,#135,#133,#131,#126,#109,#95,#93,#86,#85,#80,#78,#73,#68,#58
+- Fix [#144][i144], [#143][i143], [#139][i139], [#135][i135], [#133][i133], [#131][i131], [#126][i126], [#109][i109], [#95][i95], [#93][i93], [#86][i86], [#85][i85], [#80][i80], [#78][i78], [#73][i73], [#68][i68], [#58][i58]
 - Methods `setViewPager` and `setViewPager2` are now deprecated and replaced by `attachTo(...)`
 ### 4.2
 Fix [#115](https://github.com/tommybuonomo/dotsindicator/issues/115)
@@ -226,6 +226,13 @@ Fix crash
     See the License for the specific language governing permissions and
     limitations under the License.
 
+[i20]: https://github.com/tommybuonomo/dotsindicator/issues/20
+[i32]: https://github.com/tommybuonomo/dotsindicator/issues/32
+[i37]: https://github.com/tommybuonomo/dotsindicator/issues/37
+[i40]: https://github.com/tommybuonomo/dotsindicator/issues/40
+[i51]: https://github.com/tommybuonomo/dotsindicator/issues/51
+[i55]: https://github.com/tommybuonomo/dotsindicator/issues/55
+[i56]: https://github.com/tommybuonomo/dotsindicator/issues/56
 [i20]: https://github.com/tommybuonomo/dotsindicator/issues/20
 [i32]: https://github.com/tommybuonomo/dotsindicator/issues/32
 [i37]: https://github.com/tommybuonomo/dotsindicator/issues/37
