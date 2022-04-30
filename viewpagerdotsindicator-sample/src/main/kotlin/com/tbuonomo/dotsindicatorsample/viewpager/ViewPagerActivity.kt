@@ -5,10 +5,8 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.tbuonomo.dotsindicatorsample.R
-import kotlinx.android.synthetic.main.activity_view_pager.dots_indicator
-import kotlinx.android.synthetic.main.activity_view_pager.spring_dots_indicator
-import kotlinx.android.synthetic.main.activity_view_pager.view_pager
-import kotlinx.android.synthetic.main.activity_view_pager.worm_dots_indicator
+import com.tbuonomo.dotsindicatorsample.util.ZoomOutPageTransformer
+import kotlinx.android.synthetic.main.activity_view_pager.*
 
 class ViewPagerActivity : AppCompatActivity() {
 
@@ -25,9 +23,9 @@ class ViewPagerActivity : AppCompatActivity() {
             adapter = DotIndicatorPagerAdapter()
             setPageTransformer(true, ZoomOutPageTransformer())
 
-            dots_indicator.setViewPager(this)
-            spring_dots_indicator.setViewPager(this)
-            worm_dots_indicator.setViewPager(this)
+            dots_indicator.attachTo(this)
+            spring_dots_indicator.attachTo(this)
+            worm_dots_indicator.attachTo(this)
         }
     }
 }

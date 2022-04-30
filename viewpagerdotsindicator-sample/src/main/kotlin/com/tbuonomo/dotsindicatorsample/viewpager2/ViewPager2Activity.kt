@@ -6,7 +6,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.tbuonomo.dotsindicatorsample.R
-import com.tbuonomo.dotsindicatorsample.viewpager.ZoomOutPageTransformer
+import com.tbuonomo.dotsindicatorsample.util.ZoomOutPageTransformer
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
@@ -35,8 +35,8 @@ class ViewPager2Activity : AppCompatActivity() {
             zoomOutPageTransformer.transformPage(page, position)
         }
 
-        dotsIndicator.setViewPager2(viewPager2)
-        springDotsIndicator.setViewPager2(viewPager2)
-        wormDotsIndicator.setViewPager2(viewPager2)
+        dotsIndicator.attachTo(viewPager2)
+        springDotsIndicator.attachTo(viewPager2)
+        wormDotsIndicator.attachTo(viewPager2)
     }
 }

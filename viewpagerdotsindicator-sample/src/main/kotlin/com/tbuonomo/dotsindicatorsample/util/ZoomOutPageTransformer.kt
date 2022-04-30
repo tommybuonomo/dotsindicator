@@ -1,4 +1,4 @@
-package com.tbuonomo.dotsindicatorsample.viewpager
+package com.tbuonomo.dotsindicatorsample.util
 
 import android.view.View
 import androidx.viewpager.widget.ViewPager
