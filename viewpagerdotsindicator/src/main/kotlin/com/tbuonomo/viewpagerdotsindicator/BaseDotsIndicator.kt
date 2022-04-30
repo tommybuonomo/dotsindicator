@@ -109,7 +109,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        refreshDots()
+        post { refreshDots() }
     }
 
     private fun refreshDotsCount() {
