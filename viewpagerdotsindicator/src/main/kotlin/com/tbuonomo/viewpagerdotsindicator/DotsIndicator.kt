@@ -53,7 +53,7 @@ class DotsIndicator @JvmOverloads constructor(
 
             dotsWidthFactor = a.getFloat(R.styleable.DotsIndicator_dotsWidthFactor, 2.5f)
             if (dotsWidthFactor < 1) {
-                dotsWidthFactor = 2.5f
+                dotsWidthFactor = 1f
             }
 
             progressMode = a.getBoolean(R.styleable.DotsIndicator_progressMode, false)
