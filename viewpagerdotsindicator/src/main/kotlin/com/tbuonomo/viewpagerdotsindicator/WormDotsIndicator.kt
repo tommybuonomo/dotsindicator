@@ -25,7 +25,7 @@ class WormDotsIndicator @JvmOverloads constructor(
     private var dotIndicatorLayout: View? = null
 
     // Attributes
-    private var dotsStrokeWidth: Int = 0
+    private var dotsStrokeWidth: Float = 0f
     private var dotIndicatorColor: Int = 0
     private var dotsStrokeColor: Int = 0
 
@@ -45,7 +45,7 @@ class WormDotsIndicator @JvmOverloads constructor(
         strokeDotsLinearLayout.orientation = HORIZONTAL
         addView(strokeDotsLinearLayout)
 
-        dotsStrokeWidth = dpToPx(2) // 2dp
+        dotsStrokeWidth = dpToPxF(2f) // 2dp
         dotIndicatorColor = context.getThemePrimaryColor()
         dotsStrokeColor = dotIndicatorColor
 
@@ -61,8 +61,8 @@ class WormDotsIndicator @JvmOverloads constructor(
             // Spring dots attributes
             dotsStrokeWidth = a.getDimension(
                 R.styleable.WormDotsIndicator_dotsStrokeWidth,
-                dotsStrokeWidth.toFloat()
-            ).toInt()
+                dotsStrokeWidth
+            )
 
             a.recycle()
         }
@@ -149,11 +149,11 @@ class WormDotsIndicator @JvmOverloads constructor(
     private fun setUpDotBackground(stroke: Boolean, dotImageView: View) {
         val dotBackground = dotImageView.background as GradientDrawable
         if (stroke) {
-            dotBackground.setStroke(dotsStrokeWidth, dotsStrokeColor)
+            dotBackground.setStroke(dotsStrokeWidth.toInt(), dotsStrokeColor)
         } else {
             dotBackground.setColor(dotIndicatorColor)
         }
-        dotBackground.cornerRadius = dotsCornerRadius.toFloat()
+        dotBackground.cornerRadius = dotsCornerRadius
     }
 
     override fun refreshDotColor(index: Int) {
@@ -233,6 +233,18 @@ class WormDotsIndicator @JvmOverloads constructor(
      */
     fun setStrokeDotsIndicatorColor(color: Int) {
         dotsStrokeColor = color
+        for (v in dots) {
+            setUpDotBackground(true, v)
+        }
+    }
+
+    /**
+     * Set the dots stroke width.
+     *
+     * @param width the stroke width color for the indicator dots.
+     */
+    fun setDotsStrokeWidth(width: Float) {
+        dotsStrokeWidth = width
         for (v in dots) {
             setUpDotBackground(true, v)
         }

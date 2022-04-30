@@ -206,10 +206,22 @@ class SpringDotsIndicator @JvmOverloads constructor(
     /**
      * Set the stroke indicator dots color.
      *
-     * @param color the color fo the stroke indicator dots.
+     * @param color the color for the stroke indicator dots.
      */
     fun setStrokeDotsIndicatorColor(color: Int) {
         dotsStrokeColor = color
+        for (v in dots) {
+            setUpDotBackground(true, v)
+        }
+    }
+
+    /**
+     * Set the dots stroke width.
+     *
+     * @param width the stroke width color for the indicator dots.
+     */
+    fun setDotsStrokeWidth(width: Float) {
+        dotsStrokeWidth = width
         for (v in dots) {
             setUpDotBackground(true, v)
         }
