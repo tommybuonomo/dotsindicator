@@ -5,6 +5,7 @@ import android.database.DataSetObserver
 import android.graphics.Color
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -332,5 +333,10 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(
             rotation = 180f
             requestLayout()
         }
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        super.onRestoreInstanceState(state)
+        post { refreshDots() }
     }
 }
