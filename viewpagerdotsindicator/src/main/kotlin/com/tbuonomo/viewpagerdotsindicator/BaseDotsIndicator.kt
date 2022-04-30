@@ -143,7 +143,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(
 
     private fun removeDots(count: Int) {
         for (i in 0 until count) {
-            removeDot(i)
+            removeDot()
         }
     }
 
@@ -177,7 +177,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(
 
     abstract fun refreshDotColor(index: Int)
     abstract fun addDot(index: Int)
-    abstract fun removeDot(index: Int)
+    abstract fun removeDot()
     abstract fun buildOnPageChangedListener(): OnPageChangeListenerHelper
     abstract val type: Type
 

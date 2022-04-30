@@ -107,7 +107,7 @@ class DotsIndicator @JvmOverloads constructor(
         linearLayout.addView(dot)
     }
 
-    override fun removeDot(index: Int) {
+    override fun removeDot() {
         linearLayout.removeViewAt(linearLayout.childCount - 1)
         dots.removeAt(dots.size - 1)
     }

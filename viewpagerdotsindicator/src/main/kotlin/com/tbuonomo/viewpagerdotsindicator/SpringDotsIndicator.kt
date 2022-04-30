@@ -153,7 +153,7 @@ class SpringDotsIndicator @JvmOverloads constructor(
         dotBackground.cornerRadius = dotsCornerRadius
     }
 
-    override fun removeDot(index: Int) {
+    override fun removeDot() {
         strokeDotsLinearLayout.removeViewAt(strokeDotsLinearLayout.childCount - 1)
         dots.removeAt(dots.size - 1)
     }
