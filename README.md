@@ -22,8 +22,13 @@ Don't forget to star the project if you like it!
 ## How to
 #### Gradle
 ```Gradle
+repositories {
+    google()
+    mavenCentral()
+}
+
 dependencies {
-    implementation 'com.tbuonomo:dotsindicator:4.2'
+    implementation("com.tbuonomo:dotsindicator:4.3")
 }
 ```
 ## DotsIndicator 
@@ -97,7 +102,7 @@ dependencies {
 | Attribute | Description |
 | --- | --- |
 | `dotsColor` | Color of the indicator dot |
-| `dotsColor` | Color of the stroke dots (by default the indicator color) |
+| `dotsStrokeColor` | Color of the stroke dots (by default the indicator color) |
 | `dotsSize` | Size in dp of the dots (by default 16dp) |
 | `dotsSpacing` | Size in dp of the space between the dots (by default 4dp) |
 | `dotsCornerRadius` | The dots corner radius (by default the half of dotsSize for circularity) |
@@ -179,6 +184,9 @@ If you could help me to continue maintain this repo, buying me a cup of coffee w
 <a href="https://www.buymeacoffee.com/tommybuonomo" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 ## Changelog
+### 4.3
+- Fix [#144][i144], [#143][i143], [#139][i139], [#135][i135], [#133][i133], [#131][i131], [#126][i126], [#109][i109], [#95][i95], [#93][i93], [#86][i86], [#85][i85], [#80][i80], [#78][i78], [#73][i73], [#68][i68], [#58][i58]
+- Methods `setViewPager` and `setViewPager2` are now deprecated and replaced by `attachTo(...)`
 ### 4.2
 Fix [#115](https://github.com/tommybuonomo/dotsindicator/issues/115)
 The library is now on MavenCentral.
@@ -225,4 +233,27 @@ Fix crash
 [i51]: https://github.com/tommybuonomo/dotsindicator/issues/51
 [i55]: https://github.com/tommybuonomo/dotsindicator/issues/55
 [i56]: https://github.com/tommybuonomo/dotsindicator/issues/56
-
+[i20]: https://github.com/tommybuonomo/dotsindicator/issues/20
+[i32]: https://github.com/tommybuonomo/dotsindicator/issues/32
+[i37]: https://github.com/tommybuonomo/dotsindicator/issues/37
+[i40]: https://github.com/tommybuonomo/dotsindicator/issues/40
+[i51]: https://github.com/tommybuonomo/dotsindicator/issues/51
+[i55]: https://github.com/tommybuonomo/dotsindicator/issues/55
+[i56]: https://github.com/tommybuonomo/dotsindicator/issues/56
+[i144]: https://github.com/tommybuonomo/dotsindicator/issues/144
+[i143]: https://github.com/tommybuonomo/dotsindicator/issues/143
+[i139]: https://github.com/tommybuonomo/dotsindicator/issues/139
+[i135]: https://github.com/tommybuonomo/dotsindicator/issues/135
+[i133]: https://github.com/tommybuonomo/dotsindicator/issues/133
+[i131]: https://github.com/tommybuonomo/dotsindicator/issues/131
+[i126]: https://github.com/tommybuonomo/dotsindicator/issues/126
+[i109]: https://github.com/tommybuonomo/dotsindicator/issues/109
+[i95]: https://github.com/tommybuonomo/dotsindicator/issues/95
+[i93]: https://github.com/tommybuonomo/dotsindicator/issues/93
+[i86]: https://github.com/tommybuonomo/dotsindicator/issues/86
+[i85]: https://github.com/tommybuonomo/dotsindicator/issues/85
+[i80]: https://github.com/tommybuonomo/dotsindicator/issues/80
+[i78]: https://github.com/tommybuonomo/dotsindicator/issues/78
+[i73]: https://github.com/tommybuonomo/dotsindicator/issues/73
+[i68]: https://github.com/tommybuonomo/dotsindicator/issues/68
+[i58]: https://github.com/tommybuonomo/dotsindicator/issues/58

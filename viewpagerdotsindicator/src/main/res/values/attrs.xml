@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <attr format="color" name="dotsColor"/>
-  <attr format="color" name="selectedDotColor"/>
-  <attr format="color" name="dotsStrokeColor"/>
-  <attr format="dimension" name="dotsSize"/>
-  <attr format="float" name="dotsWidthFactor"/>
-  <attr format="dimension" name="dotsSpacing"/>
-  <attr format="dimension" name="dotsCornerRadius"/>
-  <attr format="dimension" name="dotsStrokeWidth"/>
-  <attr format="float" name="stiffness"/>
-  <attr format="float" name="dampingRatio"/>
-  <attr format="boolean" name="progressMode"/>
-  <attr format="boolean" name="dotsClickable"/>
+    <attr name="dotsColor" format="color" />
+    <attr name="selectedDotColor" format="color" />
+    <attr name="dotsStrokeColor" format="color" />
+    <attr name="dotsSize" format="dimension" />
+    <attr name="dotsWidthFactor" format="float" />
+    <attr name="dotsSpacing" format="dimension" />
+    <attr name="dotsCornerRadius" format="dimension" />
+    <attr name="dotsStrokeWidth" format="dimension" />
+    <attr name="stiffness" format="float" />
+    <attr name="dampingRatio" format="float" />
+    <attr name="progressMode" format="boolean" />
+    <attr name="dotsClickable" format="boolean" />
 
-  <declare-styleable name="DotsIndicator">
-    <attr name="dotsColor"/>
-    <attr name="selectedDotColor"/>
-    <attr name="dotsSize"/>
-    <attr name="dotsWidthFactor"/>
-    <attr name="dotsSpacing"/>
-    <attr name="dotsCornerRadius"/>
-    <attr name="progressMode"/>
-    <attr name="dotsClickable"/>
-    <attr name="dotsElevation" format="dimension"/>
-  </declare-styleable>
+    <declare-styleable name="DotsIndicator">
+        <attr name="dotsColor" />
+        <attr name="selectedDotColor" />
+        <attr name="dotsSize" />
+        <attr name="dotsWidthFactor" />
+        <attr name="dotsSpacing" />
+        <attr name="dotsCornerRadius" />
+        <attr name="progressMode" />
+        <attr name="dotsClickable" />
+        <attr name="dotsElevation" format="dimension" />
+    </declare-styleable>
 
-  <declare-styleable name="SpringDotsIndicator">
-    <attr name="dotsColor"/>
-    <attr name="dotsSize"/>
-    <attr name="dotsSpacing"/>
-    <attr name="dotsCornerRadius"/>
-    <attr name="dotsStrokeWidth"/>
-    <attr name="dotsStrokeColor"/>
-    <attr name="stiffness"/>
-    <attr name="dampingRatio"/>
-    <attr name="dotsClickable"/>
-  </declare-styleable>
+    <declare-styleable name="SpringDotsIndicator">
+        <attr name="dotsColor" />
+        <attr name="dotsSize" />
+        <attr name="dotsSpacing" />
+        <attr name="dotsCornerRadius" />
+        <attr name="dotsStrokeWidth" />
+        <attr name="dotsStrokeColor" />
+        <attr name="stiffness" />
+        <attr name="dampingRatio" />
+        <attr name="dotsClickable" />
+    </declare-styleable>
 
-  <declare-styleable name="WormDotsIndicator">
-    <attr name="dotsColor"/>
-    <attr name="dotsSize"/>
-    <attr name="dotsSpacing"/>
-    <attr name="dotsCornerRadius"/>
-    <attr name="dotsStrokeWidth"/>
-    <attr name="dotsStrokeColor"/>
-    <attr name="dotsClickable"/>
-  </declare-styleable>
+    <declare-styleable name="WormDotsIndicator">
+        <attr name="dotsColor" />
+        <attr name="dotsSize" />
+        <attr name="dotsSpacing" />
+        <attr name="dotsCornerRadius" />
+        <attr name="dotsStrokeWidth" />
+        <attr name="dotsStrokeColor" />
+        <attr name="dotsClickable" />
+    </declare-styleable>
 </resources>

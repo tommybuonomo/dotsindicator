@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tbuonomo.viewpagerdotsindicator">
 
-  <application android:supportsRtl="true" />
+    <application android:supportsRtl="true" />
 
 </manifest>
