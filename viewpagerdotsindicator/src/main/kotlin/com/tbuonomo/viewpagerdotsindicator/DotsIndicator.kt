@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -53,6 +54,10 @@ class DotsIndicator @JvmOverloads constructor(
 
             dotsWidthFactor = a.getFloat(R.styleable.DotsIndicator_dotsWidthFactor, 2.5f)
             if (dotsWidthFactor < 1) {
+                Log.w(
+                    "DotsIndicator",
+                    "The dotsWidthFactor can't be set under 1.0f, please set an higher value"
+                )
                 dotsWidthFactor = 1f
             }
 
