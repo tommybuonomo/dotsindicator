@@ -22,8 +22,13 @@ Don't forget to star the project if you like it!
 ## How to
 #### Gradle
 ```Gradle
+repositories {
+    google()
+    mavenCentral()
+}
+
 dependencies {
-    implementation 'com.tbuonomo:dotsindicator:4.2'
+    implementation 'com.tbuonomo:dotsindicator:4.3'
 }
 ```
 ## DotsIndicator 
@@ -179,6 +184,9 @@ If you could help me to continue maintain this repo, buying me a cup of coffee w
 <a href="https://www.buymeacoffee.com/tommybuonomo" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 ## Changelog
+### 4.3
+- Fix #144,#143,#139,#135,#133,#131,#126,#109,#95,#93,#86,#85,#80,#78,#73,#68,#58
+- Methods `setViewPager` and `setViewPager2` are now deprecated and replaced by `attachTo(...)`
 ### 4.2
 Fix [#115](https://github.com/tommybuonomo/dotsindicator/issues/115)
 The library is now on MavenCentral.
