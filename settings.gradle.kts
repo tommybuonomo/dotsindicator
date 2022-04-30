@@ -1,0 +1,4 @@
+include(
+    ":viewpagerdotsindicator-sample",
+    ":viewpagerdotsindicator"
+)
