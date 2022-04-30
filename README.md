@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.tbuonomo:dotsindicator:4.3'
+    implementation("com.tbuonomo:dotsindicator:4.3")
 }
 ```
 ## DotsIndicator 
