@@ -89,7 +89,7 @@ class DotsIndicator @JvmOverloads constructor(
         } else {
             background.setColor(if (pager!!.currentItem == index) selectedDotColor else dotsColor)
         }
-        imageView.setBackgroundDrawable(background)
+        imageView.setBackgroundCompat(background)
 
         dot.setOnClickListener {
             if (dotsClickable && index < pager?.count ?: 0) {
@@ -180,7 +180,7 @@ class DotsIndicator @JvmOverloads constructor(
             }
         }
 
-        elevationItem.setBackgroundDrawable(background)
+        elevationItem.setBackgroundCompat(background)
         elevationItem.invalidate()
     }
 

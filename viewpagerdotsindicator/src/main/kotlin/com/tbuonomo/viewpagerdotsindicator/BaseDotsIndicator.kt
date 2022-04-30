@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -21,8 +20,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) :
-    FrameLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr) {
 
     companion object {
         const val DEFAULT_POINT_COLOR = Color.CYAN
@@ -211,14 +209,10 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(
         pager = object : Pager {
             var onPageChangeListener: OnPageChangeListener? = null
 
-            override val isNotEmpty: Boolean
-                get() = viewPager.isNotEmpty
-            override val currentItem: Int
-                get() = viewPager.currentItem
-            override val isEmpty: Boolean
-                get() = viewPager.isEmpty
-            override val count: Int
-                get() = viewPager.adapter?.count ?: 0
+            override val isNotEmpty: Boolean get() = viewPager.isNotEmpty
+            override val currentItem: Int get() = viewPager.currentItem
+            override val isEmpty: Boolean get() = viewPager.isEmpty
+            override val count: Int get() = viewPager.adapter?.count ?: 0
 
             override fun setCurrentItem(item: Int, smoothScroll: Boolean) {
                 viewPager.setCurrentItem(item, smoothScroll)
@@ -307,34 +301,6 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(
 
         refreshDots()
     }
-
-    // EXTENSIONS
-
-    fun View.setWidth(width: Int) {
-        layoutParams.apply {
-            this.width = width
-            requestLayout()
-        }
-    }
-
-    fun <T> ArrayList<T>.isInBounds(index: Int) = index in 0 until size
-
-    fun Context.getThemePrimaryColor(): Int {
-        val value = TypedValue()
-        this.theme.resolveAttribute(R.attr.colorPrimary, value, true)
-        return value.data
-    }
-
-    protected val ViewPager.isNotEmpty: Boolean get() = adapter!!.count > 0
-    protected val ViewPager2.isNotEmpty: Boolean get() = adapter!!.itemCount > 0
-
-    protected val ViewPager?.isEmpty: Boolean
-        get() = this != null && this.adapter != null &&
-                adapter!!.count == 0
-
-    protected val ViewPager2?.isEmpty: Boolean
-        get() = this != null && this.adapter != null &&
-                adapter!!.itemCount == 0
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)

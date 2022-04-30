@@ -214,5 +214,4 @@ class SpringDotsIndicator @JvmOverloads constructor(
             setUpDotBackground(true, v)
         }
     }
-
 }
