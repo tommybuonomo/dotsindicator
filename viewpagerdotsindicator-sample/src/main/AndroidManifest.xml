@@ -13,7 +13,9 @@
 
         </activity>
 
-        <activity android:name=".viewpager2.ViewPager2Activity">
+        <activity
+            android:name=".viewpager2.ViewPager2Activity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
