@@ -1,5 +1,6 @@
 # Material View Pager Dots Indicator
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.tbuonomo/dotsindicator/badge.png)
+
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.tbuonomo/dotsindicator/badge.svg)
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Material%20View%20Pager%20Dots%20Indicator-green.svg?style=flat )]( https://android-arsenal.com/details/1/7127 )
 <a href="https://github.com/JStumpp/awesome-android"><img alt="awesome" src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" /></a>
 
