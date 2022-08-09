@@ -67,7 +67,7 @@ dependencies {
     viewPager = (ViewPager) findViewById(R.id.view_pager);
     adapter = new ViewPagerAdapter();
     viewPager.setAdapter(adapter);
-    dotsIndicator.setViewPager(viewPager);
+    dotsIndicator.attachTo(viewPager);
 ```
 
 #### In your Kotlin code
@@ -76,7 +76,7 @@ dependencies {
     val viewPager = findViewById<ViewPager>(R.id.view_pager)
     val adapter = ViewPagerAdapter()
     viewPager.adapter = adapter
-    dotsIndicator.setViewPager(viewPager)
+    dotsIndicator.attachTo(viewPager)
 ```
 
 
@@ -117,7 +117,7 @@ dependencies {
     viewPager = (ViewPager) findViewById(R.id.view_pager);
     adapter = new ViewPagerAdapter();
     viewPager.setAdapter(adapter);
-    springDotsIndicator.setViewPager(viewPager);
+    springDotsIndicator.attachTo(viewPager);
 ```
 
 #### In your Kotlin code
@@ -126,7 +126,7 @@ dependencies {
     val viewPager = findViewById<ViewPager>(R.id.view_pager)
     val adapter = ViewPagerAdapter()
     viewPager.adapter = adapter
-    springDotsIndicator.setViewPager(viewPager)
+    springDotsIndicator.attachTo(viewPager)
 ```
 
 
@@ -164,7 +164,7 @@ dependencies {
     viewPager = (ViewPager) findViewById(R.id.view_pager);
     adapter = new ViewPagerAdapter();
     viewPager.setAdapter(adapter);
-    wormDotsIndicator.setViewPager(viewPager);
+    wormDotsIndicator.attachTo(viewPager);
 ```
 
 #### In your Kotlin code
@@ -173,11 +173,11 @@ dependencies {
     val viewPager = findViewById<ViewPager>(R.id.view_pager)
     val adapter = ViewPagerAdapter()
     viewPager.adapter = adapter
-    wormDotsIndicator.setViewPager(viewPager)
+    wormDotsIndicator.attachTo(viewPager)
 ```
 
 ## Support of ViewPager2
-Use `setViewPager2(viewPager2)` instead of `setViewPager(viewPager)`
+The `attachTo` can take a `ViewPager` or a `ViewPager2`
 
 ## Help Maintenance
 If you could help me to continue maintain this repo, buying me a cup of coffee will make my life really happy and get much energy out of it.
