@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.tbuonomo.dotsindicatorsample.R
-import com.tbuonomo.dotsindicatorsample.util.ZoomOutPageTransformer
-import kotlinx.android.synthetic.main.activity_view_pager.*
+import com.tbuonomo.dotsindicatorsample.core.platform.binding.viewBinding
+import com.tbuonomo.dotsindicatorsample.core.platform.viewpager.transformer.ZoomOutPageTransformer
+import com.tbuonomo.dotsindicatorsample.databinding.ActivityViewPagerBinding
 
 class ViewPagerActivity : AppCompatActivity() {
+
+    private val binding by viewBinding(ActivityViewPagerBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,15 +19,15 @@ class ViewPagerActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
-        setContentView(R.layout.activity_view_pager)
+        setContentView(binding.root)
 
-        with(view_pager) {
+        with(binding.viewPager) {
             adapter = DotIndicatorPagerAdapter()
             setPageTransformer(true, ZoomOutPageTransformer())
 
-            dots_indicator.attachTo(this)
-            spring_dots_indicator.attachTo(this)
-            worm_dots_indicator.attachTo(this)
+            binding.dotsIndicator.attachTo(this)
+            binding.springDotsIndicator.attachTo(this)
+            binding.wormDotsIndicator.attachTo(this)
         }
     }
 }

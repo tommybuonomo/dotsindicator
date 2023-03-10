@@ -1,42 +1,30 @@
 package com.tbuonomo.dotsindicatorsample.viewpager2
 
 import android.os.Bundle
-import android.view.Window
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager2.widget.ViewPager2
-import com.tbuonomo.dotsindicatorsample.R
-import com.tbuonomo.dotsindicatorsample.util.ZoomOutPageTransformer
-import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
-import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+import com.tbuonomo.dotsindicatorsample.core.platform.binding.viewBinding
+import com.tbuonomo.dotsindicatorsample.core.platform.viewpager.transformer.ZoomOutPageTransformer
+import com.tbuonomo.dotsindicatorsample.databinding.ActivityViewPager2Binding
 
 class ViewPager2Activity : AppCompatActivity() {
 
+    private val binding by viewBinding(ActivityViewPager2Binding::inflate)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
-        setContentView(R.layout.activity_view_pager2)
+        setContentView(binding.root)
 
-        val dotsIndicator = findViewById<DotsIndicator>(R.id.dots_indicator)
-        val springDotsIndicator = findViewById<SpringDotsIndicator>(R.id.spring_dots_indicator)
-        val wormDotsIndicator = findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)
+        with(binding.viewPager2) {
+            adapter = DotIndicatorPager2Adapter()
 
-        val viewPager2 = findViewById<ViewPager2>(R.id.view_pager2)
-        val adapter = DotIndicatorPager2Adapter()
-        viewPager2.adapter = adapter
+            val zoomOutPageTransformer = ZoomOutPageTransformer()
+            setPageTransformer { page, position ->
+                zoomOutPageTransformer.transformPage(page, position)
+            }
 
-        val zoomOutPageTransformer = ZoomOutPageTransformer()
-        viewPager2.setPageTransformer { page, position ->
-            zoomOutPageTransformer.transformPage(page, position)
+            binding.dotsIndicator.attachTo(this)
+            binding.springDotsIndicator.attachTo(this)
+            binding.wormDotsIndicator.attachTo(this)
         }
-
-        dotsIndicator.attachTo(viewPager2)
-        springDotsIndicator.attachTo(viewPager2)
-        wormDotsIndicator.attachTo(viewPager2)
     }
 }
