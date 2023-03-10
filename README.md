@@ -1,7 +1,8 @@
 # Material View Pager Dots Indicator
+
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.tbuonomo/dotsindicator/badge.svg)
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Material%20View%20Pager%20Dots%20Indicator-green.svg?style=flat )]( https://android-arsenal.com/details/1/7127 )
 <a href="https://github.com/JStumpp/awesome-android"><img alt="awesome" src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" /></a>
-[ ![Download](https://api.bintray.com/packages/tbuonomo/maven/dots-indicator/images/download.svg) ](https://bintray.com/tbuonomo/maven/dots-indicator/_latestVersion)
 
 This library makes it possible to represent View Pager Dots Indicator with 3 different awesome styles !
 It supports ViewPager and ViewPager2
@@ -22,8 +23,13 @@ Don't forget to star the project if you like it!
 ## How to
 #### Gradle
 ```Gradle
+repositories {
+    google()
+    mavenCentral()
+}
+
 dependencies {
-    implementation 'com.tbuonomo:dotsindicator:4.2'
+    implementation("com.tbuonomo:dotsindicator:4.3")
 }
 ```
 ## DotsIndicator 
@@ -61,16 +67,16 @@ dependencies {
     viewPager = (ViewPager) findViewById(R.id.view_pager);
     adapter = new ViewPagerAdapter();
     viewPager.setAdapter(adapter);
-    dotsIndicator.setViewPager(viewPager);
+    dotsIndicator.attachTo(viewPager);
 ```
 
 #### In your Kotlin code
 ```Kotlin
-    val dotsIndicator = findViewById<WormDotsIndicator>(R.id.dots_indicator)
+    val dotsIndicator = findViewById<DotsIndicator>(R.id.dots_indicator)
     val viewPager = findViewById<ViewPager>(R.id.view_pager)
     val adapter = ViewPagerAdapter()
     viewPager.adapter = adapter
-    dotsIndicator.setViewPager(viewPager)
+    dotsIndicator.attachTo(viewPager)
 ```
 
 
@@ -111,16 +117,16 @@ dependencies {
     viewPager = (ViewPager) findViewById(R.id.view_pager);
     adapter = new ViewPagerAdapter();
     viewPager.setAdapter(adapter);
-    springDotsIndicator.setViewPager(viewPager);
+    springDotsIndicator.attachTo(viewPager);
 ```
 
 #### In your Kotlin code
 ```Kotlin
-    val springDotsIndicator = findViewById<WormDotsIndicator>(R.id.spring_dots_indicator)
+    val springDotsIndicator = findViewById<SpringDotsIndicator>(R.id.spring_dots_indicator)
     val viewPager = findViewById<ViewPager>(R.id.view_pager)
     val adapter = ViewPagerAdapter()
     viewPager.adapter = adapter
-    springDotsIndicator.setViewPager(viewPager)
+    springDotsIndicator.attachTo(viewPager)
 ```
 
 
@@ -158,7 +164,7 @@ dependencies {
     viewPager = (ViewPager) findViewById(R.id.view_pager);
     adapter = new ViewPagerAdapter();
     viewPager.setAdapter(adapter);
-    wormDotsIndicator.setViewPager(viewPager);
+    wormDotsIndicator.attachTo(viewPager);
 ```
 
 #### In your Kotlin code
@@ -167,11 +173,11 @@ dependencies {
     val viewPager = findViewById<ViewPager>(R.id.view_pager)
     val adapter = ViewPagerAdapter()
     viewPager.adapter = adapter
-    wormDotsIndicator.setViewPager(viewPager)
+    wormDotsIndicator.attachTo(viewPager)
 ```
 
 ## Support of ViewPager2
-Use `setViewPager2(viewPager2)` instead of `setViewPager(viewPager)`
+The `attachTo` can take a `ViewPager` or a `ViewPager2`
 
 ## Help Maintenance
 If you could help me to continue maintain this repo, buying me a cup of coffee will make my life really happy and get much energy out of it.
@@ -179,6 +185,9 @@ If you could help me to continue maintain this repo, buying me a cup of coffee w
 <a href="https://www.buymeacoffee.com/tommybuonomo" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 ## Changelog
+### 4.3
+- Fix [#144][i144], [#143][i143], [#139][i139], [#135][i135], [#133][i133], [#131][i131], [#126][i126], [#109][i109], [#95][i95], [#93][i93], [#86][i86], [#85][i85], [#80][i80], [#78][i78], [#73][i73], [#68][i68], [#58][i58]
+- Methods `setViewPager` and `setViewPager2` are now deprecated and replaced by `attachTo(...)`
 ### 4.2
 Fix [#115](https://github.com/tommybuonomo/dotsindicator/issues/115)
 The library is now on MavenCentral.
@@ -225,4 +234,27 @@ Fix crash
 [i51]: https://github.com/tommybuonomo/dotsindicator/issues/51
 [i55]: https://github.com/tommybuonomo/dotsindicator/issues/55
 [i56]: https://github.com/tommybuonomo/dotsindicator/issues/56
-
+[i20]: https://github.com/tommybuonomo/dotsindicator/issues/20
+[i32]: https://github.com/tommybuonomo/dotsindicator/issues/32
+[i37]: https://github.com/tommybuonomo/dotsindicator/issues/37
+[i40]: https://github.com/tommybuonomo/dotsindicator/issues/40
+[i51]: https://github.com/tommybuonomo/dotsindicator/issues/51
+[i55]: https://github.com/tommybuonomo/dotsindicator/issues/55
+[i56]: https://github.com/tommybuonomo/dotsindicator/issues/56
+[i144]: https://github.com/tommybuonomo/dotsindicator/issues/144
+[i143]: https://github.com/tommybuonomo/dotsindicator/issues/143
+[i139]: https://github.com/tommybuonomo/dotsindicator/issues/139
+[i135]: https://github.com/tommybuonomo/dotsindicator/issues/135
+[i133]: https://github.com/tommybuonomo/dotsindicator/issues/133
+[i131]: https://github.com/tommybuonomo/dotsindicator/issues/131
+[i126]: https://github.com/tommybuonomo/dotsindicator/issues/126
+[i109]: https://github.com/tommybuonomo/dotsindicator/issues/109
+[i95]: https://github.com/tommybuonomo/dotsindicator/issues/95
+[i93]: https://github.com/tommybuonomo/dotsindicator/issues/93
+[i86]: https://github.com/tommybuonomo/dotsindicator/issues/86
+[i85]: https://github.com/tommybuonomo/dotsindicator/issues/85
+[i80]: https://github.com/tommybuonomo/dotsindicator/issues/80
+[i78]: https://github.com/tommybuonomo/dotsindicator/issues/78
+[i73]: https://github.com/tommybuonomo/dotsindicator/issues/73
+[i68]: https://github.com/tommybuonomo/dotsindicator/issues/68
+[i58]: https://github.com/tommybuonomo/dotsindicator/issues/58
