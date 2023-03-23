@@ -53,7 +53,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(
             R.styleable.DotsIndicator_dotsSize,
             R.styleable.DotsIndicator_dotsSpacing,
             R.styleable.DotsIndicator_dotsCornerRadius,
-            R.styleable.SpringDotsIndicator_dotsClickable
+            R.styleable.DotsIndicator_dotsClickable
         ),
         WORM(
             16f,
@@ -63,7 +63,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(
             R.styleable.WormDotsIndicator_dotsSize,
             R.styleable.WormDotsIndicator_dotsSpacing,
             R.styleable.WormDotsIndicator_dotsCornerRadius,
-            R.styleable.SpringDotsIndicator_dotsClickable
+            R.styleable.WormDotsIndicator_dotsClickable
         )
     }
 
