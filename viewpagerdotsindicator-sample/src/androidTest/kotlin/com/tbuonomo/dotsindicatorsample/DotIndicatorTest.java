@@ -2,13 +2,12 @@ package com.tbuonomo.dotsindicatorsample;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import android.view.ViewGroup;
 
-import com.tbuonomo.dotsindicatorsample.viewpager.ViewPagerActivity;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
+
+import com.tbuonomo.dotsindicatorsample.ui.viewpager.DotsIndicatorSampleViewPagerFragment;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 import org.junit.Assert;
@@ -26,7 +25,7 @@ import org.junit.runner.RunWith;
 public class DotIndicatorTest {
 
     @Rule
-    public ActivityTestRule<ViewPagerActivity> activityRule = new ActivityTestRule<>(ViewPagerActivity.class);
+    public ActivityTestRule<DotsIndicatorSampleViewPagerFragment> activityRule = new ActivityTestRule<>(DotsIndicatorSampleViewPagerFragment.class);
 
     @Before
     public void setUp() {

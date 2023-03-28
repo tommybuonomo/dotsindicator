@@ -1,4 +1,4 @@
-package com.tbuonomo.dotsindicatorsample.viewpager2
+package com.tbuonomo.dotsindicatorsample.ui.viewpager2
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

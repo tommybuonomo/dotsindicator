@@ -9,12 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".viewpager.ViewPagerActivity">
-
-        </activity>
 
         <activity
-            android:name=".viewpager2.ViewPager2Activity"
+            android:name=".ui.DotsIndicatorSampleActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
