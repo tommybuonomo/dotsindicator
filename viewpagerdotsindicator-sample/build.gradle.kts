@@ -31,6 +31,11 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.2"
     }
+    namespace = "com.tbuonomo.dotsindicatorsample"
+}
+
+kotlin {
+    jvmToolchain(18)
 }
 
 dependencies {
@@ -46,11 +51,6 @@ dependencies {
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 
-    androidTestImplementation("com.schibsted.spain:barista:3.9.0") {
-        exclude(group = "com.android.support")
-        exclude(group = "org.jetbrains.kotlin")
-    }
-
     implementation(project(":viewpagerdotsindicator"))
 //  implementation "com.tbuonomo:dotsindicator:4.2"
 
@@ -59,6 +59,7 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.activity:activity-compose:1.6.1")

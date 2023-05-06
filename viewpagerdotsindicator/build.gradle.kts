@@ -8,7 +8,7 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        minSdk = 15
+        minSdk = 21
     }
     buildTypes {
         getByName("release") {
@@ -23,6 +23,11 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.2"
     }
+    namespace = "com.tbuonomo.viewpagerdotsindicator"
+}
+
+kotlin {
+    jvmToolchain(18)
 }
 
 dependencies {
@@ -38,4 +43,6 @@ dependencies {
     implementation(composeBom)
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation("androidx.compose.foundation:foundation")
 }
