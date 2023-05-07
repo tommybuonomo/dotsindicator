@@ -13,7 +13,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -23,8 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import com.tbuonomo.dotsindicatorsample.ui.compose.component.PagePlaceholderItem
 import com.tbuonomo.viewpagerdotsindicator.compose.DotsIndicator
-import com.tbuonomo.viewpagerdotsindicator.compose.DotsIndicatorType
-import kotlinx.coroutines.launch
+import com.tbuonomo.viewpagerdotsindicator.compose.type.ShiftIndicatorType
 
 class DotsIndicatorSampleComposeFragment : Fragment() {
     companion object {
@@ -69,16 +67,11 @@ class DotsIndicatorSampleComposeFragment : Fragment() {
                     ) {
                         PagePlaceholderItem()
                     }
-                    val coroutineScope = rememberCoroutineScope()
                     DotsIndicator(
                         dotCount = pageCount,
                         modifier = Modifier.padding(vertical = 64.dp),
-                        type = DotsIndicatorType.Shift(),
-                        currentPage = pagerState.currentPage,
-                        currentPageOffsetFraction = pagerState.currentPageOffsetFraction,
-                        onDotClicked = {
-                            coroutineScope.launch { pagerState.animateScrollToPage(it) }
-                        }
+                        type = ShiftIndicatorType(),
+                        pagerState = pagerState
                     )
                 }
             }
