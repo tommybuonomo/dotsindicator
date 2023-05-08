@@ -1,19 +1,57 @@
 package com.tbuonomo.viewpagerdotsindicator.compose.type
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.times
+import com.tbuonomo.viewpagerdotsindicator.compose.Dot
 import com.tbuonomo.viewpagerdotsindicator.compose.DotGraphic
 import kotlin.math.absoluteValue
 
 class ShiftIndicatorType(
-    override val backgroundDots: DotGraphic = DotGraphic(),
+    private val dotsGraphic: DotGraphic = DotGraphic(),
     private val shiftSizeFactor: Float = 3f,
 ) : IndicatorType() {
-    override val foregroundDot: DotGraphic? = null
+    @Composable
+    override fun IndicatorTypeComposable(
+        globalOffset: Float,
+        modifier: Modifier,
+        dotCount: Int,
+        dotSpacing: Dp,
+        onDotClicked: ((Int) -> Unit)?,
+    ) {
+        Box(modifier = modifier) {
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(), content = {
+                    items(dotCount) { dotIndex ->
+                        val dotWidth by remember(globalOffset) {
+                            derivedStateOf { computeDotWidth(dotIndex, globalOffset) }
+                        }
+                        Dot(dotsGraphic,
+                            Modifier
+                                .width(dotWidth)
+                                .clickable {
+                                    onDotClicked?.invoke(dotIndex)
+                                })
+                    }
+                }, horizontalArrangement = Arrangement.spacedBy(
+                    dotSpacing, alignment = Alignment.CenterHorizontally
+                ),
+                contentPadding = PaddingValues(start = dotSpacing, end = dotSpacing)
+            )
+        }
+    }
 
-    override fun computeBackgroundDoWidth(currentDotIndex: Int, globalOffset: Float): Dp {
+    private fun computeDotWidth(currentDotIndex: Int, globalOffset: Float): Dp {
         val diffFactor = 1f - (currentDotIndex - globalOffset).absoluteValue.coerceAtMost(1f)
-        val widthToAdd = ((shiftSizeFactor - 1f).coerceAtLeast(0f) * backgroundDots.size * diffFactor)
-        return backgroundDots.size + widthToAdd
+        val widthToAdd = ((shiftSizeFactor - 1f).coerceAtLeast(0f) * dotsGraphic.size * diffFactor)
+        return dotsGraphic.size + widthToAdd
     }
 }

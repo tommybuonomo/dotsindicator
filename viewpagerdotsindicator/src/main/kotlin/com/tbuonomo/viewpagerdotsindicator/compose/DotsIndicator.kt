@@ -3,15 +3,10 @@ package com.tbuonomo.viewpagerdotsindicator.compose
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.Orientation.Horizontal
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -28,7 +23,6 @@ fun DotsIndicator(
     dotCount: Int,
     modifier: Modifier = Modifier,
     dotSpacing: Dp = 12.dp,
-    orientation: Orientation = Horizontal,
     type: IndicatorType,
     pagerState: PagerState,
 ) {
@@ -37,14 +31,12 @@ fun DotsIndicator(
         dotCount = dotCount,
         modifier = modifier,
         dotSpacing = dotSpacing,
-        orientation = orientation,
         type = type,
         currentPage = pagerState.currentPage,
         currentPageOffsetFraction = pagerState.currentPageOffsetFraction,
-        onDotClicked = { dotIndex ->
-            coroutineScope.launch { pagerState.animateScrollToPage(dotIndex) }
-        },
-    )
+    ) { dotIndex ->
+        coroutineScope.launch { pagerState.animateScrollToPage(dotIndex) }
+    }
 }
 
 @Composable
@@ -52,7 +44,6 @@ fun DotsIndicator(
     dotCount: Int,
     modifier: Modifier = Modifier,
     dotSpacing: Dp = 12.dp,
-    orientation: Orientation = Horizontal,
     type: IndicatorType,
     currentPage: Int,
     currentPageOffsetFraction: Float,
@@ -62,24 +53,8 @@ fun DotsIndicator(
         mutableStateOf(0f)
     }
     globalOffset = computeGlobalScrollOffset(currentPage, currentPageOffsetFraction, dotCount)
-    Box(modifier = modifier) {
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(), content = {
-                items(dotCount) { dotIndex ->
-                    val dotWidth = type.computeBackgroundDoWidth(dotIndex, globalOffset)
-                    val dotModifier by remember(dotWidth) {
-                        mutableStateOf(if (dotWidth == null) Modifier else Modifier.width(dotWidth))
-                    }
-                    Dot(type.backgroundDots, dotModifier.clickable {
-                        onDotClicked?.invoke(dotIndex)
-                    })
-                }
-            }, horizontalArrangement = Arrangement.spacedBy(
-                dotSpacing, alignment = Alignment.CenterHorizontally
-            ),
-            contentPadding = PaddingValues(start = dotSpacing, end = dotSpacing)
-        )
-    }
+
+    type.IndicatorTypeComposable(globalOffset, modifier, dotCount, dotSpacing, onDotClicked)
 }
 
 private fun computeGlobalScrollOffset(position: Int, positionOffset: Float, totalCount: Int): Float {
@@ -98,7 +73,7 @@ private fun computeGlobalScrollOffset(position: Int, positionOffset: Float, tota
 }
 
 @Composable
-private fun Dot(
+internal fun Dot(
     graphic: DotGraphic,
     modifier: Modifier,
 ) {
@@ -109,20 +84,16 @@ private fun Dot(
                 shape = graphic.shape,
             )
             .size(graphic.size)
-            .apply {
-                graphic.borderWidth?.let { borderWidth ->
-                    border(
-                        width = borderWidth,
-                        color = graphic.borderColor,
-                        shape = graphic.shape
-                    )
-                }
-            }
+            .border(
+                width = graphic.borderWidth ?: 0.dp,
+                color = graphic.borderColor,
+                shape = graphic.shape
+            )
     )
 }
 
 data class DotGraphic(
-    val size: Dp = 12.dp,
+    val size: Dp = 16.dp,
     val color: Color = Color.White,
     val shape: Shape = CircleShape,
     val borderWidth: Dp? = null,

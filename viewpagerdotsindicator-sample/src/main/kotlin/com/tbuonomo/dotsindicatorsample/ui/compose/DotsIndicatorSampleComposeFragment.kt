@@ -21,8 +21,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import com.tbuonomo.dotsindicatorsample.ui.compose.component.PagePlaceholderItem
+import com.tbuonomo.viewpagerdotsindicator.compose.DotGraphic
 import com.tbuonomo.viewpagerdotsindicator.compose.DotsIndicator
 import com.tbuonomo.viewpagerdotsindicator.compose.type.ShiftIndicatorType
+import com.tbuonomo.viewpagerdotsindicator.compose.type.SpringIndicatorType
+import com.tbuonomo.viewpagerdotsindicator.compose.type.WormIndicatorType
 
 class DotsIndicatorSampleComposeFragment : Fragment() {
     companion object {
@@ -69,8 +72,42 @@ class DotsIndicatorSampleComposeFragment : Fragment() {
                     }
                     DotsIndicator(
                         dotCount = pageCount,
-                        modifier = Modifier.padding(vertical = 64.dp),
+                        modifier = Modifier.padding(top = 64.dp),
                         type = ShiftIndicatorType(),
+                        pagerState = pagerState
+                    )
+                    DotsIndicator(
+                        dotCount = pageCount,
+                        modifier = Modifier.padding(top = 20.dp),
+                        type = SpringIndicatorType(
+                            dotsGraphic = DotGraphic(
+                                16.dp,
+                                borderWidth = 2.dp,
+                                borderColor = Color.White,
+                                color = Color.Transparent
+                            ),
+                            selectorDotGraphic = DotGraphic(
+                                14.dp,
+                                color = Color.White
+                            )
+                        ),
+                        pagerState = pagerState
+                    )
+                    DotsIndicator(
+                        dotCount = pageCount,
+                        modifier = Modifier.padding(top = 20.dp),
+                        type = WormIndicatorType(
+                            dotsGraphic = DotGraphic(
+                                16.dp,
+                                borderWidth = 2.dp,
+                                borderColor = Color.White,
+                                color = Color.Transparent
+                            ),
+                            wormDotGraphic = DotGraphic(
+                                14.dp,
+                                color = Color.White
+                            )
+                        ),
                         pagerState = pagerState
                     )
                 }

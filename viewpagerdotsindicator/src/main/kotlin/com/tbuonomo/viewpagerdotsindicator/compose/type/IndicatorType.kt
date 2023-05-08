@@ -1,10 +1,16 @@
 package com.tbuonomo.viewpagerdotsindicator.compose.type
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import com.tbuonomo.viewpagerdotsindicator.compose.DotGraphic
 
 abstract class IndicatorType {
-    abstract val backgroundDots: DotGraphic
-    abstract val foregroundDot: DotGraphic?
-    open fun computeBackgroundDoWidth(currentDotIndex: Int, globalOffset: Float): Dp? = null
+    @Composable
+    abstract fun IndicatorTypeComposable(
+        globalOffset: Float,
+        modifier: Modifier,
+        dotCount: Int,
+        dotSpacing: Dp,
+        onDotClicked: ((Int) -> Unit)?,
+    )
 }
