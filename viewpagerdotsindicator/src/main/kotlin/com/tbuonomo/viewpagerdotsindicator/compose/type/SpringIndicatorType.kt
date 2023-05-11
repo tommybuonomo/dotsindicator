@@ -27,8 +27,8 @@ class SpringIndicatorType(
         dotSpacing: Dp,
         onDotClicked: ((Int) -> Unit)?,
     ) {
-        var firstDotPositionX: Float by remember { mutableStateOf(-1f) }
-        var lastDotPositionX: Float by remember { mutableStateOf(-1f) }
+        var firstDotPositionX: Float by remember(dotCount, dotsGraphic) { mutableStateOf(-1f) }
+        var lastDotPositionX: Float by remember(dotCount, dotsGraphic) { mutableStateOf(-1f) }
         Box(modifier = modifier) {
             LazyRow(
                 modifier = Modifier

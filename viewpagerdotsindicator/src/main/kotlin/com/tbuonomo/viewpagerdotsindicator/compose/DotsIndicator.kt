@@ -49,7 +49,7 @@ fun DotsIndicator(
     currentPageOffsetFraction: Float,
     onDotClicked: ((index: Int) -> Unit)? = null
 ) {
-    var globalOffset by remember {
+    var globalOffset by remember(dotCount, currentPage, currentPageOffsetFraction) {
         mutableStateOf(0f)
     }
     globalOffset = computeGlobalScrollOffset(currentPage, currentPageOffsetFraction, dotCount)
