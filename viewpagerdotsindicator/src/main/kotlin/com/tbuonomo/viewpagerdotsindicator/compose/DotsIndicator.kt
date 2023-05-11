@@ -84,11 +84,15 @@ internal fun Dot(
                 shape = graphic.shape,
             )
             .size(graphic.size)
-            .border(
-                width = graphic.borderWidth ?: 0.dp,
-                color = graphic.borderColor,
-                shape = graphic.shape
-            )
+            .let {
+                graphic.borderWidth?.let { borderWidth ->
+                    it.border(
+                        width = borderWidth,
+                        color = graphic.borderColor,
+                        shape = graphic.shape
+                    )
+                } ?: it
+            }
     )
 }
 

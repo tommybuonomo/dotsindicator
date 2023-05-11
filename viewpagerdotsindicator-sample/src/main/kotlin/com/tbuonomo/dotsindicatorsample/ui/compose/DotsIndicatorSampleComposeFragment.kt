@@ -149,7 +149,7 @@ class DotsIndicatorSampleComposeFragment : Fragment() {
                         color = Color.Transparent,
                     ),
                     wormDotGraphic = DotGraphic(
-                        14.dp,
+                        16.dp,
                         color = MaterialTheme.colorScheme.primary,
                     )
                 ),
