@@ -26,6 +26,7 @@ import com.tbuonomo.dotsindicatorsample.core.platform.compose.theme.AppTheme
 import com.tbuonomo.dotsindicatorsample.ui.compose.component.PagePlaceholderItem
 import com.tbuonomo.viewpagerdotsindicator.compose.DotGraphic
 import com.tbuonomo.viewpagerdotsindicator.compose.DotsIndicator
+import com.tbuonomo.viewpagerdotsindicator.compose.type.BalloonIndicatorType
 import com.tbuonomo.viewpagerdotsindicator.compose.type.ShiftIndicatorType
 import com.tbuonomo.viewpagerdotsindicator.compose.type.SpringIndicatorType
 import com.tbuonomo.viewpagerdotsindicator.compose.type.WormIndicatorType
@@ -71,6 +72,7 @@ class DotsIndicatorSampleComposeFragment : Fragment() {
                         ShiftDotIndicators(pageCount, pagerState, Modifier.padding(top = 32.dp))
                         SpringDotIndicators(pageCount, pagerState, Modifier.padding(top = 16.dp))
                         WormDotIndicators(pageCount, pagerState, Modifier.padding(top = 16.dp))
+                        BalloonDotIndicators(pageCount, pagerState, Modifier.padding(top = 16.dp))
                     }
                     PageManagementButtons(
                         Modifier
@@ -151,6 +153,30 @@ class DotsIndicatorSampleComposeFragment : Fragment() {
                         color = MaterialTheme.colorScheme.primary,
                     )
                 ),
+                pagerState = pagerState
+            )
+        }
+    }
+
+    @Composable
+    private fun BalloonDotIndicators(pageCount: Int, pagerState: PagerState, modifier: Modifier) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier) {
+            Text(
+                text = "BalloonIndicatorType",
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            DotsIndicator(
+                dotCount = pageCount,
+                type = BalloonIndicatorType(
+                    dotsGraphic = DotGraphic(
+                        color = MaterialTheme.colorScheme.primary,
+                        size = 8.dp
+                    ),
+                    balloonSizeFactor = 2f
+                ),
+                dotSpacing = 20.dp,
                 pagerState = pagerState
             )
         }
