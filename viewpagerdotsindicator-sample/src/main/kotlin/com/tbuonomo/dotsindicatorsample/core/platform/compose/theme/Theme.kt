@@ -1,6 +1,5 @@
 package com.tbuonomo.dotsindicatorsample.core.platform.compose.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -38,7 +37,6 @@ private val LightColors = lightColorScheme(
     scrim = md_theme_light_scrim,
 )
 
-
 private val DarkColors = darkColorScheme(
     primary = md_theme_dark_primary,
     onPrimary = md_theme_dark_onPrimary,
@@ -72,18 +70,9 @@ private val DarkColors = darkColorScheme(
 )
 
 @Composable
-fun AppTheme(
-  useDarkTheme: Boolean = isSystemInDarkTheme(),
-  content: @Composable() () -> Unit
-) {
-  val colors = if (!useDarkTheme) {
-    LightColors
-  } else {
-    DarkColors
-  }
-
-  MaterialTheme(
-    colorScheme = colors,
-    content = content
-  )
+fun AppTheme(content: @Composable () -> Unit) {
+    MaterialTheme(
+        colorScheme = DarkColors,
+        content = content
+    )
 }
