@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.Dp
 abstract class IndicatorType {
     @Composable
     abstract fun IndicatorTypeComposable(
-        globalOffset: Float,
+        globalOffsetProvider: () -> Float,
         modifier: Modifier,
         dotCount: Int,
         dotSpacing: Dp,

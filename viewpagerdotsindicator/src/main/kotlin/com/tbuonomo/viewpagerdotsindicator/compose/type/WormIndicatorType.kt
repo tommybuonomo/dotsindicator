@@ -22,7 +22,7 @@ class WormIndicatorType(
 ) : IndicatorType() {
     @Composable
     override fun IndicatorTypeComposable(
-        globalOffset: Float,
+        globalOffsetProvider: () -> Float,
         modifier: Modifier,
         dotCount: Int,
         dotSpacing: Dp,
@@ -74,20 +74,20 @@ class WormIndicatorType(
                         distanceBetween2DotsDp + wormDotGraphic.size
                     }
                 }
-                val paddingStartAndEnd: Pair<Dp, Dp> by remember(globalOffset) {
+                val paddingStartAndEnd: Pair<Dp, Dp> by remember(globalOffsetProvider()) {
                     derivedStateOf {
-                        val endPaddingOffset = 1f - ((globalOffset % 1.0f) * 2f).coerceIn(0f, 1f)
-                        val startPaddingOffset = ((globalOffset % 1.0f - 0.5f) * 2f).coerceIn(0f, 1f)
+                        val endPaddingOffset = 1f - ((globalOffsetProvider() % 1.0f) * 2f).coerceIn(0f, 1f)
+                        val startPaddingOffset = ((globalOffsetProvider() % 1.0f - 0.5f) * 2f).coerceIn(0f, 1f)
                         val startPadding = distanceBetween2DotsDp * startPaddingOffset
                         val endPadding = distanceBetween2DotsDp * endPaddingOffset
                         startPadding to endPadding
                     }
                 }
-                val foregroundDotOffsetDp by remember(globalOffset) {
+                val foregroundDotOffsetDp by remember(globalOffsetProvider) {
                     derivedStateOf {
                         val foregroundDotPositionX =
                             firstDotPositionX + (lastDotPositionX - firstDotPositionX) / (dotCount - 1) * floor(
-                                globalOffset.toDouble()
+                                globalOffsetProvider().toDouble()
                             )
                         (foregroundDotPositionX / density).dp + centeredOffset
                     }

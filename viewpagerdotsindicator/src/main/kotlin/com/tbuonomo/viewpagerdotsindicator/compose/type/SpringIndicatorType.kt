@@ -21,7 +21,7 @@ class SpringIndicatorType(
 ) : IndicatorType() {
     @Composable
     override fun IndicatorTypeComposable(
-        globalOffset: Float,
+        globalOffsetProvider: () -> Float,
         modifier: Modifier,
         dotCount: Int,
         dotSpacing: Dp,
@@ -63,13 +63,13 @@ class SpringIndicatorType(
                     }
                 }
                 val density = LocalDensity.current.density
-                val foregroundDotPositionDp by remember(globalOffset) {
+                val foregroundDotPositionDp by remember(globalOffsetProvider) {
                     derivedStateOf {
                         computeSelectorDotPositionDp(
                             firstDotPositionX,
                             lastDotPositionX,
                             dotCount,
-                            globalOffset,
+                            globalOffsetProvider(),
                             density,
                             centeredOffset
                         )

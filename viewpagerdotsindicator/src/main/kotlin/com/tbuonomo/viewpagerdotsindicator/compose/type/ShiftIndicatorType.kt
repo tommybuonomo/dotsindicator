@@ -3,10 +3,7 @@ package com.tbuonomo.viewpagerdotsindicator.compose.type
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
@@ -21,7 +18,7 @@ class ShiftIndicatorType(
 ) : IndicatorType() {
     @Composable
     override fun IndicatorTypeComposable(
-        globalOffset: Float,
+        globalOffsetProvider: () -> Float,
         modifier: Modifier,
         dotCount: Int,
         dotSpacing: Dp,
@@ -31,15 +28,18 @@ class ShiftIndicatorType(
             LazyRow(
                 modifier = Modifier.fillMaxWidth(), content = {
                     items(dotCount) { dotIndex ->
-                        val dotWidth by remember(globalOffset) {
-                            derivedStateOf { computeDotWidth(dotIndex, globalOffset) }
+                        val dotWidth by remember(globalOffsetProvider()) {
+                            derivedStateOf { computeDotWidth(dotIndex, globalOffsetProvider()) }
                         }
-                        Dot(dotsGraphic,
-                            Modifier
-                                .width(dotWidth)
-                                .clickable {
-                                    onDotClicked?.invoke(dotIndex)
-                                })
+                        val dotModifier by remember(dotWidth) {
+                            mutableStateOf(
+                                Modifier
+                                    .width(dotWidth)
+                                    .clickable {
+                                        onDotClicked?.invoke(dotIndex)
+                                    })
+                        }
+                        Dot(dotsGraphic, dotModifier)
                     }
                 }, horizontalArrangement = Arrangement.spacedBy(
                     dotSpacing, alignment = Alignment.CenterHorizontally

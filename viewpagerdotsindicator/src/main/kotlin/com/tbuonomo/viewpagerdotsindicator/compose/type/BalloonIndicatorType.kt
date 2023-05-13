@@ -3,10 +3,7 @@ package com.tbuonomo.viewpagerdotsindicator.compose.type
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -23,7 +20,7 @@ class BalloonIndicatorType(
 ) : IndicatorType() {
     @Composable
     override fun IndicatorTypeComposable(
-        globalOffset: Float,
+        globalOffsetProvider: () -> Float,
         modifier: Modifier,
         dotCount: Int,
         dotSpacing: Dp,
@@ -36,15 +33,18 @@ class BalloonIndicatorType(
                     .height(dotsGraphic.size * balloonSizeFactor),
                 content = {
                     items(dotCount) { dotIndex ->
-                        val dotSize by remember(globalOffset) {
-                            derivedStateOf { computeDotWidth(dotIndex, globalOffset) }
+                        val dotSize by remember(globalOffsetProvider()) {
+                            derivedStateOf { computeDotWidth(dotIndex, globalOffsetProvider()) }
                         }
-                        Dot(dotsGraphic,
-                            Modifier
-                                .scale(dotSize)
-                                .clickable {
-                                    onDotClicked?.invoke(dotIndex)
-                                })
+                        val dotModifier by remember(dotSize) {
+                            mutableStateOf(
+                                Modifier
+                                    .scale(dotSize)
+                                    .clickable {
+                                        onDotClicked?.invoke(dotIndex)
+                                    })
+                        }
+                        Dot(dotsGraphic, dotModifier)
                     }
                 },
                 horizontalArrangement = Arrangement.spacedBy(

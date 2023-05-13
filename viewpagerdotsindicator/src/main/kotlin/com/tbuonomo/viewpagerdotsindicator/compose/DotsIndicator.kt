@@ -33,7 +33,7 @@ fun DotsIndicator(
         dotSpacing = dotSpacing,
         type = type,
         currentPage = pagerState.currentPage,
-        currentPageOffsetFraction = pagerState.currentPageOffsetFraction,
+        currentPageOffsetFraction = { pagerState.currentPageOffsetFraction },
     ) { dotIndex ->
         coroutineScope.launch { pagerState.animateScrollToPage(dotIndex) }
     }
@@ -46,15 +46,16 @@ fun DotsIndicator(
     dotSpacing: Dp = 12.dp,
     type: IndicatorType,
     currentPage: Int,
-    currentPageOffsetFraction: Float,
+    currentPageOffsetFraction: () -> Float,
     onDotClicked: ((index: Int) -> Unit)? = null
 ) {
-    var globalOffset by remember(dotCount, currentPage, currentPageOffsetFraction) {
-        mutableStateOf(0f)
+    val globalOffset by remember(dotCount, currentPage, currentPageOffsetFraction()) {
+        derivedStateOf {
+            computeGlobalScrollOffset(currentPage, currentPageOffsetFraction(), dotCount)
+        }
     }
-    globalOffset = computeGlobalScrollOffset(currentPage, currentPageOffsetFraction, dotCount)
 
-    type.IndicatorTypeComposable(globalOffset, modifier, dotCount, dotSpacing, onDotClicked)
+    type.IndicatorTypeComposable({ globalOffset }, modifier, dotCount, dotSpacing, onDotClicked)
 }
 
 private fun computeGlobalScrollOffset(position: Int, positionOffset: Float, totalCount: Int): Float {
@@ -112,6 +113,6 @@ fun DotsIndicatorPreview() {
         dotSpacing = 8.dp,
         type = ShiftIndicatorType(),
         currentPage = 0,
-        currentPageOffsetFraction = 0f
+        currentPageOffsetFraction = { 0f }
     )
 }
