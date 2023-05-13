@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import com.tbuonomo.dotsindicatorsample.core.platform.compose.theme.AppTheme
 import com.tbuonomo.dotsindicatorsample.ui.compose.component.PagePlaceholderItem
-import com.tbuonomo.viewpagerdotsindicator.compose.DotGraphic
 import com.tbuonomo.viewpagerdotsindicator.compose.DotsIndicator
+import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
 import com.tbuonomo.viewpagerdotsindicator.compose.type.BalloonIndicatorType
 import com.tbuonomo.viewpagerdotsindicator.compose.type.ShiftIndicatorType
 import com.tbuonomo.viewpagerdotsindicator.compose.type.SpringIndicatorType
