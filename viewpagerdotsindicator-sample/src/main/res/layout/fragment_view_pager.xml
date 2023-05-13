@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_main"
-    tools:context="com.tbuonomo.dotsindicatorsample.viewpager.ViewPagerActivity">
+    tools:context="com.tbuonomo.dotsindicatorsample.ui.viewpager.DotsIndicatorSampleViewPagerFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -79,7 +79,7 @@
         app:dotsColor="@color/md_white_1000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spring_dots_indicator"></com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator>
+        app:layout_constraintTop_toBottomOf="@+id/spring_dots_indicator" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

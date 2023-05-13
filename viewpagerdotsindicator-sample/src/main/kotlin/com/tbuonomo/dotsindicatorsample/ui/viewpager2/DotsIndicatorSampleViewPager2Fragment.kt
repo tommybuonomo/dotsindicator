@@ -1,25 +1,27 @@
-package com.tbuonomo.dotsindicatorsample.viewpager2
+package com.tbuonomo.dotsindicatorsample.ui.viewpager2
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import com.tbuonomo.dotsindicatorsample.R
 import com.tbuonomo.dotsindicatorsample.core.platform.binding.viewBinding
 import com.tbuonomo.dotsindicatorsample.core.platform.viewpager.transformer.ZoomOutPageTransformer
-import com.tbuonomo.dotsindicatorsample.databinding.ActivityViewPager2Binding
+import com.tbuonomo.dotsindicatorsample.databinding.FragmentViewPager2Binding
 
-class ViewPager2Activity : AppCompatActivity() {
+class DotsIndicatorSampleViewPager2Fragment : Fragment() {
 
     companion object {
         private const val debugMode = false
     }
 
-    private val binding by viewBinding(ActivityViewPager2Binding::inflate)
+    private val binding by viewBinding(FragmentViewPager2Binding::bind)
     private val dotsIndicatorPager2Adapter = DotIndicatorPager2Adapter()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         with(binding.viewPager2) {
             adapter = dotsIndicatorPager2Adapter
 
@@ -46,4 +48,9 @@ class ViewPager2Activity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+        inflater.inflate(
+            R.layout.fragment_view_pager2, container, false
+        )
 }
