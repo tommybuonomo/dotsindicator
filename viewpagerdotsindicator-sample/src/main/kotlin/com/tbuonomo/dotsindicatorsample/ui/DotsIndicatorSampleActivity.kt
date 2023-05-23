@@ -6,6 +6,7 @@ import com.tbuonomo.dotsindicatorsample.core.platform.binding.viewBinding
 import com.tbuonomo.dotsindicatorsample.databinding.ActivityDotsIndicatorSampleBinding
 import com.tbuonomo.dotsindicatorsample.ui.DotsIndicatorSampleActivity.DotsIndicatorType.*
 import com.tbuonomo.dotsindicatorsample.ui.compose.DotsIndicatorSampleComposeFragment
+import com.tbuonomo.dotsindicatorsample.ui.recyclerview.DotsIndicatorSampleRecyclerViewFragment
 import com.tbuonomo.dotsindicatorsample.ui.viewpager.DotsIndicatorSampleViewPagerFragment
 import com.tbuonomo.dotsindicatorsample.ui.viewpager2.DotsIndicatorSampleViewPager2Fragment
 
@@ -15,6 +16,7 @@ class DotsIndicatorSampleActivity : AppCompatActivity() {
     sealed interface DotsIndicatorType {
         object ViewPager : DotsIndicatorType
         object ViewPager2 : DotsIndicatorType
+        object RecyclerView : DotsIndicatorType
         object Compose : DotsIndicatorType
     }
 
@@ -27,6 +29,7 @@ class DotsIndicatorSampleActivity : AppCompatActivity() {
             binding.root.id, when (type) {
                 ViewPager -> DotsIndicatorSampleViewPagerFragment()
                 ViewPager2 -> DotsIndicatorSampleViewPager2Fragment()
+                RecyclerView -> DotsIndicatorSampleRecyclerViewFragment()
                 Compose -> DotsIndicatorSampleComposeFragment()
             }
         ).commit()
