@@ -10,8 +10,11 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.StyleableRes
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
+import com.tbuonomo.viewpagerdotsindicator.attacher.RecyclerAttacher
 import com.tbuonomo.viewpagerdotsindicator.attacher.ViewPager2Attacher
 import com.tbuonomo.viewpagerdotsindicator.attacher.ViewPagerAttacher
 
@@ -210,6 +213,14 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(
 
     fun attachTo(viewPager2: ViewPager2) {
         ViewPager2Attacher().setup(this, viewPager2)
+    }
+
+    fun attachTo(recyclerView: RecyclerView, pagerSnapHelper: PagerSnapHelper, initialDx: Int) {
+        RecyclerAttacher(pagerSnapHelper, initialDx).setup(this, recyclerView)
+
+        post {
+            refreshDots()
+        }
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
