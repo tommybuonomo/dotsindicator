@@ -5,6 +5,9 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.TypedValue
 import android.view.View
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 
@@ -27,7 +30,7 @@ internal fun <T> ArrayList<T>.isInBounds(index: Int) = index in 0 until size
 
 internal fun Context.getThemePrimaryColor(): Int {
     val value = TypedValue()
-    this.theme.resolveAttribute(R.attr.colorPrimary, value, true)
+    this.theme.resolveAttribute(androidx.appcompat.R.attr.colorPrimary, value, true)
     return value.data
 }
 
@@ -43,3 +46,12 @@ fun View.setBackgroundCompat(background: Drawable?) {
         setBackgroundDrawable(background)
     }
 }
+
+@Composable
+fun Dp.dpToPx() = with(LocalDensity.current) { this@dpToPx.toPx() }
+
+@Composable
+fun Int.pxToDp() = with(LocalDensity.current) { this@pxToDp.toDp() }
+
+@Composable
+fun Float.pxToDp() = with(LocalDensity.current) { this@pxToDp.toDp() }
