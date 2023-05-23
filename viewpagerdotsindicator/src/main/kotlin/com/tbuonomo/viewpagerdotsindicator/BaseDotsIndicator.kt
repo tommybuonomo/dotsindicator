@@ -38,21 +38,21 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(
         DEFAULT(
             16f,
             8f,
-            R.styleable.SpringDotsIndicator,
-            R.styleable.SpringDotsIndicator_dotsColor,
-            R.styleable.SpringDotsIndicator_dotsSize,
-            R.styleable.SpringDotsIndicator_dotsSpacing,
-            R.styleable.SpringDotsIndicator_dotsCornerRadius,
-            R.styleable.SpringDotsIndicator_dotsClickable
-        ),
-        SPRING(
-            16f,
-            4f,
             R.styleable.DotsIndicator,
             R.styleable.DotsIndicator_dotsColor,
             R.styleable.DotsIndicator_dotsSize,
             R.styleable.DotsIndicator_dotsSpacing,
             R.styleable.DotsIndicator_dotsCornerRadius,
+            R.styleable.DotsIndicator_dotsClickable
+        ),
+        SPRING(
+            16f,
+            4f,
+            R.styleable.SpringDotsIndicator,
+            R.styleable.SpringDotsIndicator_dotsColor,
+            R.styleable.SpringDotsIndicator_dotsSize,
+            R.styleable.SpringDotsIndicator_dotsSpacing,
+            R.styleable.SpringDotsIndicator_dotsCornerRadius,
             R.styleable.SpringDotsIndicator_dotsClickable
         ),
         WORM(
@@ -63,7 +63,7 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(
             R.styleable.WormDotsIndicator_dotsSize,
             R.styleable.WormDotsIndicator_dotsSpacing,
             R.styleable.WormDotsIndicator_dotsCornerRadius,
-            R.styleable.SpringDotsIndicator_dotsClickable
+            R.styleable.WormDotsIndicator_dotsClickable
         )
     }
 
