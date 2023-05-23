@@ -55,13 +55,11 @@ class DotsIndicatorSampleComposeFragment : Fragment() {
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background)
                 ) {
-                    var pageCount by remember {
-                        mutableStateOf(10)
-                    }
+                    var pageCount by remember { mutableStateOf(5) }
                     Column {
                         val pagerState = rememberPagerState()
                         HorizontalPager(
-                            modifier = Modifier.padding(top = 16.dp),
+                            modifier = Modifier.padding(top = 24.dp),
                             pageCount = pageCount,
                             contentPadding = PaddingValues(horizontal = 64.dp),
                             pageSpacing = 24.dp,
