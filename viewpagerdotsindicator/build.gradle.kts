@@ -21,13 +21,13 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.2"
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
     namespace = "com.tbuonomo.viewpagerdotsindicator"
 }
 
 kotlin {
-    jvmToolchain(18)
+    jvmToolchain(17)
 }
 
 dependencies {
