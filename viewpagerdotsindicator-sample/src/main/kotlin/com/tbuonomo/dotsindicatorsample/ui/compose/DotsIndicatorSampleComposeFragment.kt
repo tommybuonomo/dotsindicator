@@ -12,7 +12,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,12 +58,11 @@ class DotsIndicatorSampleComposeFragment : Fragment() {
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background)
                 ) {
-                    var pageCount by remember { mutableStateOf(5) }
+                    var pageCount by remember { mutableIntStateOf(5) }
                     Column {
-                        val pagerState = rememberPagerState()
+                        val pagerState = rememberPagerState(initialPage = 0, pageCount = { pageCount })
                         HorizontalPager(
                             modifier = Modifier.padding(top = 24.dp),
-                            pageCount = pageCount,
                             contentPadding = PaddingValues(horizontal = 64.dp),
                             pageSpacing = 24.dp,
                             state = pagerState

@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.jetbrains.kotlin.android)
     id("com.vanniktech.maven.publish").version("0.19.0")
 }
 
@@ -31,18 +31,16 @@ kotlin {
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    testImplementation("junit:junit:4.13.2")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("androidx.dynamicanimation:dynamicanimation:1.0.0")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.dynamic.animation)
+    implementation(libs.androidx.viewpager2)
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion")
-    implementation("androidx.viewpager2:viewpager2:1.1.0")
-
-    val composeBom = platform("androidx.compose:compose-bom:2024.09.02")
-    implementation(composeBom)
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.compose.foundation:foundation")
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    testImplementation(libs.junit)
+    debugImplementation(libs.androidx.ui.tooling)
 }

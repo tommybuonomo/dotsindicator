@@ -1,0 +1,40 @@
+[versions]
+agp = "8.5.2"
+cardview = "1.0.0"
+constraintlayout = "2.1.4"
+dotsindicator = "5.0"
+espressoCore = "3.6.1"
+kotlin = "1.9.25"
+coreKtx = "1.13.1"
+junit = "4.13.2"
+composeBom = "2024.09.02"
+appcompat = "1.7.0"
+dynamicAnimation = "1.0.0"
+runner = "1.6.2"
+viewpager2 = "1.1.0"
+activityCompose = "1.9.2"
+
+[libraries]
+androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
+androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
+dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-dynamic-animation = { group = "androidx.dynamicanimation", name = "dynamicanimation", version.ref = "dynamicAnimation" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+
