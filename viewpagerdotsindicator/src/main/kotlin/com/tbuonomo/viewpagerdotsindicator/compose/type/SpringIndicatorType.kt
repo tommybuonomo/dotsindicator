@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tbuonomo.viewpagerdotsindicator.compose.Dot
-import com.tbuonomo.viewpagerdotsindicator.compose.DotGraphic
+import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
 
 class SpringIndicatorType(
     private val dotsGraphic: DotGraphic = DotGraphic(),

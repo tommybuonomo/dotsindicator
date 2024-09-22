@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import com.tbuonomo.dotsindicatorsample.core.platform.compose.theme.AppTheme
 import com.tbuonomo.dotsindicatorsample.ui.compose.component.PagePlaceholderItem
-import com.tbuonomo.viewpagerdotsindicator.compose.DotGraphic
 import com.tbuonomo.viewpagerdotsindicator.compose.DotsIndicator
+import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
 import com.tbuonomo.viewpagerdotsindicator.compose.type.BalloonIndicatorType
 import com.tbuonomo.viewpagerdotsindicator.compose.type.ShiftIndicatorType
 import com.tbuonomo.viewpagerdotsindicator.compose.type.SpringIndicatorType
@@ -55,13 +55,11 @@ class DotsIndicatorSampleComposeFragment : Fragment() {
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background)
                 ) {
-                    var pageCount by remember {
-                        mutableStateOf(10)
-                    }
+                    var pageCount by remember { mutableStateOf(5) }
                     Column {
                         val pagerState = rememberPagerState()
                         HorizontalPager(
-                            modifier = Modifier.padding(top = 16.dp),
+                            modifier = Modifier.padding(top = 24.dp),
                             pageCount = pageCount,
                             contentPadding = PaddingValues(horizontal = 64.dp),
                             pageSpacing = 24.dp,

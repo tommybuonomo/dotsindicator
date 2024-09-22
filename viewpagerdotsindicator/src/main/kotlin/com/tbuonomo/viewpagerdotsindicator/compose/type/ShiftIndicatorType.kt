@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.times
 import com.tbuonomo.viewpagerdotsindicator.compose.Dot
-import com.tbuonomo.viewpagerdotsindicator.compose.DotGraphic
+import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
 import kotlin.math.absoluteValue
 
 class ShiftIndicatorType(
