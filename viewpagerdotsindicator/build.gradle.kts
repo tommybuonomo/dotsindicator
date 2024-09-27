@@ -1,17 +1,20 @@
+// https://medium.com/@iRYO400/how-to-upload-your-android-library-to-maven-central-central-portal-in-2024-af7348742247
+
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    id("com.vanniktech.maven.publish").version("0.19.0")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.maven.publish)
+    alias(libs.plugins.nmcp)
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
     }
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
@@ -21,28 +24,26 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.2"
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
     namespace = "com.tbuonomo.viewpagerdotsindicator"
 }
 
 kotlin {
-    jvmToolchain(18)
+    jvmToolchain(17)
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    testImplementation("junit:junit:4.13.2")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.dynamicanimation:dynamicanimation:1.0.0")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.dynamic.animation)
+    implementation(libs.androidx.viewpager2)
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion")
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
-
-    val composeBom = platform("androidx.compose:compose-bom:2023.03.00")
-    implementation(composeBom)
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.compose.foundation:foundation")
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    testImplementation(libs.junit)
+    debugImplementation(libs.androidx.ui.tooling)
 }

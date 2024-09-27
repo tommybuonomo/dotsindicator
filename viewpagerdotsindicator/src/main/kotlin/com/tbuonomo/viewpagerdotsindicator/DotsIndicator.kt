@@ -97,16 +97,14 @@ class DotsIndicator @JvmOverloads constructor(
         imageView.setBackgroundCompat(background)
 
         dot.setOnClickListener {
-            if (dotsClickable && index < pager?.count ?: 0) {
+            if (dotsClickable && index < (pager?.count ?: 0)) {
                 pager!!.setCurrentItem(index, true)
             }
         }
 
-        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-            dot.setPaddingHorizontal((dotsElevation * 0.8f).toInt())
-            dot.setPaddingVertical((dotsElevation * 2).toInt())
-            imageView.elevation = dotsElevation
-        }
+        dot.setPaddingHorizontal((dotsElevation * 0.8f).toInt())
+        dot.setPaddingVertical((dotsElevation * 2).toInt())
+        imageView.elevation = dotsElevation
 
         dots.add(imageView)
         linearLayout.addView(dot)

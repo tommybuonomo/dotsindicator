@@ -13,9 +13,9 @@ class DotsIndicatorSampleActivity : AppCompatActivity() {
     private val binding by viewBinding(ActivityDotsIndicatorSampleBinding::inflate)
 
     sealed interface DotsIndicatorType {
-        object ViewPager : DotsIndicatorType
-        object ViewPager2 : DotsIndicatorType
-        object Compose : DotsIndicatorType
+        data object ViewPager : DotsIndicatorType
+        data object ViewPager2 : DotsIndicatorType
+        data object Compose : DotsIndicatorType
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
