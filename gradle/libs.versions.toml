@@ -13,6 +13,8 @@ dynamicAnimation = "1.0.0"
 runner = "1.6.2"
 viewpager2 = "1.1.0"
 activityCompose = "1.9.2"
+mavenPublish = "0.28.0"
+nmcp = "0.0.7"
 
 [libraries]
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
@@ -37,4 +39,5 @@ androidx-dynamic-animation = { group = "androidx.dynamicanimation", name = "dyna
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
+nmcp = { id = "com.gradleup.nmcp", version.ref = "nmcp" }

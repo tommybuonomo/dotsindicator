@@ -1,7 +1,10 @@
+// https://medium.com/@iRYO400/how-to-upload-your-android-library-to-maven-central-central-portal-in-2024-af7348742247
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("com.vanniktech.maven.publish").version("0.19.0")
+    alias(libs.plugins.maven.publish)
+    alias(libs.plugins.nmcp)
 }
 
 android {
@@ -11,7 +14,7 @@ android {
         minSdk = 21
     }
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
