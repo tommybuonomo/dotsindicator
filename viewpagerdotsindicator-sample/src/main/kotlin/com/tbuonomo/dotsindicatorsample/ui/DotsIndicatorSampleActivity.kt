@@ -21,7 +21,7 @@ class DotsIndicatorSampleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val type: DotsIndicatorType = ViewPager2
+        val type: DotsIndicatorType = Compose
 
         supportFragmentManager.beginTransaction().add(
             binding.root.id, when (type) {
