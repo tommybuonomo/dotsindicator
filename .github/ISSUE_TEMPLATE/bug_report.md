@@ -31,9 +31,10 @@ If applicable, add screenshots or a video to help explain the issue.
 
 **Environment**
 
-- Library version: [e.g., 5.0]
+- Library version: [e.g., 5.1.0]
 - Android version: [e.g., 11]
 - Device: [e.g., Pixel 5]
+- ViewPager for Jetpack Compose or XML: [e.g., Jetpack Compose or XML]
 - ViewPager type: [e.g., ViewPager or ViewPager2]
 
 **Additional Context**  
