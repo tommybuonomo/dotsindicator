@@ -2,7 +2,7 @@
 agp = "8.5.2"
 cardview = "1.0.0"
 constraintlayout = "2.1.4"
-dotsindicator = "5.0"
+dotsindicator = "5.1.0"
 espressoCore = "3.6.1"
 kotlin = "1.9.25"
 coreKtx = "1.13.1"
