@@ -1,5 +1,5 @@
 [versions]
-agp = "8.5.2"
+agp = "8.7.2"
 cardview = "1.0.0"
 constraintlayout = "2.1.4"
 dotsindicator = "5.0"
