@@ -1,0 +1,19 @@
+blank_issues_enabled: false
+issue_template:
+  - name: 🐛 Bug Report
+    about: Report a bug to help us improve.
+    title: "[Bug] "
+    labels: bug
+    body: ./.github/ISSUE_TEMPLATE/bug_report.md
+
+  - name: ✨ Feature Request
+    about: Suggest an idea or enhancement for the library.
+    title: "[Feature] "
+    labels: enhancement
+    body: ./.github/ISSUE_TEMPLATE/feature_request.md
+
+  - name: ❓ Question or Help Needed
+    about: Ask a question or request help.
+    title: "[Question] "
+    labels: question
+    body: ./.github/ISSUE_TEMPLATE/question.md
