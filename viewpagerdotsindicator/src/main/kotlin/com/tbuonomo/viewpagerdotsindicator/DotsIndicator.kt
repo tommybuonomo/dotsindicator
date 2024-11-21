@@ -135,8 +135,8 @@ class DotsIndicator @JvmOverloads constructor(
                         (dotsSize + dotsSize * (dotsWidthFactor - 1) * positionOffset).toInt()
                     nextDot.setWidth(nextDotWidth)
 
-                    val selectedDotBackground = selectedDot.background as DotsGradientDrawable
-                    val nextDotBackground = nextDot.background as DotsGradientDrawable
+                    val selectedDotBackground = selectedDot.background as DotsGradientDrawable?
+                    val nextDotBackground = nextDot.background as DotsGradientDrawable?
 
                     if (selectedDotColor != dotsColor) {
                         val selectedColor = argbEvaluator.evaluate(
@@ -148,12 +148,12 @@ class DotsIndicator @JvmOverloads constructor(
                             selectedDotColor
                         ) as Int
 
-                        nextDotBackground.setColor(nextColor)
+                        nextDotBackground?.setColor(nextColor)
 
                         if (progressMode && selectedPosition <= pager!!.currentItem) {
-                            selectedDotBackground.setColor(selectedDotColor)
+                            selectedDotBackground?.setColor(selectedDotColor)
                         } else {
-                            selectedDotBackground.setColor(selectedColor)
+                            selectedDotBackground?.setColor(selectedColor)
                         }
                     }
                 }
