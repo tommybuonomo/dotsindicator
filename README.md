@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.tbuonomo:dotsindicator:5.0")
+    implementation("com.tbuonomo:dotsindicator:5.1.0")
 }
 
 ```
@@ -246,6 +246,10 @@ If you could help me to continue maintain this repo, buying me a cup of coffee w
 <a href="https://www.buymeacoffee.com/tommybuonomo" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 ## Changelog
+### 5.1.0
+- Fix import issues
+- Upgrade AGP versions
+- Migrate repo to Maven Central Repository
 ### 5.0
 - Add Jetpack Compose support with 4 types: ShiftIndicatorType, SpringIndicatorType, WormIndicatorType, BalloonIndicatorType
 ### 4.3
