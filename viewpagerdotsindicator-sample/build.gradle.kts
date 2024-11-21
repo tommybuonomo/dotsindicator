@@ -35,7 +35,7 @@ android {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 dependencies {
@@ -49,8 +49,8 @@ dependencies {
     androidTestImplementation(libs.androidx.runner)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(project(":viewpagerdotsindicator"))
-//    implementation(libs.dotsindicator)
+//    implementation(project(":viewpagerdotsindicator"))
+    implementation(libs.dotsindicator)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
