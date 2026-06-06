@@ -1,0 +1,29 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      github-actions:
+        patterns: [ "*" ]
+
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      kotlin:
+        patterns: [ "org.jetbrains.kotlin*" ]
+      agp:
+        patterns: [ "com.android.tools.build*" ]
+      compose:
+        patterns: [ "androidx.compose*" ]
+      androidx:
+        patterns: [ "androidx.*" ]
+      publishing:
+        patterns:
+          - "com.vanniktech*"
+          - "com.gradleup.nmcp*"
