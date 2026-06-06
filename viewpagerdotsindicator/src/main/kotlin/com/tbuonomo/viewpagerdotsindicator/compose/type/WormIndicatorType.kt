@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tbuonomo.viewpagerdotsindicator.compose.Dot
 import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
+import kotlin.math.abs
 import kotlin.math.floor
 
 class WormIndicatorType(
@@ -66,7 +67,7 @@ class WormIndicatorType(
                 val density = LocalDensity.current.density
                 val distanceBetween2DotsDp by remember {
                     derivedStateOf {
-                        (((lastDotPositionX - firstDotPositionX) / (dotCount - 1)) / density).dp
+                        ((abs(lastDotPositionX - firstDotPositionX) / (dotCount - 1)) / density).dp
                     }
                 }
                 val selectorDotWidthDp by remember(lastDotPositionX, firstDotPositionX) {
