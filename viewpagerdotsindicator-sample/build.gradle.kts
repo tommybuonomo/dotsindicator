@@ -1,14 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.jetbrains.kotlin.compose)
 }
 
 android {
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "com.tbuonomo.dotsindicatorsample"
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -26,10 +27,6 @@ android {
     buildFeatures {
         viewBinding = true
         compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.15"
     }
     namespace = "com.tbuonomo.dotsindicatorsample"
 }

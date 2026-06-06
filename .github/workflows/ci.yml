@@ -36,6 +36,9 @@ jobs:
       - name: Build library
         run: ./gradlew :viewpagerdotsindicator:assembleRelease
 
+      - name: Build sample
+        run: ./gradlew :viewpagerdotsindicator-sample:assembleDebug
+
       - name: Run Android Lint
         run: ./gradlew :viewpagerdotsindicator:lint
 
@@ -46,3 +49,15 @@ jobs:
           name: lint-results
           path: viewpagerdotsindicator/build/reports/lint-results*.html
           retention-days: 7
+
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
