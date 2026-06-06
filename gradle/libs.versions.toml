@@ -1,20 +1,20 @@
 [versions]
-agp = "8.5.2"
+agp = "8.7.3"
 cardview = "1.0.0"
-constraintlayout = "2.1.4"
+constraintlayout = "2.2.1"
 dotsindicator = "5.1.0"
 espressoCore = "3.6.1"
-kotlin = "1.9.25"
-coreKtx = "1.13.1"
+kotlin = "2.1.21"
+coreKtx = "1.16.0"
 junit = "4.13.2"
-composeBom = "2024.09.02"
-appcompat = "1.7.0"
-dynamicAnimation = "1.0.0"
+composeBom = "2025.05.01"
+appcompat = "1.7.1"
+dynamicAnimation = "1.1.0"
 runner = "1.6.2"
 viewpager2 = "1.1.0"
-activityCompose = "1.9.2"
-mavenPublish = "0.29.0"
-nmcp = "0.0.8"
+activityCompose = "1.10.1"
+mavenPublish = "0.30.0"
+nmcp = "0.1.0"
 
 [libraries]
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
@@ -38,6 +38,7 @@ androidx-dynamic-animation = { group = "androidx.dynamicanimation", name = "dyna
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrains-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
 nmcp = { id = "com.gradleup.nmcp", version.ref = "nmcp" }
