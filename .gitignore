@@ -43,3 +43,5 @@ local.properties
 /*/keystore.properties
 keystore.properties
 
+.claude/worktrees/
+.claude/tmp/
