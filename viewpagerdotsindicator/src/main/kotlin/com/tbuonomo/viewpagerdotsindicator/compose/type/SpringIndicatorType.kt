@@ -10,7 +10,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.tbuonomo.viewpagerdotsindicator.compose.Dot
 import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
@@ -27,60 +29,67 @@ class SpringIndicatorType(
         dotSpacing: Dp,
         onDotClicked: ((Int) -> Unit)?,
     ) {
+        val parentLayoutDirection = LocalLayoutDirection.current
         var firstDotPositionX: Float by remember(dotCount, dotsGraphic) { mutableStateOf(-1f) }
         var lastDotPositionX: Float by remember(dotCount, dotsGraphic) { mutableStateOf(-1f) }
-        Box(modifier = modifier) {
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth(), content = {
-                    items(dotCount) { dotIndex ->
-                        val dotModifier = when (dotIndex) {
-                            0 -> {
-                                Modifier.onGloballyPositioned {
-                                    firstDotPositionX = it.positionInParent().x
+        // Force LTR on the outer Box so that absoluteOffset uses physical left-to-right coordinates.
+        // The LazyRow restores the original direction to keep item order correct in RTL.
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+            Box(modifier = modifier) {
+                CompositionLocalProvider(LocalLayoutDirection provides parentLayoutDirection) {
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth(), content = {
+                            items(dotCount) { dotIndex ->
+                                val dotModifier = when (dotIndex) {
+                                    0 -> {
+                                        Modifier.onGloballyPositioned {
+                                            firstDotPositionX = it.positionInParent().x
+                                        }
+                                    }
+                                    dotCount - 1 -> {
+                                        Modifier.onGloballyPositioned {
+                                            lastDotPositionX = it.positionInParent().x
+                                        }
+                                    }
+                                    else -> Modifier
                                 }
+                                Dot(dotsGraphic, dotModifier.clickable {
+                                    onDotClicked?.invoke(dotIndex)
+                                })
                             }
-                            dotCount - 1 -> {
-                                Modifier.onGloballyPositioned {
-                                    lastDotPositionX = it.positionInParent().x
-                                }
-                            }
-                            else -> Modifier
-                        }
-                        Dot(dotsGraphic, dotModifier.clickable {
-                            onDotClicked?.invoke(dotIndex)
-                        })
-                    }
-                }, horizontalArrangement = Arrangement.spacedBy(
-                    dotSpacing, alignment = Alignment.CenterHorizontally
-                ),
-                contentPadding = PaddingValues(start = dotSpacing, end = dotSpacing)
-            )
-            if (firstDotPositionX != -1f && lastDotPositionX != -1f) {
-                val centeredOffset by remember {
-                    derivedStateOf {
-                        (dotsGraphic.size - selectorDotGraphic.size) / 2
-                    }
-                }
-                val density = LocalDensity.current.density
-                val foregroundDotPositionDp by remember(globalOffsetProvider) {
-                    derivedStateOf {
-                        computeSelectorDotPositionDp(
-                            firstDotPositionX,
-                            lastDotPositionX,
-                            dotCount,
-                            globalOffsetProvider(),
-                            density,
-                            centeredOffset
-                        )
-                    }
-                }
-                Dot(
-                    selectorDotGraphic, Modifier.offset(
-                        x = foregroundDotPositionDp,
-                        y = centeredOffset
+                        }, horizontalArrangement = Arrangement.spacedBy(
+                            dotSpacing, alignment = Alignment.CenterHorizontally
+                        ),
+                        contentPadding = PaddingValues(start = dotSpacing, end = dotSpacing)
                     )
-                )
+                }
+                if (firstDotPositionX != -1f && lastDotPositionX != -1f) {
+                    val centeredOffset by remember {
+                        derivedStateOf {
+                            (dotsGraphic.size - selectorDotGraphic.size) / 2
+                        }
+                    }
+                    val density = LocalDensity.current.density
+                    val foregroundDotPositionDp by remember(globalOffsetProvider) {
+                        derivedStateOf {
+                            computeSelectorDotPositionDp(
+                                firstDotPositionX,
+                                lastDotPositionX,
+                                dotCount,
+                                globalOffsetProvider(),
+                                density,
+                                centeredOffset
+                            )
+                        }
+                    }
+                    Dot(
+                        selectorDotGraphic, Modifier.absoluteOffset(
+                            x = foregroundDotPositionDp,
+                            y = centeredOffset
+                        )
+                    )
+                }
             }
         }
     }
