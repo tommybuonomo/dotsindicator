@@ -214,10 +214,22 @@ abstract class BaseDotsIndicator @JvmOverloads constructor(
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
-        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1 && layoutDirection == View.LAYOUT_DIRECTION_RTL) {
-            layoutDirection = View.LAYOUT_DIRECTION_LTR
-            rotation = 180f
-            requestLayout()
+        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR1) {
+            when {
+                layoutDirection == View.LAYOUT_DIRECTION_RTL -> {
+                    layoutDirection = View.LAYOUT_DIRECTION_LTR
+                    rotation = 180f
+                    requestLayout()
+                }
+                rotation == 180f -> {
+                    val parentIsRtl = (parent as? View)?.layoutDirection == View.LAYOUT_DIRECTION_RTL
+                    if (!parentIsRtl) {
+                        layoutDirection = View.LAYOUT_DIRECTION_INHERIT
+                        rotation = 0f
+                        requestLayout()
+                    }
+                }
+            }
         }
     }
 

@@ -163,7 +163,11 @@ class DotsIndicator @JvmOverloads constructor(
 
             override fun resetPosition(position: Int) {
                 dots[position].setWidth(dotsSize.toInt())
-                refreshDotColor(position)
+                val elevationItem = dots[position]
+                val background = elevationItem.background as? DotsGradientDrawable ?: return
+                background.setColor(dotsColor)
+                elevationItem.setBackgroundCompat(background)
+                elevationItem.invalidate()
             }
 
             override val pageCount: Int

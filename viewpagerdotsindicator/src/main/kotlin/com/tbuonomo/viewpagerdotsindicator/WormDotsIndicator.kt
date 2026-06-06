@@ -189,8 +189,8 @@ class WormDotsIndicator @JvmOverloads constructor(
                         widthFinalPosition = dotsSize
                     }
                     in 0.1f..0.9f -> {
-                        xFinalPosition = x
-                        widthFinalPosition = nextX - x + dotsSize
+                        xFinalPosition = minOf(x, nextX)
+                        widthFinalPosition = kotlin.math.abs(nextX - x) + dotsSize
                     }
                     else -> {
                         xFinalPosition = nextX
