@@ -20,6 +20,14 @@ class DotsIndicator @JvmOverloads constructor(
 
     companion object {
         const val DEFAULT_WIDTH_FACTOR = 2.5f
+
+        /**
+         * Returns the color at [index] in [colors], or [fallback] when [colors] is null or
+         * [index] is out of range. Pure — no Android context required; safe to call from tests.
+         */
+        @JvmStatic
+        fun resolveColor(colors: IntArray?, index: Int, fallback: Int): Int =
+            colors?.getOrElse(index) { fallback } ?: fallback
     }
 
     private lateinit var linearLayout: LinearLayout
@@ -33,7 +41,39 @@ class DotsIndicator @JvmOverloads constructor(
             refreshDotsColors()
         }
 
+    /**
+     * Per-dot selected colors. Dot at position *i* uses `selectedDotColors[i]`; positions
+     * beyond the array length fall back to [selectedDotColor]. `null` (default) uses
+     * [selectedDotColor] for every dot — fully backward-compatible.
+     *
+     * Java: `indicator.setSelectedDotColors(new int[]{Color.RED, Color.GREEN, Color.BLUE});`
+     */
+    var selectedDotColors: IntArray? = null
+        set(value) {
+            field = value
+            refreshDotsColors()
+        }
+
+    /**
+     * Per-dot unselected colors. Dot at position *i* uses `dotColors[i]`; positions beyond
+     * the array length fall back to [dotsColor]. `null` (default) uses [dotsColor] for every
+     * dot — fully backward-compatible.
+     *
+     * Java: `indicator.setDotColors(new int[]{Color.GRAY, Color.LTGRAY, Color.DKGRAY});`
+     */
+    var dotColors: IntArray? = null
+        set(value) {
+            field = value
+            refreshDotsColors()
+        }
+
     private val argbEvaluator = ArgbEvaluator()
+
+    private fun getSelectedColorForIndex(index: Int) =
+        resolveColor(selectedDotColors, index, selectedDotColor)
+
+    private fun getUnselectedColorForIndex(index: Int) =
+        resolveColor(dotColors, index, dotsColor)
 
     init {
         init(attrs)
@@ -90,9 +130,9 @@ class DotsIndicator @JvmOverloads constructor(
         val background = DotsGradientDrawable()
         background.cornerRadius = dotsCornerRadius
         if (isInEditMode) {
-            background.setColor(if (0 == index) selectedDotColor else dotsColor)
+            background.setColor(if (0 == index) getSelectedColorForIndex(index) else getUnselectedColorForIndex(index))
         } else {
-            background.setColor(if (pager!!.currentItem == index) selectedDotColor else dotsColor)
+            background.setColor(if (pager!!.currentItem == index) getSelectedColorForIndex(index) else getUnselectedColorForIndex(index))
         }
         imageView.setBackgroundCompat(background)
 
@@ -138,20 +178,23 @@ class DotsIndicator @JvmOverloads constructor(
                     val selectedDotBackground = selectedDot.background as DotsGradientDrawable
                     val nextDotBackground = nextDot.background as DotsGradientDrawable
 
-                    if (selectedDotColor != dotsColor) {
+                    val selSelectedColor = getSelectedColorForIndex(selectedPosition)
+                    val selUnselectedColor = getUnselectedColorForIndex(selectedPosition)
+                    val nxtSelectedColor = getSelectedColorForIndex(nextPosition)
+                    val nxtUnselectedColor = getUnselectedColorForIndex(nextPosition)
+
+                    if (selSelectedColor != selUnselectedColor || nxtSelectedColor != nxtUnselectedColor) {
                         val selectedColor = argbEvaluator.evaluate(
-                            positionOffset, selectedDotColor,
-                            dotsColor
+                            positionOffset, selSelectedColor, selUnselectedColor
                         ) as Int
                         val nextColor = argbEvaluator.evaluate(
-                            positionOffset, dotsColor,
-                            selectedDotColor
+                            positionOffset, nxtUnselectedColor, nxtSelectedColor
                         ) as Int
 
                         nextDotBackground.setColor(nextColor)
 
                         if (progressMode && selectedPosition <= pager!!.currentItem) {
-                            selectedDotBackground.setColor(selectedDotColor)
+                            selectedDotBackground.setColor(selSelectedColor)
                         } else {
                             selectedDotBackground.setColor(selectedColor)
                         }
@@ -165,7 +208,7 @@ class DotsIndicator @JvmOverloads constructor(
                 dots[position].setWidth(dotsSize.toInt())
                 val elevationItem = dots[position]
                 val background = elevationItem.background as? DotsGradientDrawable ?: return
-                background.setColor(dotsColor)
+                background.setColor(getUnselectedColorForIndex(position))
                 elevationItem.setBackgroundCompat(background)
                 elevationItem.invalidate()
             }
@@ -181,9 +224,9 @@ class DotsIndicator @JvmOverloads constructor(
 
         background?.let {
             if (index == pager!!.currentItem || progressMode && index < pager!!.currentItem) {
-                background.setColor(selectedDotColor)
+                background.setColor(getSelectedColorForIndex(index))
             } else {
-                background.setColor(dotsColor)
+                background.setColor(getUnselectedColorForIndex(index))
             }
         }
 
