@@ -12,9 +12,9 @@ jobs:
     if: github.actor == 'dependabot[bot]'
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: dependabot/fetch-metadata@v2
+      - uses: dependabot/fetch-metadata@v3
         id: metadata
 
       - name: Auto-merge patch and minor updates
