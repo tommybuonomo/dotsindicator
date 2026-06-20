@@ -158,6 +158,35 @@ DotsIndicator(
     dotsIndicator.attachTo(viewPager)
 ```
 
+#### Per-dot colors (programmatic)
+Give each dot its own selected and/or unselected color. Indices beyond the array length fall back to the global `selectedDotColor` / `dotsColor`.
+
+```Kotlin
+// Each dot lights up in a different accent color when selected
+dotsIndicator.selectedDotColors = intArrayOf(
+    Color.parseColor("#FF5252"), // dot 0
+    Color.parseColor("#FF6D00"), // dot 1
+    Color.parseColor("#FFD600"), // dot 2
+    Color.parseColor("#69F0AE"), // dot 3
+    Color.parseColor("#40C4FF"), // dot 4
+)
+
+// Optional: custom unselected colors per dot
+dotsIndicator.dotColors = intArrayOf(
+    Color.parseColor("#FFCDD2"),
+    Color.parseColor("#FFE0B2"),
+    Color.parseColor("#FFF9C4"),
+    Color.parseColor("#CCFF90"),
+    Color.parseColor("#B3E5FC"),
+)
+```
+
+Java-friendly setters are also available:
+```Java
+dotsIndicator.setSelectedDotColors(new int[]{Color.RED, Color.GREEN, Color.BLUE});
+dotsIndicator.setDotColors(new int[]{Color.LTGRAY, Color.LTGRAY, Color.LTGRAY});
+```
+
 
 ## SpringDotsIndicator 
 ![ezgif com-crop 4](https://user-images.githubusercontent.com/15737675/38329136-2c470ef0-384d-11e8-88a8-c8719dc1d0b7.gif) ![ezgif com-crop 5](https://user-images.githubusercontent.com/15737675/38329293-b87f68a4-384d-11e8-8a04-c560c60dac7c.gif)
