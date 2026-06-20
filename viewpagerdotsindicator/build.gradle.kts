@@ -39,6 +39,54 @@ kotlin {
     jvmToolchain(21)
 }
 
+mavenPublishing {
+    publishToMavenCentral()
+    signAllPublications()
+
+    coordinates(
+        property("GROUP") as String,
+        property("POM_ARTIFACT_ID") as String,
+        property("VERSION_NAME") as String,
+    )
+
+    pom {
+        name.set(property("POM_NAME") as String)
+        description.set(property("POM_DESCRIPTION") as String)
+        inceptionYear.set(property("POM_INCEPTION_YEAR") as String)
+        url.set(property("POM_URL") as String)
+
+        licenses {
+            license {
+                name.set(property("POM_LICENCE_NAME") as String)
+                url.set(property("POM_LICENCE_URL") as String)
+                distribution.set(property("POM_LICENCE_DIST") as String)
+            }
+        }
+
+        scm {
+            url.set(property("POM_SCM_URL") as String)
+            connection.set(property("POM_SCM_CONNECTION") as String)
+            developerConnection.set(property("POM_SCM_DEV_CONNECTION") as String)
+        }
+
+        developers {
+            developer {
+                id.set(property("POM_DEVELOPER_ID") as String)
+                name.set(property("POM_DEVELOPER_NAME") as String)
+                url.set(property("POM_DEVELOPER_URL") as String)
+            }
+        }
+    }
+}
+
+nmcp {
+    publishAllPublicationsToCentralPortal {
+        username.set(providers.gradleProperty("mavenCentralUsername"))
+        password.set(providers.gradleProperty("mavenCentralPassword"))
+        publishingType.set("AUTOMATIC")
+    }
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
