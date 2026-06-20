@@ -11,10 +11,12 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.tbuonomo.viewpagerdotsindicator.compose.Dot
+import com.tbuonomo.viewpagerdotsindicator.compose.dotTestTag
 import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
 import kotlin.math.abs
 import kotlin.math.floor
@@ -57,9 +59,11 @@ class WormIndicatorType(
                                     }
                                     else -> Modifier
                                 }
-                                Dot(dotsGraphic, dotModifier.clickable {
-                                    onDotClicked?.invoke(dotIndex)
-                                })
+                                Dot(dotsGraphic, dotModifier
+                                    .testTag(dotTestTag(dotIndex))
+                                    .clickable {
+                                        onDotClicked?.invoke(dotIndex)
+                                    })
                             }
                         }, horizontalArrangement = Arrangement.spacedBy(
                             dotSpacing, alignment = Alignment.CenterHorizontally

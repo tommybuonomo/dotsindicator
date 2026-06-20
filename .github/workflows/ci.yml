@@ -19,10 +19,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v5
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
       - name: Set up Gradle
@@ -42,12 +42,25 @@ jobs:
       - name: Run Android Lint
         run: ./gradlew :viewpagerdotsindicator:lint
 
+      - name: Run unit tests + golden screenshot verification
+        run: ./gradlew :viewpagerdotsindicator:testDebugUnitTest :viewpagerdotsindicator:verifyRoborazziDebug
+
       - name: Upload lint results
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: lint-results
           path: viewpagerdotsindicator/build/reports/lint-results*.html
+          retention-days: 7
+
+      - name: Upload test + screenshot results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results
+          path: |
+            viewpagerdotsindicator/build/reports/tests/**
+            viewpagerdotsindicator/build/outputs/roborazzi/**
           retention-days: 7
 
   dependency-review:

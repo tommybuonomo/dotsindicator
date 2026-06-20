@@ -4,11 +4,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.*
+import androidx.annotation.VisibleForTesting
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.times
 import com.tbuonomo.viewpagerdotsindicator.compose.Dot
+import com.tbuonomo.viewpagerdotsindicator.compose.dotTestTag
 import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
 import kotlin.math.absoluteValue
 
@@ -34,6 +37,7 @@ class ShiftIndicatorType(
                         val dotModifier by remember(dotWidth) {
                             mutableStateOf(
                                 Modifier
+                                    .testTag(dotTestTag(dotIndex))
                                     .width(dotWidth)
                                     .clickable {
                                         onDotClicked?.invoke(dotIndex)
@@ -49,7 +53,8 @@ class ShiftIndicatorType(
         }
     }
 
-    private fun computeDotWidth(currentDotIndex: Int, globalOffset: Float): Dp {
+    @VisibleForTesting
+    internal fun computeDotWidth(currentDotIndex: Int, globalOffset: Float): Dp {
         val diffFactor = 1f - (currentDotIndex - globalOffset).absoluteValue.coerceAtMost(1f)
         val widthToAdd = ((shiftSizeFactor - 1f).coerceAtLeast(0f) * dotsGraphic.size * diffFactor)
         return dotsGraphic.size + widthToAdd
