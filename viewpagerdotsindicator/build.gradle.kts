@@ -2,22 +2,22 @@
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.jetbrains.kotlin.compose)
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.nmcp)
+    alias(libs.plugins.roborazzi)
 }
 
 android {
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
     }
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 
@@ -25,6 +25,14 @@ android {
         compose = true
     }
     namespace = "com.tbuonomo.viewpagerdotsindicator"
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true   // Robolectric needs merged resources/manifest
+            isReturnDefaultValues = true
+            all { it.maxHeapSize = "2g" }       // native-graphics buffers for many PNGs
+        }
+    }
 }
 
 kotlin {
@@ -44,4 +52,13 @@ dependencies {
     implementation(libs.androidx.material3)
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.ui.tooling)
+
+    // JVM Compose UI tests + Roborazzi golden screenshots (Robolectric, no emulator)
+    testImplementation(platform(libs.androidx.compose.bom))
+    testImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.roborazzi.junit.rule)
+    debugImplementation(libs.androidx.ui.test.manifest) // MUST be debug: backs createComposeRule()
 }

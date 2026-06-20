@@ -7,14 +7,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.annotation.VisibleForTesting
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.tbuonomo.viewpagerdotsindicator.compose.Dot
+import com.tbuonomo.viewpagerdotsindicator.compose.dotTestTag
 import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
 
 class SpringIndicatorType(
@@ -54,9 +57,11 @@ class SpringIndicatorType(
                                     }
                                     else -> Modifier
                                 }
-                                Dot(dotsGraphic, dotModifier.clickable {
-                                    onDotClicked?.invoke(dotIndex)
-                                })
+                                Dot(dotsGraphic, dotModifier
+                                    .testTag(dotTestTag(dotIndex))
+                                    .clickable {
+                                        onDotClicked?.invoke(dotIndex)
+                                    })
                             }
                         }, horizontalArrangement = Arrangement.spacedBy(
                             dotSpacing, alignment = Alignment.CenterHorizontally
@@ -94,7 +99,8 @@ class SpringIndicatorType(
         }
     }
 
-    private fun computeSelectorDotPositionDp(
+    @VisibleForTesting
+    internal fun computeSelectorDotPositionDp(
         firstDotPositionX: Float,
         lastDotPositionX: Float,
         dotCount: Int,

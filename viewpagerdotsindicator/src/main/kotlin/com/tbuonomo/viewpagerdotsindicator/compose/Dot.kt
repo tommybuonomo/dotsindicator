@@ -8,6 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
 
+/**
+ * Stable test tag applied to each clickable dot, indexed by its position.
+ * Used by UI tests to locate and click a specific dot; inert in production.
+ */
+fun dotTestTag(index: Int): String = "dotsindicator_dot_$index"
+
 @Composable
 internal fun Dot(
     graphic: DotGraphic,

@@ -1,5 +1,6 @@
 package com.tbuonomo.viewpagerdotsindicator.compose
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.PagerState
@@ -53,7 +54,8 @@ fun DotsIndicator(
     type.IndicatorTypeComposable({ globalOffset }, modifier, dotCount, dotSpacing, onDotClicked)
 }
 
-private fun computeGlobalScrollOffset(position: Int, positionOffset: Float, totalCount: Int): Float {
+@VisibleForTesting
+internal fun computeGlobalScrollOffset(position: Int, positionOffset: Float, totalCount: Int): Float {
     var offset = (position + positionOffset)
     val lastPageIndex = (totalCount - 1).toFloat()
     if (offset == lastPageIndex) {
