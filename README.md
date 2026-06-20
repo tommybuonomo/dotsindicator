@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.tbuonomo:dotsindicator:5.1.0")
+    implementation("com.tbuonomo:dotsindicator:5.1.1")
 }
 
 ```
@@ -246,6 +246,11 @@ If you could help me to continue maintain this repo, buying me a cup of coffee w
 <a href="https://www.buymeacoffee.com/tommybuonomo" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 ## Changelog
+### 5.1.1
+- Fix RTL crashes and direction issues across classic and Compose indicators, including Worm and Spring behavior in RTL layouts
+- Fix indicator state regressions: RTL rotation now resets correctly when returning to LTR, and fast-scroll dot colors no longer get stuck out of sync
+- Add Compose regression coverage for Shift, Balloon, Spring, and Worm indicators with computation, behavior, and screenshot tests in both LTR and RTL
+- Fix [#207](https://github.com/tommybuonomo/dotsindicator/issues/207), [#209](https://github.com/tommybuonomo/dotsindicator/issues/209), and [#211](https://github.com/tommybuonomo/dotsindicator/issues/211)
 ### 5.1.0
 - Fix import issues
 - Upgrade AGP versions

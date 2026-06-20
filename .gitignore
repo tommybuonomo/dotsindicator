@@ -45,3 +45,7 @@ keystore.properties
 
 .claude/worktrees/
 .claude/tmp/
+
+.hermes/
+.release-secrets/
+artifacts/
