@@ -1,41 +1,73 @@
 ---
 name: 🐛 Bug Report
-about: Report a bug to help improve the library
+about: Report a reproducible bug in the library
 title: "[Bug] "
 labels: bug
 assignees: ''
 
 ---
 
-### 🐛 Bug Report
+### Before opening a bug report
 
-**Describe the Bug**  
-A clear and concise description of what the bug is.
+Please make sure you are using the latest version of `com.tbuonomo:dotsindicator`.
+Old reports without enough reproduction details may be closed during maintenance.
 
-**Steps to Reproduce**  
-Steps to reproduce the behavior:
+### Bug description
 
-1. Go to '...'
-2. Click on '...'
-3. Scroll down to '...'
-4. See error.
+<!-- Clearly describe the problem and what is broken. -->
 
-**Expected Behavior**  
-What you expected to happen instead.
+### Minimal reproduction
 
-**Actual Behavior**  
-What actually happened.
+<!--
+A minimal reproducible project or snippet is strongly preferred.
+Issues that cannot be reproduced may be closed.
+-->
 
-**Screenshots or Videos**  
-If applicable, add screenshots or a video to help explain the issue.
+Repository / sample project link:
 
-**Environment**
+### Steps to reproduce
 
-- Library version: [e.g., 5.1.0]
-- Android version: [e.g., 11]
-- Device: [e.g., Pixel 5]
-- ViewPager for Jetpack Compose or XML: [e.g., Jetpack Compose or XML]
-- ViewPager type: [e.g., ViewPager or ViewPager2]
+1.
+2.
+3.
 
-**Additional Context**  
-Add any other context about the problem here.
+### Expected behavior
+
+<!-- What should happen? -->
+
+### Actual behavior
+
+<!-- What happens instead? -->
+
+### Crash / logs
+
+<!--
+If this is a crash, paste the full stack trace here.
+Please do not include only one line of the exception.
+-->
+
+```text
+
+```
+
+### Environment
+
+- Library version: <!-- e.g. 5.1.1 -->
+- Artifact coordinates: <!-- e.g. com.tbuonomo:dotsindicator:5.1.1 -->
+- Android version: <!-- e.g. Android 14 -->
+- Device / emulator: <!-- e.g. Pixel 8, emulator API 35 -->
+- Gradle version:
+- Android Gradle Plugin version:
+- Kotlin version:
+- Compose version, if applicable:
+- Indicator type: <!-- e.g. DotsIndicator, SpringDotsIndicator, WormDotsIndicator, Compose ShiftIndicatorType -->
+- Integration type: <!-- ViewPager, ViewPager2, RecyclerView, Jetpack Compose -->
+- Layout direction, if relevant: <!-- LTR / RTL -->
+
+### Screenshots or videos
+
+<!-- Add screenshots or a short video if it helps explain the issue. -->
+
+### Additional context
+
+<!-- Anything else that may help investigate the issue. -->
