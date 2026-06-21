@@ -1,23 +1,26 @@
 # Pager Dots Indicator
 
-![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.tbuonomo/dotsindicator/badge.svg)
-[![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Material%20View%20Pager%20Dots%20Indicator-green.svg?style=flat )]( https://android-arsenal.com/details/1/7127 )
+[![Maven Central](https://img.shields.io/maven-central/v/com.tbuonomo/dotsindicator?label=Maven%20Central)](https://central.sonatype.com/artifact/com.tbuonomo/dotsindicator)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Material%20View%20Pager%20Dots%20Indicator-green.svg?style=flat)](https://android-arsenal.com/details/1/7127)
 <a href="https://github.com/JStumpp/awesome-android"><img alt="awesome" src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" /></a>
 
-Dots indicator is an Android library available for Jetpack Compose and XML 🚀
+Dots Indicator is an Android library for **Jetpack Compose** and classic XML views 🚀
+
+Compose support is built into the same artifact and exposes four indicator types: **Shift**, **Spring**, **Worm**, and **Balloon**.
 
 <img src="https://github.com/tommybuonomo/dotsindicator/assets/15737675/77651550-3819-4fbf-8528-0d28c95d4d07" height="500"/>
 
-
-Don't forget to star the project if you like it! 
+Don't forget to star the project if you like it!
 ![star](https://user-images.githubusercontent.com/15737675/39397370-85f5b294-4afe-11e8-9c02-0dfdf014136a.png)
  == ![heart](https://user-images.githubusercontent.com/15737675/39397367-6e312c2e-4afe-11e8-9fbf-32001b0165a1.png)
- 
-Feel free to submit issues and enhancement requests !
 
-## How to
-#### Gradle
-```Gradle
+Feel free to submit issues and enhancement requests!
+
+## Installation
+
+Add Maven Central and the library dependency:
+
+```kotlin
 repositories {
     google()
     mavenCentral()
@@ -26,55 +29,42 @@ repositories {
 dependencies {
     implementation("com.tbuonomo:dotsindicator:5.1.1")
 }
-
-```
-# For Jetpack Compose
-```Kotlin
-Column {
-    var pageCount by remember { mutableStateOf(5) }
-    val pagerState = rememberPagerState()
-    HorizontalPager(
-        modifier = Modifier.padding(top = 24.dp),
-        pageCount = pageCount,
-        contentPadding = PaddingValues(horizontal = 64.dp),
-        pageSpacing = 24.dp,
-        state = pagerState
-    ) {
-        PagePlaceholderItem()
-    }
-    DotsIndicator(
-        dotCount = pageCount,
-        type = ShiftIndicatorType(dotsGraphic = DotGraphic(color = MaterialTheme.colorScheme.primary)),
-        pagerState = pagerState
-    )
-}
 ```
 
-4 types are available in JetpackCompose
-## ShiftIndicatorType
+## Jetpack Compose
+
+`DotsIndicator` works directly with `androidx.compose.foundation.pager.PagerState`.
+
+### ShiftIndicatorType
+
 ![ezgif com-crop (1)](https://github.com/tommybuonomo/dotsindicator/assets/15737675/862d7a67-fb78-4767-b5b2-2244dbdbcf31)
-```Kotlin
+
+```kotlin
 DotsIndicator(
     dotCount = pageCount,
-    type = ShiftIndicatorType(dotsGraphic = DotGraphic(color = MaterialTheme.colorScheme.primary)),
+    type = ShiftIndicatorType(
+        dotsGraphic = DotGraphic(color = MaterialTheme.colorScheme.primary)
+    ),
     pagerState = pagerState
 )
 ```
 
-## SpringIndicatorType
+### SpringIndicatorType
+
 ![ezgif com-crop (2)](https://github.com/tommybuonomo/dotsindicator/assets/15737675/3c421473-4492-408d-a4cd-a29a6c18ba51)
-```Kotlin
+
+```kotlin
 DotsIndicator(
     dotCount = pageCount,
     type = SpringIndicatorType(
         dotsGraphic = DotGraphic(
-            16.dp,
+            size = 16.dp,
             borderWidth = 2.dp,
             borderColor = MaterialTheme.colorScheme.primary,
             color = Color.Transparent
         ),
         selectorDotGraphic = DotGraphic(
-            14.dp,
+            size = 14.dp,
             color = MaterialTheme.colorScheme.primary
         )
     ),
@@ -82,20 +72,22 @@ DotsIndicator(
 )
 ```
 
-## WormIndicatorType
+### WormIndicatorType
+
 ![ezgif com-crop (3)](https://github.com/tommybuonomo/dotsindicator/assets/15737675/fdfd8ffc-1581-49f7-8bfd-59f2e118bfac)
-```Kotlin
+
+```kotlin
 DotsIndicator(
     dotCount = pageCount,
     type = WormIndicatorType(
         dotsGraphic = DotGraphic(
-            16.dp,
+            size = 16.dp,
             borderWidth = 2.dp,
             borderColor = MaterialTheme.colorScheme.primary,
             color = Color.Transparent,
         ),
         wormDotGraphic = DotGraphic(
-            16.dp,
+            size = 16.dp,
             color = MaterialTheme.colorScheme.primary,
         )
     ),
@@ -103,15 +95,17 @@ DotsIndicator(
 )
 ```
 
-## BalloonIndicatorType
+### BalloonIndicatorType
+
 ![ezgif com-crop (4)](https://github.com/tommybuonomo/dotsindicator/assets/15737675/0687f413-96d4-44ac-8923-0be73d76e2b0)
-```Kotlin
+
+```kotlin
 DotsIndicator(
     dotCount = pageCount,
     type = BalloonIndicatorType(
         dotsGraphic = DotGraphic(
-            color = MaterialTheme.colorScheme.primary,
-            size = 8.dp
+            size = 8.dp,
+            color = MaterialTheme.colorScheme.primary
         ),
         balloonSizeFactor = 2f
     ),
@@ -119,50 +113,63 @@ DotsIndicator(
     pagerState = pagerState
 )
 ```
-# For XML
-## DotsIndicator 
+
+## XML views
+
+Classic Android views are still supported for `ViewPager` and `ViewPager2` with `attachTo(...)`.
+
+### DotsIndicator
+
 ![ezgif com-crop 1](https://user-images.githubusercontent.com/15737675/38328329-e7008c06-384a-11e8-8449-9f2e396d2bc5.gif) ![ezgif com-crop 3](https://user-images.githubusercontent.com/15737675/38328570-8f1e8230-384b-11e8-9be7-738932a4f85e.gif)
-#### In your XML layout
-```Xml
+
+#### XML layout
+
+```xml
 <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
     android:id="@+id/dots_indicator"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:dotsColor="@color/material_white"
     app:dotsCornerRadius="8dp"
+    app:dotsElevation="4dp"
     app:dotsSize="16dp"
     app:dotsSpacing="4dp"
     app:dotsWidthFactor="2.5"
     app:selectedDotColor="@color/md_blue_200"
     app:progressMode="true"
-    />
+    app:dotsClickable="true" />
 ```
 
-#### Custom Attributes
+#### Custom attributes
+
 | Attribute | Description |
 | --- | --- |
 | `dotsColor` | Color of the dots |
-| `selectedDotColor` | Color of the selected dot (by default the `dotsColor`) |
-| `progressMode` | Lets the selected dot color to the dots behind the current one |
-| `dotsSize` | Size in dp of the dots (by default 16dp) |
-| `dotsSpacing` | Size in dp of the space between the dots (by default 4dp) |
-| `dotsWidthFactor` | The dots scale factor for page indication (by default 2.5) |
-| `dotsCornerRadius` | The dots corner radius (by default the half of dotsSize for circularity) |
+| `selectedDotColor` | Color of the selected dot (defaults to `dotsColor`) |
+| `progressMode` | Colors every previous dot with the selected dot color |
+| `dotsSize` | Size of the dots (default: 16dp) |
+| `dotsSpacing` | Space between dots (default: 8dp) |
+| `dotsWidthFactor` | Width multiplier for the selected dot (default: 2.5) |
+| `dotsCornerRadius` | Dot corner radius (defaults to half of `dotsSize`) |
+| `dotsElevation` | Elevation applied to the dots |
+| `dotsClickable` | Enables changing page when a dot is tapped (default: true) |
 
-#### In your Kotlin code
-```Kotlin
-    val dotsIndicator = findViewById<DotsIndicator>(R.id.dots_indicator)
-    val viewPager = findViewById<ViewPager>(R.id.view_pager)
-    val adapter = ViewPagerAdapter()
-    viewPager.adapter = adapter
-    dotsIndicator.attachTo(viewPager)
+#### Kotlin
+
+```kotlin
+val dotsIndicator = findViewById<DotsIndicator>(R.id.dots_indicator)
+val viewPager = findViewById<ViewPager2>(R.id.view_pager)
+viewPager.adapter = ViewPagerAdapter()
+dotsIndicator.attachTo(viewPager)
 ```
 
+### SpringDotsIndicator
 
-## SpringDotsIndicator 
 ![ezgif com-crop 4](https://user-images.githubusercontent.com/15737675/38329136-2c470ef0-384d-11e8-88a8-c8719dc1d0b7.gif) ![ezgif com-crop 5](https://user-images.githubusercontent.com/15737675/38329293-b87f68a4-384d-11e8-8a04-c560c60dac7c.gif)
-#### In your XML layout
-```Xml
+
+#### XML layout
+
+```xml
 <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
     android:id="@+id/spring_dots_indicator"
     android:layout_width="wrap_content"
@@ -175,36 +182,39 @@ DotsIndicator(
     app:dotsSpacing="6dp"
     app:dotsStrokeWidth="2dp"
     app:stiffness="300"
-    />
+    app:dotsClickable="true" />
 ```
 
-#### Custom Attributes
+#### Custom attributes
+
 | Attribute | Description |
 | --- | --- |
-| `dotsColor` | Color of the indicator dot |
-| `dotsStrokeColor` | Color of the stroke dots (by default the indicator color) |
-| `dotsSize` | Size in dp of the dots (by default 16dp) |
-| `dotsSpacing` | Size in dp of the space between the dots (by default 4dp) |
-| `dotsCornerRadius` | The dots corner radius (by default the half of dotsSize for circularity) |
-| `dotsStrokeWidth` | The dots stroke width (by default 2dp) |
-| `dampingRatio` | The damping ratio of the spring force (by default 0.5) |
-| `stiffness` | The stiffness of the spring force (by default 300) |
+| `dotsColor` | Color of the moving indicator dot |
+| `dotsStrokeColor` | Color of the stroke dots (defaults to the indicator color) |
+| `dotsSize` | Size of the dots (default: 16dp) |
+| `dotsSpacing` | Space between dots (default: 4dp) |
+| `dotsCornerRadius` | Dot corner radius (defaults to half of `dotsSize`) |
+| `dotsStrokeWidth` | Stroke width for the background dots (default: 2dp) |
+| `dampingRatio` | Spring force damping ratio (default: 0.5) |
+| `stiffness` | Spring force stiffness (default: 300) |
+| `dotsClickable` | Enables changing page when a dot is tapped (default: true) |
 
-#### In your Kotlin code
-```Kotlin
-    val springDotsIndicator = findViewById<SpringDotsIndicator>(R.id.spring_dots_indicator)
-    val viewPager = findViewById<ViewPager>(R.id.view_pager)
-    val adapter = ViewPagerAdapter()
-    viewPager.adapter = adapter
-    springDotsIndicator.attachTo(viewPager)
+#### Kotlin
+
+```kotlin
+val springDotsIndicator = findViewById<SpringDotsIndicator>(R.id.spring_dots_indicator)
+val viewPager = findViewById<ViewPager2>(R.id.view_pager)
+viewPager.adapter = ViewPagerAdapter()
+springDotsIndicator.attachTo(viewPager)
 ```
 
+### WormDotsIndicator
 
-## WormDotsIndicator 
 ![ezgif com-crop 6](https://user-images.githubusercontent.com/15737675/38329969-9cf3de2e-384f-11e8-9ada-fa3fbef04d80.gif) ![ezgif com-crop 7](https://user-images.githubusercontent.com/15737675/38330079-f35908fc-384f-11e8-85aa-4daf64c73115.gif)
 
-#### In your XML layout
-```Xml
+#### XML layout
+
+```xml
 <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
     android:id="@+id/worm_dots_indicator"
     android:layout_width="wrap_content"
@@ -215,32 +225,41 @@ DotsIndicator(
     app:dotsSize="16dp"
     app:dotsSpacing="4dp"
     app:dotsStrokeWidth="2dp"
-    />
+    app:dotsClickable="true" />
 ```
 
-#### Custom Attributes
+#### Custom attributes
+
 | Attribute | Description |
 | --- | --- |
-| `dotsColor` | Color of the indicator dot |
-| `dotsStrokeColor` | Color of the stroke dots (by default the indicator color) |
-| `dotsSize` | Size in dp of the dots (by default 16dp) |
-| `dotsSpacing` | Size in dp of the space between the dots (by default 4dp) |
-| `dotsCornerRadius` | The dots corner radius (by default the half of dotsSize for circularity) |
-| `dotsStrokeWidth` | The dots stroke width (by default 2dp) |
+| `dotsColor` | Color of the moving indicator dot |
+| `dotsStrokeColor` | Color of the stroke dots (defaults to the indicator color) |
+| `dotsSize` | Size of the dots (default: 16dp) |
+| `dotsSpacing` | Space between dots (default: 4dp) |
+| `dotsCornerRadius` | Dot corner radius (defaults to half of `dotsSize`) |
+| `dotsStrokeWidth` | Stroke width for the background dots (default: 2dp) |
+| `dotsClickable` | Enables changing page when a dot is tapped (default: true) |
 
-#### In your Kotlin code
-```Kotlin
-    val wormDotsIndicator = findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)
-    val viewPager = findViewById<ViewPager>(R.id.view_pager)
-    val adapter = ViewPagerAdapter()
-    viewPager.adapter = adapter
-    wormDotsIndicator.attachTo(viewPager)
+#### Kotlin
+
+```kotlin
+val wormDotsIndicator = findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)
+val viewPager = findViewById<ViewPager2>(R.id.view_pager)
+viewPager.adapter = ViewPagerAdapter()
+wormDotsIndicator.attachTo(viewPager)
 ```
 
-## Support of ViewPager2
-The `attachTo` can take a `ViewPager` or a `ViewPager2`
+## ViewPager and ViewPager2
+
+`attachTo(...)` accepts both `androidx.viewpager.widget.ViewPager` and `androidx.viewpager2.widget.ViewPager2`:
+
+```kotlin
+dotsIndicator.attachTo(viewPager)
+dotsIndicator.attachTo(viewPager2)
+```
 
 ## Help Maintenance
+
 If you could help me to continue maintain this repo, buying me a cup of coffee will make my life really happy and get much energy out of it.
 
 <a href="https://www.buymeacoffee.com/tommybuonomo" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
