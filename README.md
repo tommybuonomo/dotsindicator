@@ -33,55 +33,7 @@ dependencies {
 
 ## Jetpack Compose
 
-`DotsIndicator` works directly with `androidx.compose.foundation.pager.PagerState`:
-
-```kotlin
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.tbuonomo.viewpagerdotsindicator.compose.DotsIndicator
-import com.tbuonomo.viewpagerdotsindicator.compose.model.DotGraphic
-import com.tbuonomo.viewpagerdotsindicator.compose.type.ShiftIndicatorType
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun PagerWithDots() {
-    var pageCount by remember { mutableIntStateOf(5) }
-    val pagerState = rememberPagerState(initialPage = 0, pageCount = { pageCount })
-
-    Column {
-        HorizontalPager(
-            modifier = Modifier.padding(top = 24.dp),
-            contentPadding = PaddingValues(horizontal = 64.dp),
-            pageSpacing = 24.dp,
-            state = pagerState
-        ) {
-            PagePlaceholderItem()
-        }
-
-        DotsIndicator(
-            dotCount = pageCount,
-            type = ShiftIndicatorType(
-                dotsGraphic = DotGraphic(color = MaterialTheme.colorScheme.primary)
-            ),
-            pagerState = pagerState
-        )
-    }
-}
-```
-
-You can also drive the indicator manually with `currentPage`, `currentPageOffsetFraction`, and an optional `onDotClicked` callback.
+`DotsIndicator` works directly with `androidx.compose.foundation.pager.PagerState`.
 
 ### ShiftIndicatorType
 
