@@ -36,7 +36,10 @@ android {
 }
 
 kotlin {
-    jvmToolchain(21)
+    // Keep the published bytecode on Java 17: consumers building with JDK 17
+    // fail on Java 21 class files ("class file has wrong version 65.0,
+    // should be 61.0"), see issue #236.
+    jvmToolchain(17)
 }
 
 mavenPublishing {
