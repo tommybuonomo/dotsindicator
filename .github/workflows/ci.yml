@@ -36,24 +36,22 @@ jobs:
       - name: Build library
         run: ./gradlew :viewpagerdotsindicator:assembleRelease
 
-      # Guard against shipping bytecode newer than Java 17 (class file major 61):
-      # consumers building with JDK 17 cannot read Java 21 class files (issue #236)
-      - name: Verify library bytecode targets Java 17
+      - name: Set up JDK 17 for consumer smoke test
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Verify release AAR with a JDK 17 consumer
         run: |
-          aar=$(ls viewpagerdotsindicator/build/outputs/aar/*-release.aar)
-          workdir=$(mktemp -d)
-          unzip -oq "$aar" classes.jar -d "$workdir"
-          unzip -oq "$workdir/classes.jar" -d "$workdir/classes" '*.class'
-          max=0
-          while IFS= read -r class_file; do
-            major=$(od -An -j6 -N2 -tu2 --endian=big "$class_file" | tr -d ' ')
-            [ "$major" -gt "$max" ] && max=$major
-          done < <(find "$workdir/classes" -name '*.class')
-          echo "Highest class file major version in AAR: $max (Java $((max - 44)))"
-          if [ "$max" -gt 61 ]; then
-            echo "::error::AAR contains class files newer than Java 17 (major $max). Consumers on JDK 17 will fail to compile (see issue #236)."
-            exit 1
-          fi
+          android_jars=("$ANDROID_HOME"/platforms/android-37*/android.jar)
+          python3 scripts/verify-java17-aar.py viewpagerdotsindicator/build/outputs/aar/viewpagerdotsindicator-release.aar "${android_jars[0]}"
+
+      - name: Restore JDK 21 for Gradle
+        uses: actions/setup-java@v5
+        with:
+          java-version: '21'
+          distribution: 'temurin'
 
       - name: Build sample
         run: ./gradlew :viewpagerdotsindicator-sample:assembleDebug
