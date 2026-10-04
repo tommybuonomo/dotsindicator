@@ -36,6 +36,23 @@ jobs:
       - name: Build library
         run: ./gradlew :viewpagerdotsindicator:assembleRelease
 
+      - name: Set up JDK 17 for consumer smoke test
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Verify release AAR with a JDK 17 consumer
+        run: |
+          android_jars=("$ANDROID_HOME"/platforms/android-37*/android.jar)
+          python3 scripts/verify-java17-aar.py viewpagerdotsindicator/build/outputs/aar/viewpagerdotsindicator-release.aar "${android_jars[0]}"
+
+      - name: Restore JDK 21 for Gradle
+        uses: actions/setup-java@v5
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
       - name: Build sample
         run: ./gradlew :viewpagerdotsindicator-sample:assembleDebug
 

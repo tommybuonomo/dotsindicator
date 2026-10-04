@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 // https://medium.com/@iRYO400/how-to-upload-your-android-library-to-maven-central-central-portal-in-2024-af7348742247
 
 plugins {
@@ -14,6 +16,12 @@ android {
     defaultConfig {
         minSdk = 23
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -36,7 +44,12 @@ android {
 }
 
 kotlin {
+    // Build with the JDK bundled by Android Studio while keeping the published
+    // bytecode compatible with consumers on Java 17 (issue #236).
     jvmToolchain(21)
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
+    }
 }
 
 mavenPublishing {
