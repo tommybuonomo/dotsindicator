@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.tbuonomo:dotsindicator:5.1.1")
+    implementation("com.tbuonomo:dotsindicator:5.1.2")
 }
 ```
 
@@ -265,6 +265,9 @@ If you could help me to continue maintain this repo, buying me a cup of coffee w
 <a href="https://www.buymeacoffee.com/tommybuonomo" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 ## Changelog
+### 5.1.2
+- Restore Java 17 compatibility for the published library while retaining JDK 21 for builds ([#236](https://github.com/tommybuonomo/dotsindicator/issues/236))
+- Verify release AAR bytecode and compile a consumer with JDK 17 in CI
 ### 5.1.1
 - Fix RTL crashes and direction issues across classic and Compose indicators, including Worm and Spring behavior in RTL layouts
 - Fix indicator state regressions: RTL rotation now resets correctly when returning to LTR, and fast-scroll dot colors no longer get stuck out of sync
