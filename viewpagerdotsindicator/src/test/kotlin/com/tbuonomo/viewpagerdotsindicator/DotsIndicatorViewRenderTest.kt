@@ -1,13 +1,16 @@
 package com.tbuonomo.viewpagerdotsindicator
 
-import android.content.Context
+import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.test.core.app.ApplicationProvider
+import org.junit.After
+import org.junit.Before
+import org.robolectric.Robolectric
+import org.robolectric.android.controller.ActivityController
 import com.github.takahirom.roborazzi.captureRoboImage
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -31,8 +34,13 @@ import org.robolectric.annotation.GraphicsMode
  */
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(sdk = [34])
+@Config(sdk = [34], qualifiers = "mdpi")
 class DotsIndicatorViewRenderTest {
+    private lateinit var activity: ActivityController<Activity>
+
+    @Before fun setUp() { activity = Robolectric.buildActivity(Activity::class.java).setup() }
+    @After fun tearDown() { activity.pause().stop().destroy() }
+
 
     // Contrasting palette — chosen so selected/unselected dots are unambiguous in goldens.
     private val UNSELECTED = Color.parseColor("#BDBDBD") // mid-gray
@@ -215,8 +223,9 @@ class DotsIndicatorViewRenderTest {
         dotColors: IntArray? = null,
         selectedDotColors: IntArray? = null,
     ): DotsIndicator {
-        val context = ApplicationProvider.getApplicationContext<Context>()
+        val context = activity.get()
         return DotsIndicator(context).apply {
+            setBackgroundColor(Color.WHITE)
             dotsColor = UNSELECTED
             selectedDotColor = SELECTED
             this.dotColors = dotColors
@@ -228,7 +237,7 @@ class DotsIndicatorViewRenderTest {
                 override val count = count
                 override fun setCurrentItem(item: Int, smoothScroll: Boolean) = Unit
                 override fun removeOnPageChangeListener() = Unit
-                override fun addOnPageChangeListener(helper: OnPageChangeListenerHelper) = Unit
+                override fun addOnPageChangeListener(onPageChangeListenerHelper: OnPageChangeListenerHelper) = Unit
             }
             repeat(count) { i -> addDot(i) }
             measure(

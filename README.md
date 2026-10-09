@@ -164,7 +164,7 @@ dotsIndicator.attachTo(viewPager)
 ```
 
 #### Per-dot colors (programmatic)
-Give each dot its own selected and/or unselected color. Indices beyond the array length fall back to the global `selectedDotColor` / `dotsColor`.
+Give each dot its own selected and/or unselected color. Indices beyond the array length fall back to the global `selectedDotColor` / `dotsColor`. Empty arrays use the global colors, and assigning `null` restores them. Assigning an array refreshes existing dots; after changing an array element, reassign the array to repaint. In `progressMode`, passed dots retain their own selected color. This API applies only to the classic View-based `DotsIndicator`.
 
 ```Kotlin
 // Each dot lights up in a different accent color when selected

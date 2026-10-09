@@ -79,6 +79,11 @@ class DotsIndicatorColorTest {
 
     // endregion
 
+    @Test
+    fun negativeIndex_returnsFallback() {
+        assertEquals(fallback, DotsIndicator.resolveColor(intArrayOf(red), -1, fallback))
+    }
+
     // region fallback value is preserved exactly
 
     @Test
