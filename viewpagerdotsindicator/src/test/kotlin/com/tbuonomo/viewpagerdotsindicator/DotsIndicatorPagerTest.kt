@@ -61,6 +61,7 @@ internal class IndicatorPagerFixture(
     private val pager2: Boolean,
     progress: Boolean,
     rtl: Boolean,
+    configure: DotsIndicator.() -> Unit = {},
 ) : AutoCloseable {
     private val controller = Robolectric.buildActivity(Activity::class.java).setup()
     private val activity = controller.get()
@@ -68,7 +69,7 @@ internal class IndicatorPagerFixture(
         .addAttribute(R.attr.progressMode, progress.toString()).build()).apply {
         dotsColor = Color.GRAY
         selectedDotColor = Color.BLUE
-    }
+    }.apply(configure)
     private var pageCount = 5
     private val root = LinearLayout(activity).apply {
         orientation = LinearLayout.VERTICAL
@@ -135,10 +136,11 @@ internal class IndicatorPagerFixture(
 }
 
 // The existing listener uses lastPage - .0001f to keep its interpolation pair in bounds.
-// ArgbEvaluator's gamma conversion can leave a two-level difference at that endpoint.
-internal fun assertLastPageColor(expected: Int, actual: Int) {
+// ArgbEvaluator's gamma conversion leaves a few levels at that endpoint (up to four
+// for fully saturated per-dot endpoints; two for the global blue/gray test palette).
+internal fun assertLastPageColor(expected: Int, actual: Int, tolerance: Double = 2.0) {
     for (shift in listOf(24, 16, 8, 0)) {
         assertEquals("last-page channel $shift", ((expected ushr shift) and 255).toDouble(),
-            ((actual ushr shift) and 255).toDouble(), 2.0)
+            ((actual ushr shift) and 255).toDouble(), tolerance)
     }
 }

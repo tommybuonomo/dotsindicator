@@ -61,7 +61,13 @@ import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 final class Java17Consumer {
     void useLibrary(Context context) {
-        new DotsIndicator(context).setDotsColor(0xff00ff00);
+        DotsIndicator dots = new DotsIndicator(context);
+        dots.setDotsColor(0xff00ff00);
+        dots.setDotColors(new int[]{0xffcccccc, 0xff999999});
+        dots.setSelectedDotColors(new int[]{0xffff0000, 0xff0000ff});
+        dots.setDotColors(null);
+        dots.setSelectedDotColors(null);
+        DotsIndicator.resolveColor(new int[]{0xff00ff00}, 0, 0xff000000);
         new SpringDotsIndicator(context).setDotsColor(0xff00ff00);
         new WormDotsIndicator(context).setDotsColor(0xff00ff00);
     }
