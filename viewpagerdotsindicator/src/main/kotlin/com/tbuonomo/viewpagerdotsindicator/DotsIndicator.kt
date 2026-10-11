@@ -117,11 +117,14 @@ class DotsIndicator @JvmOverloads constructor(
 
     override fun buildOnPageChangedListener(): OnPageChangeListenerHelper {
         return object : OnPageChangeListenerHelper() {
+            private var lastSelectedPosition = 0
+
             override fun onPageScrolled(
                 selectedPosition: Int,
                 nextPosition: Int,
                 positionOffset: Float
             ) {
+                lastSelectedPosition = selectedPosition
                 val selectedDot = dots[selectedPosition]
                 // Selected dot
                 val selectedDotWidth =
@@ -165,7 +168,10 @@ class DotsIndicator @JvmOverloads constructor(
                 dots[position].setWidth(dotsSize.toInt())
                 val elevationItem = dots[position]
                 val background = elevationItem.background as? DotsGradientDrawable ?: return
-                background.setColor(dotsColor)
+                // currentItem can already point at a fling's destination (#211).
+                // Use the scroll position to preserve only the dots already passed (#244).
+                val passed = progressMode && position < lastSelectedPosition
+                background.setColor(if (passed) selectedDotColor else dotsColor)
                 elevationItem.setBackgroundCompat(background)
                 elevationItem.invalidate()
             }
